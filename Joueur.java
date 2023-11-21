@@ -69,5 +69,9 @@ public class Joueur {
 
     }
 
+    public String toString(){
+        return "Joueur: " + this.id;
+    }
+
 
 }
