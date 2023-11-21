@@ -19,19 +19,55 @@ public class Joueur {
         this.cartesEnJeu = new ArrayList<>();
         this.strategieStrategies = new ArrayList<>();
     }
+    public void jouerCartePourPoints() {
+        // TODO Auto-generated method stub
 
-    // Méthodes basées sur le diagramme UML
-    public void piocherCarte() {
-        // Implémentation de la méthode piocherCarte
     }
 
-    public void jouerCarte() {
-        // Implémentation de la méthode jouerCarte
+    public void jouerCartePourPouvoir() {
+        // TODO Auto-generated method stub
+
     }
 
-    public void defausserCarte() {
-        // Implémentation de la méthode defausserCarte
+    public void jouerCartePourFutur() {
+        // TODO Auto-generated method stub
+
     }
 
-    // Autres méthodes selon le diagramme UML...
+    public void piocher() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void defausser() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public boolean pileVide() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void ajouterCarte() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void trasmettreCarte() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void passerTour() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void setStrategie() {
+        // TODO Auto-generated method stub
+
+    }
+
+
 }
