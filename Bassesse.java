@@ -1,6 +1,7 @@
 public class Bassesse extends Carte {
-    public Bassesse(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Bassesse() {
+        super("rouge", 3, "Défaussez au hasard 2 cartes\n" + //
+                "de la Main d’un rival.", false);
     }
 
     @Override

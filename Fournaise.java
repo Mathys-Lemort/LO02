@@ -1,6 +1,6 @@
 public class Fournaise extends Carte {
-    public Fournaise(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Fournaise() {
+        super("rouge", 2, "Defaussez les 2 premières cartes de la Vie Future d'un rival.", false);
     }
 
     @Override

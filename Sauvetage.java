@@ -1,6 +1,6 @@
 public class Sauvetage extends Carte {
-    public Sauvetage(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Sauvetage() {
+        super("vert", 2, "Ajoutez à votre Main une des3 dernières cartes de la Fosse.", false);
     }
 
     @Override

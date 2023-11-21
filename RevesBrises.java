@@ -1,8 +1,7 @@
 public class RevesBrises extends Carte {
 
-    public RevesBrises(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
-        //TODO Auto-generated constructor stub
+    public RevesBrises() {
+        super("bleu", 2, "Placez la première carte de la Vie Future d'un rival sur la vôtre.", false);
     }
 
     @Override

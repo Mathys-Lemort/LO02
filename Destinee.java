@@ -1,6 +1,6 @@
 public class Destinee extends Carte {
-    public Destinee(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Destinee() {
+        super("bleu", 2, "Regardez les 3 premières cartes de la Source ; ajoutez-en jusqu’à 2 à votre Vie Future. Replacez le reste dans l'ordre souhaité", false);
     }
 
     @Override

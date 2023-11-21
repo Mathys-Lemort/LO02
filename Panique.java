@@ -1,6 +1,6 @@
 public class Panique extends Carte{
-    public Panique(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Panique() {
+        super("rouge", 1, "Défaussez la première carte de la Pile d'un joueur. Vous pouvez ensuite jouer une autre carte.", false);
     }
 
     @Override

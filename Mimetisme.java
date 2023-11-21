@@ -1,6 +1,6 @@
 public class Mimetisme extends Carte{
-    public Mimetisme(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Mimetisme() {
+        super("None", 1, "Choisissez un Rival.Copiez le pouvoir de sonOeuvre Exposée.", true);
     }
 
     @Override

@@ -1,6 +1,7 @@
 public class CoupdOeil extends Carte {
-    public CoupdOeil(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public CoupdOeil() {
+        super("bleu", 1, "Regardez la Main d’un rival.\n" + //
+                "Vous pouvez ensuite jouer une autre carte.", false);
     }
 
     @Override

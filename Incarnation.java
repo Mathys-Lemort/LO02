@@ -1,6 +1,6 @@
 public class Incarnation extends Carte{
-    public Incarnation(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Incarnation() {
+        super("None", 1, "Choisissez une de vos Oeuvres. Copiez son pouvoir.", true);
     }
 
     @Override

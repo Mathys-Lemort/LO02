@@ -1,6 +1,6 @@
 public class Vol extends Carte {
-    public Vol(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Vol() {
+        super("bleu", 3, "Placez dans votre Main l Oeuvre Exposée d'un rival.", false);
     }
 
     @Override
