@@ -1,8 +1,5 @@
-public class JoueurHumain extends Joueur {
-
-    public JoueurHumain(String id) {
-        super(id);
-        //TODO Auto-generated constructor stub
+public class JoueurHumain implements StrategieJeu {
+    public void jouerCoup() {
+        System.out.println("JoueurHumain.jouerCoup()");
     }
-    // Méthodes spécifiques au joueur humain
 }

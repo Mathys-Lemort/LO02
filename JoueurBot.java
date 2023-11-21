@@ -1,8 +1,6 @@
-public class JoueurBot extends Joueur {
+public class JoueurBot implements StrategieJeu {
 
-    public JoueurBot(String id) {
-        super(id);
-        //TODO Auto-generated constructor stub
+    public void jouerCoup() {
+        System.out.println("JoueurBot.jouerCoup()");
     }
-    // Méthodes spécifiques au bot
 }
