@@ -47,8 +47,11 @@ public class Partie {
         }
 
         // Vous pouvez initialiser le plateau ici si nécessaire
-        this.plateau = new Plateau();
-        scanner.close();
+        
+        List<Carte> source = new ArrayList<Carte>();
+        List<Carte> fosse = new ArrayList<Carte>();
+        this.plateau = new Plateau(source, fosse);
+
 
         this.setEtatPartie(EtatPartie.INITIALISATION);
 
@@ -58,8 +61,66 @@ public class Partie {
         System.out.println("La partie a été initialisée avec 2 joueurs.");
     }
 
+    private void effectuerActionsTour(Joueur joueur) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println(joueur + ", c'est votre tour.");
+        // Check if the player can draw a card (if the pile is not empty)
+        if (!joueur.pileVide()) {
+            joueur.piocher();
+            System.out.println("Vous avez pioché une carte.");
+        }
+
+        // Give the player options for their turn
+        boolean tourValide = false;
+        while (!tourValide) {
+            System.out.println("Choisissez une action: \n" +
+                    "1. Jouer une carte pour des points\n" +
+                    "2. Jouer une carte pour un pouvoir\n" +
+                    "3. Placer une carte dans votre Vie Future\n" +
+                    "4. Passer votre tour");
+            int choix = scanner.nextInt();
+
+            switch (choix) {
+                case 1:
+                    joueur.jouerCartePourPoints();
+                    tourValide = true;
+                    break;
+                case 2:
+                    joueur.jouerCartePourPouvoir();
+                    tourValide = true;
+                    break;
+                case 3:
+                    joueur.jouerCartePourFutur();
+                    tourValide = true;
+                    break;
+                case 4:
+                    if (!joueur.pileVide()) {
+                        joueur.passerTour();
+                        tourValide = true;
+                    } else {
+                        System.out.println("Vous ne pouvez pas passer votre tour car votre pioche est vide.");
+                    }
+                    break;
+                default:
+                    System.out.println("Action non valide. Veuillez choisir une action parmi les options.");
+                    break;
+            }
+        }
+    }
+
     public void tourSuivant() {
-        // Code pour passer au tour suivant
+        // Determine active player: assuming joueurActif is correctly set to the starting player.
+        if (joueurActif == null || !joueurs.contains(joueurActif)) {
+            joueurActif = joueurs.get(0); // Start with player 1
+        } else {
+            // Get the next player's index and update joueurActif.
+            int currentIndex = joueurs.indexOf(joueurActif);
+            joueurActif = joueurs.get((currentIndex + 1) % joueurs.size());
+        }
+
+        // Perform actions for the active player's turn
+        effectuerActionsTour(joueurActif);
     }
 
     public void verifierFinPartie() {
