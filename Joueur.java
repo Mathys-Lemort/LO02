@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Joueur {
-    // Attributs basés sur le diagramme UML
     private String id;
     private List<Carte> main;
     private List<Carte> pioche;
