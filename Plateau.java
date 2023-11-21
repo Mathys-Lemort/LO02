@@ -1,4 +1,6 @@
 import java.util.Collections;
+import java.util.List;
+
 public class Plateau {
     private List<Carte> source;
     private List<Carte> fosse;
@@ -7,6 +9,8 @@ public class Plateau {
         this.source = source;
         this.fosse = fosse;
     }
+
+
 
     public List<Carte> getSource() {
         return this.source;
