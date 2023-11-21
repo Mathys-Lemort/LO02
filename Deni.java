@@ -1,6 +1,6 @@
 public class Deni extends Carte{    
-    public Deni(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Deni() {
+        super("bleu", 2, "Defaussez une carte de votre Main. Copiez le pouvoir de cette carte.", false);
     }
 
     @Override

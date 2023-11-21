@@ -1,6 +1,6 @@
 public class Duperie extends Carte {
-    public Duperie(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Duperie() {
+        super("bleu", 3, "Regardez 3 cartes de la Main d’un rival ; ajoutez-en une à votre Main.", false);
     }
 
     @Override

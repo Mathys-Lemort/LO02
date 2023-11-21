@@ -1,6 +1,6 @@
 public class DernierSouffle extends Carte {
-    public DernierSouffle(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public DernierSouffle() {
+        super("rouge", 1, "Le joueur de votre choix défausse une carte de sa Main.", false);
     }
 
     @Override

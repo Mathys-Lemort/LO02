@@ -1,6 +1,6 @@
 public class Jubile extends Carte {
-    public Jubile(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Jubile() {
+        super("vert", 3, "Placez jusqu’à 2 cartes de votre Main sur vos Oeuvres.", false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 public class Crise extends Carte {
-    public Crise(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Crise() {
+        super("rouge", 2, "Le rival de votre choix défausse\n" + //
+                "une de ses Oeuvres.", false);
     }
 
     @Override

@@ -1,6 +1,6 @@
 public class Vengeance extends Carte{    
-    public Vengeance(String couleur, int points, String pouvoir, boolean estMosaique) {
-        super(couleur, points, pouvoir, estMosaique);
+    public Vengeance() {
+        super("rouge", 3, "Defaussez l’Oeuvre Exposée d’un rival.", false);
     }
     
     @Override
