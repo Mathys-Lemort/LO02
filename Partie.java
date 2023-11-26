@@ -65,6 +65,8 @@ public class Partie {
         List<Carte> source = new ArrayList<Carte>();
         List<Carte> fosse = new ArrayList<Carte>();
         this.plateau = new Plateau(source, fosse);
+        // utilise initialiser source 
+        this.plateau.initialiserSource();
     
         this.setEtatPartie(EtatPartie.INITIALISATION);
     
@@ -97,6 +99,8 @@ public class Partie {
 
             switch (choix) {
                 case 1:
+                    plateau.afficherSource();
+                    System.out.println("Choisissez une carte de la Source:");
                     joueur.jouerCartePourPoints(null);
                     tourValide = true;
                     break;
