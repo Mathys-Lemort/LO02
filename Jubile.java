@@ -1,6 +1,6 @@
 public class Jubile extends Carte {
     public Jubile() {
-        super("vert", 3, "Placez jusqu’à 2 cartes de votre Main sur vos Oeuvres.", false);
+        super("Jubile","vert", 3, "Placez jusqu’à 2 cartes de votre Main sur vos Oeuvres.", false);
     }
 
     @Override

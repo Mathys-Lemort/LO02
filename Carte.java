@@ -1,10 +1,12 @@
 public abstract class Carte {
+    private String nom;
     private String couleur;
     private int points;
     private String pouvoir;
     private boolean estMosaique;
 
-    public Carte(String couleur, int points, String pouvoir, boolean estMosaique) {
+    public Carte(String nom, String couleur, int points, String pouvoir, boolean estMosaique) {
+        this.nom = nom;
         this.couleur = couleur;
         this.points = points;
         this.pouvoir = pouvoir;
@@ -46,8 +48,7 @@ public abstract class Carte {
     public abstract void action(Joueur joueur, Joueur adversaire);
 
     public String toString() {
-        return "Carte{" + "couleur='" + this.couleur + "'" + ", points='" + this.points + "'" + ", pouvoir='"
-                + this.pouvoir + "'" + ", estMosaique='" + this.estMosaique + "'" + "}";
+        return this.nom+" : "
+                + this.pouvoir;
     }
-    
 }

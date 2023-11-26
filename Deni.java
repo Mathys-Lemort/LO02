@@ -1,6 +1,6 @@
 public class Deni extends Carte{    
     public Deni() {
-        super("bleu", 2, "Defaussez une carte de votre Main. Copiez le pouvoir de cette carte.", false);
+        super("Deni","bleu", 2, "Defaussez une carte de votre Main. Copiez le pouvoir de cette carte.", false);
     }
 
     @Override

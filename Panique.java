@@ -1,6 +1,6 @@
 public class Panique extends Carte{
     public Panique() {
-        super("rouge", 1, "Défaussez la première carte de la Pile d'un joueur. Vous pouvez ensuite jouer une autre carte.", false);
+        super("Panique","rouge", 1, "Défaussez la première carte de la Pile d'un joueur. Vous pouvez ensuite jouer une autre carte.", false);
     }
 
     @Override

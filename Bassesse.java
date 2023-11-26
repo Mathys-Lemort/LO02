@@ -1,6 +1,6 @@
 public class Bassesse extends Carte {
     public Bassesse() {
-        super("rouge", 3, "Défaussez au hasard 2 cartes\n" + //
+        super("Bassesse","rouge", 3, "Défaussez au hasard 2 cartes\n" + //
                 "de la Main d’un rival.", false);
     }
 

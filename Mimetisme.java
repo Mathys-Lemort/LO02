@@ -1,6 +1,6 @@
 public class Mimetisme extends Carte{
     public Mimetisme() {
-        super("None", 1, "Choisissez un Rival.Copiez le pouvoir de sonOeuvre Exposée.", true);
+        super("Mimetisme","None", 1, "Choisissez un Rival.Copiez le pouvoir de sonOeuvre Exposée.", true);
     }
 
     @Override
