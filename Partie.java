@@ -83,15 +83,15 @@ public class Partie {
 
             switch (choix) {
                 case 1:
-                    joueur.jouerCartePourPoints();
+                    joueur.jouerCartePourPoints(null);
                     tourValide = true;
                     break;
                 case 2:
-                    joueur.jouerCartePourPouvoir();
+                    joueur.jouerCartePourPouvoir(null, null);
                     tourValide = true;
                     break;
                 case 3:
-                    joueur.jouerCartePourFutur();
+                    joueur.jouerCartePourFutur(null);
                     tourValide = true;
                     break;
                 case 4:
