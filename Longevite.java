@@ -4,7 +4,7 @@ public class Longevite extends Carte {  // Longevite.java
     }
 
     @Override
-    public void action() {
+    public void action(Joueur joueur, Joueur adversaire) {
         throw new UnsupportedOperationException("Unimplemented method 'action'");
     }
     

@@ -43,7 +43,7 @@ public abstract class Carte {
         this.estMosaique = estMosaique;
     }
 
-    public abstract void action();
+    public abstract void action(Joueur joueur, Joueur adversaire);
 
     public String toString() {
         return "Carte{" + "couleur='" + this.couleur + "'" + ", points='" + this.points + "'" + ", pouvoir='"

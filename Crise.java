@@ -5,7 +5,7 @@ public class Crise extends Carte {
     }
 
     @Override
-    public void action() {
+    public void action(Joueur joueur, Joueur adversaire) {
         throw new UnsupportedOperationException("Unimplemented method 'action'");
     }
 }
