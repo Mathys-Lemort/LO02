@@ -4,52 +4,55 @@ import java.util.List;
 public class Joueur {
     private String id;
     private List<Carte> main;
-    private List<Carte> pioche;
+    private List<Carte> pile;
     private List<Carte> defausse;
     private List<Carte> cartesEnJeu;
+    private List<Carte> vieFuture;
     private List<StrategieJeu> strategieStrategies;
 
     // Constructeur
     public Joueur(String id) {
         this.id = id;
         this.main = new ArrayList<>();
-        this.pioche = new ArrayList<>();
+        this.pile = new ArrayList<>();
         this.defausse = new ArrayList<>();
         this.cartesEnJeu = new ArrayList<>();
+        this.vieFuture = new ArrayList<>();
         this.strategieStrategies = new ArrayList<>();
     }
-    public void jouerCartePourPoints() {
-        // TODO Auto-generated method stub
-
+    public void jouerCartePourPoints(Carte carte) {
+        this.cartesEnJeu.add(carte);
+        this.main.remove(carte);
     }
 
-    public void jouerCartePourPouvoir() {
-        // TODO Auto-generated method stub
-
+    public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
+        carte.action(this, rival);
+        this.main.remove(carte);
     }
 
-    public void jouerCartePourFutur() {
-        // TODO Auto-generated method stub
-
+    public void jouerCartePourFutur(Carte carte) {
+        this.vieFuture.add(carte);
+        this.main.remove(carte);
     }
+
 
     public void piocher() {
-        // TODO Auto-generated method stub
+        this.cartesEnJeu.add(this.pile.get(0));
 
     }
 
     public void defausser() {
-        // TODO Auto-generated method stub
+        this.defausse.add(this.main.get(0));
+        this.main.remove(0);
 
     }
 
     public boolean pileVide() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.pile.isEmpty();
     }
 
     public void ajouterCarte() {
-        // TODO Auto-generated method stub
+        this.main.add(this.pile.get(0));
 
     }
 
@@ -64,7 +67,7 @@ public class Joueur {
     }
 
     public void setStrategie() {
-        // TODO Auto-generated method stub
+        
 
     }
 
