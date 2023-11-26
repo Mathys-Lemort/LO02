@@ -1,6 +1,6 @@
 public class Incarnation extends Carte{
     public Incarnation() {
-        super("None", 1, "Choisissez une de vos Oeuvres. Copiez son pouvoir.", true);
+        super("Incarnation","None", 1, "Choisissez une de vos Oeuvres. Copiez son pouvoir.", true);
     }
 
     @Override

@@ -1,7 +1,7 @@
 public class RevesBrises extends Carte {
 
     public RevesBrises() {
-        super("bleu", 2, "Placez la première carte de la Vie Future d'un rival sur la vôtre.", false);
+        super("Reves Brises","bleu", 2, "Placez la première carte de la Vie Future d'un rival sur la vôtre.", false);
     }
 
     @Override

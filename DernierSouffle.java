@@ -1,6 +1,6 @@
 public class DernierSouffle extends Carte {
     public DernierSouffle() {
-        super("rouge", 1, "Le joueur de votre choix défausse une carte de sa Main.", false);
+        super("Dernier Souffle","rouge", 1, "Le joueur de votre choix défausse une carte de sa Main.", false);
     }
 
     @Override

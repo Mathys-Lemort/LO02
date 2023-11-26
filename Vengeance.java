@@ -1,6 +1,6 @@
 public class Vengeance extends Carte{    
     public Vengeance() {
-        super("rouge", 3, "Defaussez l’Oeuvre Exposée d’un rival.", false);
+        super("Vengeance","rouge", 3, "Defaussez l’Oeuvre Exposée d’un rival.", false);
     }
     
     @Override

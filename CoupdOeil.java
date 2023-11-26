@@ -1,6 +1,6 @@
 public class CoupdOeil extends Carte {
     public CoupdOeil() {
-        super("bleu", 1, "Regardez la Main d’un rival.\n" + //
+        super("Coup Doeil","bleu", 1, "Regardez la Main d’un rival.\n" + //
                 "Vous pouvez ensuite jouer une autre carte.", false);
     }
 

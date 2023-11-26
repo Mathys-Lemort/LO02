@@ -1,7 +1,7 @@
 public class Transmigration extends Carte{
 
     public Transmigration() {
-        super("bleu", 1, "Placez dans votre Main n’importequelle carte de votre Vie Future.", false);
+        super("Transmigration","bleu", 1, "Placez dans votre Main n’importequelle carte de votre Vie Future.", false);
     }
 
     @Override
