@@ -9,6 +9,8 @@ public class Joueur {
     private List<Carte> cartesEnJeu;
     private List<Carte> vieFuture;
     private List<StrategieJeu> strategieStrategies;
+    private String positionEchelleKarmique;
+    private int anneauxKarmiques;
 
     // Constructeur
     public Joueur(String id) {
