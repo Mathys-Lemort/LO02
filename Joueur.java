@@ -25,6 +25,10 @@ public class Joueur {
         this.main.remove(carte);
     }
 
+    public String getPseudo () {
+        return this.id;
+    }
+
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         carte.action(this, rival);
         this.main.remove(carte);

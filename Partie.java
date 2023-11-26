@@ -37,29 +37,43 @@ public class Partie {
     public void initialiserPartie() {
         Scanner scanner = new Scanner(System.in);
         this.joueurs = new ArrayList<Joueur>();
-
+    
         // Boucle pour ajouter deux joueurs
         for (int i = 1; i <= 2; i++) {
             System.out.println("Entrez le pseudo du joueur " + i + ":");
             String pseudo = scanner.nextLine();
-            Joueur joueur = new Joueur(pseudo);
-            this.joueurs.add(joueur);
+            
+            // Vérifiez si un joueur avec le même pseudo existe déjà
+            boolean pseudoExiste = false;
+            for (Joueur joueurExist : this.joueurs) {
+                if (joueurExist.getPseudo().equals(pseudo)) {
+                    pseudoExiste = true;
+                    break;
+                }
+            }
+    
+            if (pseudoExiste) {
+                System.out.println("Ce pseudo existe déjà. Veuillez choisir un autre.");
+                i--; // Répétez la saisie pour le même joueur
+            } else {
+                Joueur joueur = new Joueur(pseudo);
+                this.joueurs.add(joueur);
+            }
         }
-
+    
         // Vous pouvez initialiser le plateau ici si nécessaire
-        
         List<Carte> source = new ArrayList<Carte>();
         List<Carte> fosse = new ArrayList<Carte>();
         this.plateau = new Plateau(source, fosse);
-
-
+    
         this.setEtatPartie(EtatPartie.INITIALISATION);
-
-        // Afficher l'état et les deux joueurs 
+    
+        // Afficher l'état et les deux joueurs
         System.out.println("L'état de la partie est: " + this.etatPartie);
         System.out.println("Les joueurs sont: " + this.joueurs);
         System.out.println("La partie a été initialisée avec 2 joueurs.");
     }
+    
 
     private void effectuerActionsTour(Joueur joueur) {
         Scanner scanner = new Scanner(System.in);
