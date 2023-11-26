@@ -28,6 +28,7 @@ public class Joueur {
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         carte.action(this, rival);
         this.main.remove(carte);
+        rival.cartesEnJeu.add(carte);
     }
 
     public void jouerCartePourFutur(Carte carte) {
