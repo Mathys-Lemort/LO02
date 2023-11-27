@@ -14,8 +14,6 @@ public class Plateau {
         this.fosse = fosse;
     }
 
-
-
     public List<Carte> getSource() {
         return this.source;
     }

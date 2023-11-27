@@ -85,6 +85,16 @@ public class Joueur {
 
     }
 
+    public void ajouterCarteDansMain(Carte carte) {
+        this.main.add(carte);
+
+    }
+
+    public void ajouterCarteDansPile(Carte carte) {
+        this.pile.add(carte);
+
+    }
+
     public void trasmettreCarte() {
         // TODO Auto-generated method stub
 
@@ -96,12 +106,10 @@ public class Joueur {
     }
 
     public void setStrategie() {
-        
-
     }
 
     public String toString(){
-        return "Joueur: " + this.id;
+        return this.id;
     }
 
 
