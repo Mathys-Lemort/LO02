@@ -5,6 +5,6 @@ public class DernierSouffle extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        adversaire.defausserCarte(1);
     }
 }

@@ -54,6 +54,28 @@ public class Joueur {
 
     }
 
+    public void defausserCarte(int nbCartes) {
+        for (int i = 0; i < nbCartes; i++) {
+            int index = (int) (Math.random() * this.main.size());
+            this.defausse.add(this.main.get(index));
+            this.main.remove(index);
+        }
+
+    }
+
+    public void afficherMain() {
+        for (Carte carte : this.main) {
+            System.out.println(carte);
+        }
+
+    }
+
+    public void afficherCartesMain(int nbCartes) {
+        for (int i = 0; i < nbCartes; i++) {
+            System.out.println(this.main.get(i));
+        }
+    }
+
     public boolean pileVide() {
         return this.pile.isEmpty();
     }
