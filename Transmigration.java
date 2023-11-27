@@ -6,7 +6,12 @@ public class Transmigration extends Carte{
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        // // afficher les cartes de la vie future
+        // joueur.afficherCartesVieFuture();
+        // // demander quelle carte il veut placer dans sa main
+        // int choix = joueur.choisirCarteVieFuture();
+        // // ajouter la carte à la main
+        // joueur.ajouterCarteMain(joueur.getCarteVieFuture(choix));
     }
     
     
