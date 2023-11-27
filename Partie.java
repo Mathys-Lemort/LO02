@@ -38,9 +38,11 @@ public class Partie {
         Scanner scanner = new Scanner(System.in);
         this.joueurs = new ArrayList<Joueur>();
     
+        Affichage.afficherTitre("Initialisation de la Partie");
+
         // Boucle pour ajouter deux joueurs
         for (int i = 1; i <= 2; i++) {
-            System.out.println("Entrez le pseudo du joueur " + i + ":");
+            Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
             String pseudo = scanner.nextLine();
             
             // Vérifiez si un joueur avec le même pseudo existe déjà
@@ -53,7 +55,7 @@ public class Partie {
             }
     
             if (pseudoExiste) {
-                System.out.println("Ce pseudo existe déjà. Veuillez choisir un autre.");
+                Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
                 i--; // Répétez la saisie pour le même joueur
             } else {
                 Joueur joueur = new Joueur(pseudo);
@@ -80,27 +82,32 @@ public class Partie {
     private void effectuerActionsTour(Joueur joueur) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(joueur + ", c'est votre tour.");
+        Affichage.afficherTitre("Tour de " + joueur.getPseudo());
         // Check if the player can draw a card (if the pile is not empty)
         if (!joueur.pileVide()) {
             joueur.piocher();
-            System.out.println("Vous avez pioché une carte.");
+            Affichage.afficherMessage("Vous avez pioché une carte.");
         }
 
         // Give the player options for their turn
         boolean tourValide = false;
         while (!tourValide) {
-            System.out.println("Choisissez une action: \n" +
-                    "1. Jouer une carte pour des points\n" +
-                    "2. Jouer une carte pour un pouvoir\n" +
-                    "3. Placer une carte dans votre Vie Future\n" +
-                    "4. Passer votre tour");
+            Affichage.afficherTitre("Choisissez une action:");
+            Affichage.afficherOption(1, "Jouer une carte pour des points");
+            Affichage.afficherOption(2, "Jouer une carte pour un pouvoir");
+            Affichage.afficherOption(3, "Placer une carte dans votre Vie Future");
+            Affichage.afficherOption(4, "Passer votre tour");
+
+                    // "1. Jouer une carte pour des points\n" +
+                    // "2. Jouer une carte pour un pouvoir\n" +
+                    // "3. Placer une carte dans votre Vie Future\n" +
+                    // "4. Passer votre tour");
             int choix = scanner.nextInt();
 
             switch (choix) {
                 case 1:
                     plateau.afficherSource();
-                    System.out.println("Choisissez une carte de la Source:");
+                    Affichage.afficherMessage("Choisissez une carte de la Source:");
                     joueur.jouerCartePourPoints(null);
                     tourValide = true;
                     break;
@@ -118,11 +125,11 @@ public class Partie {
                         joueur.passerTour();
                         tourValide = true;
                     } else {
-                        System.out.println("Vous ne pouvez pas passer votre tour car votre pioche est vide.");
+                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car votre pioche est vide.");
                     }
                     break;
                 default:
-                    System.out.println("Action non valide. Veuillez choisir une action parmi les options.");
+                    Affichage.afficherMessage("Action non valide. Veuillez choisir une action parmi les options.");
                     break;
             }
         }
@@ -175,10 +182,8 @@ public class Partie {
             for (int i = 0; i < 4; i++) {
                 Carte carte = plateau.getSource().remove(0);
                 joueur.ajouterCarteDansMain(carte);
-                System.out.println("Le joueur " + joueur + " a reçu la carte " + carte);
             }
         }       
-        System.out.println("Les joueurs ont reçu leur main");
     }
 
     public void distribuerPileInitiale() {
@@ -188,7 +193,6 @@ public class Partie {
                 joueur.ajouterCarteDansPile(carte);
             }
         }
-        System.out.println("Les joueurs ont reçu leur pile initiale");
     }
 
     public void designerMalchanceux() {
@@ -198,16 +202,22 @@ public class Partie {
             lancéJoueur1 = (int) (Math.random() * 6) + 1;
             lancéJoueur2 = (int) (Math.random() * 6) + 1;
     
-            System.out.println("\n\nLancé de dé pour déterminer le joueur qui commence la partie");
-            System.out.println("Le joueur " + joueurs.get(0) + " a lancé un " + lancéJoueur1);
-            System.out.println("Le joueur " + joueurs.get(1) + " a lancé un " + lancéJoueur2);
-    
+
+            Affichage.afficherMessage("Le joueur qui a lancé le plus petit nombre commence la partie.");
+            Affichage.afficherMessage("En cas d'égalité, les joueurs relancent les dés.");
+            Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine();
+            Affichage.afficherMessage(joueurs.get(0).getPseudo() + " a lancé " + lancéJoueur1);
+            Affichage.afficherMessage(joueurs.get(1).getPseudo() + " a lancé " + lancéJoueur2);
+
+
             if (lancéJoueur1 > lancéJoueur2) {
                 joueurActif = joueurs.get(0);
             } else if (lancéJoueur2 > lancéJoueur1) {
                 joueurActif = joueurs.get(1);
             } else {
-                System.out.println("Égalité. Les joueurs relancent les dés.");
+                Affichage.afficherMessage("Égalité! Relancez les dés.");
             }
         } while (lancéJoueur1 == lancéJoueur2);
     }
