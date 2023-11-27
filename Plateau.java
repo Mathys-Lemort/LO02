@@ -32,9 +32,6 @@ public class Plateau {
         this.fosse = fosse;
     }
 
-    public void melangerSource() {
-        Collections.shuffle((java.util.List<?>) this.source);
-    }
 
     public String afficherSource() {
         for (Carte carte : this.source) {
@@ -109,6 +106,7 @@ public class Plateau {
         this.source.add(new Incarnation());
         this.source.add(new Mimetisme());
         this.source.add(new Mimetisme());
+        Collections.shuffle((java.util.List<?>) this.source);
 
 
     }
