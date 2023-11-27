@@ -59,6 +59,7 @@ public class Partie {
                 Joueur joueur = new Joueur(pseudo);
                 this.joueurs.add(joueur);
             }
+
         }
     
         // Vous pouvez initialiser le plateau ici si nécessaire
@@ -69,11 +70,10 @@ public class Partie {
         this.plateau.initialiserSource();
     
         this.setEtatPartie(EtatPartie.INITIALISATION);
-    
-        // Afficher l'état et les deux joueurs
-        System.out.println("L'état de la partie est: " + this.etatPartie);
-        System.out.println("Les joueurs sont: " + this.joueurs);
-        System.out.println("La partie a été initialisée avec 2 joueurs.");
+
+        this.designerMalchanceux();
+        this.distribuerMain();
+        this.distribuerPileInitiale();
     }
     
 
@@ -169,6 +169,50 @@ public class Partie {
         terminerPartie();
     }
   
+    public void distribuerMain(){
+        for (Joueur joueur : joueurs) {
+            for (int i = 0; i < 4; i++) {
+                Carte carte = plateau.getSource().remove(0);
+                joueur.ajouterCarteDansMain(carte);
+            }
+        }       
+        System.out.println("Les joueurs ont reçu leur main");
+    }
+
+    public void distribuerPileInitiale() {
+        for (Joueur joueur : joueurs) {
+            for (int i = 0; i < 2; i++) {
+                Carte carte = plateau.getSource().remove(0);
+                joueur.ajouterCarteDansPile(carte);
+            }
+        }
+        System.out.println("Les joueurs ont reçu leur pile initiale");
+    }
+
+    public void designerMalchanceux() {
+        int lancéJoueur1, lancéJoueur2;
+    
+        do {
+            lancéJoueur1 = (int) (Math.random() * 6) + 1;
+            lancéJoueur2 = (int) (Math.random() * 6) + 1;
+    
+            System.out.println("\n\nLancé de dé pour déterminer le joueur qui commence la partie");
+            System.out.println("Le joueur "+ joueurs.get(0) +" a lancé un " + lancéJoueur1);
+            System.out.println("Le joueur "+ joueurs.get(1) + " a lancé un " + lancéJoueur2);
+    
+            if (lancéJoueur1 < lancéJoueur2) {
+                joueurActif = joueurs.get(0);
+                System.out.println("Le joueur " + joueurs.get(0) + " commence la partie\n\n");
+            } else if (lancéJoueur2 < lancéJoueur1) {
+                joueurActif = joueurs.get(1);
+                System.out.println("Le joueur " + joueurs.get(1) + " commence la partie\n\n");
+            } else {
+                System.out.println("Égalité. Les joueurs relancent les dés.");
+            }
+        } while (lancéJoueur1 == lancéJoueur2);
+    }
+    
+    
 
     // Autres getters et setters pour les attributs de la classe
     // ...
