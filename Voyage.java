@@ -5,7 +5,10 @@ public class Voyage extends Carte{
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+            joueur.piocher();
+            joueur.piocher();
+            joueur.piocher();
+            
     }
     
 }
