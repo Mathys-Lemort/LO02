@@ -6,7 +6,6 @@ public class Bassesse extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        adversaire.defausserCarte(2);
     }
 }
