@@ -67,6 +67,7 @@ public class Partie {
         this.plateau = new Plateau(source, fosse);
         // utilise initialiser source 
         this.plateau.initialiserSource();
+        this.plateau.melangerSource();
     
         this.setEtatPartie(EtatPartie.INITIALISATION);
     

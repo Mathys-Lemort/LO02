@@ -6,7 +6,7 @@ public class Joueur {
     private List<Carte> main;
     private List<Carte> pile;
     private List<Carte> defausse;
-    private List<Carte> cartesEnJeu;
+    private List<Carte> Oeuvres;
     private List<Carte> vieFuture;
     private List<StrategieJeu> strategieStrategies;
     private String positionEchelleKarmique;
@@ -18,12 +18,12 @@ public class Joueur {
         this.main = new ArrayList<>();
         this.pile = new ArrayList<>();
         this.defausse = new ArrayList<>();
-        this.cartesEnJeu = new ArrayList<>();
+        this.Oeuvres = new ArrayList<>();
         this.vieFuture = new ArrayList<>();
         this.strategieStrategies = new ArrayList<>();
     }
     public void jouerCartePourPoints(Carte carte) {
-        this.cartesEnJeu.add(carte);
+        this.Oeuvres.add(carte);
         this.main.remove(carte);
     }
 
@@ -34,7 +34,7 @@ public class Joueur {
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         carte.action(this, rival);
         this.main.remove(carte);
-        rival.cartesEnJeu.add(carte);
+        rival.main.add(carte);
     }
 
     public void jouerCartePourFutur(Carte carte) {
@@ -44,7 +44,7 @@ public class Joueur {
 
 
     public void piocher() {
-        this.cartesEnJeu.add(this.pile.get(0));
+        this.main.add(this.pile.get(0));
 
     }
 
