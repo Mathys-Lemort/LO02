@@ -75,6 +75,10 @@ public class Joueur {
             System.out.println(this.main.get(i));
         }
     }
+    
+    public List<Carte> getMain() {
+        return this.main;
+    }
 
     public boolean pileVide() {
         return this.pile.isEmpty();

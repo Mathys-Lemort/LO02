@@ -105,7 +105,8 @@ public class Partie {
                     tourValide = true;
                     break;
                 case 2:
-                    joueur.jouerCartePourPouvoir(null, null);
+                    joueur.afficherMain();
+                    joueur.jouerCartePourPouvoir(null,null);
                     tourValide = true;
                     break;
                 case 3:
@@ -130,7 +131,7 @@ public class Partie {
     public void tourSuivant() {
         // Determine active player: assuming joueurActif is correctly set to the starting player.
         if (joueurActif == null || !joueurs.contains(joueurActif)) {
-            joueurActif = joueurs.get(0); // Start with player 1
+            designerMalchanceux();
         } else {
             // Get the next player's index and update joueurActif.
             int currentIndex = joueurs.indexOf(joueurActif);
@@ -174,6 +175,7 @@ public class Partie {
             for (int i = 0; i < 4; i++) {
                 Carte carte = plateau.getSource().remove(0);
                 joueur.ajouterCarteDansMain(carte);
+                System.out.println("Le joueur " + joueur + " a reçu la carte " + carte);
             }
         }       
         System.out.println("Les joueurs ont reçu leur main");
@@ -197,21 +199,30 @@ public class Partie {
             lancéJoueur2 = (int) (Math.random() * 6) + 1;
     
             System.out.println("\n\nLancé de dé pour déterminer le joueur qui commence la partie");
-            System.out.println("Le joueur "+ joueurs.get(0) +" a lancé un " + lancéJoueur1);
-            System.out.println("Le joueur "+ joueurs.get(1) + " a lancé un " + lancéJoueur2);
+            System.out.println("Le joueur " + joueurs.get(0) + " a lancé un " + lancéJoueur1);
+            System.out.println("Le joueur " + joueurs.get(1) + " a lancé un " + lancéJoueur2);
     
-            if (lancéJoueur1 < lancéJoueur2) {
+            if (lancéJoueur1 > lancéJoueur2) {
                 joueurActif = joueurs.get(0);
-                System.out.println("Le joueur " + joueurs.get(0) + " commence la partie\n\n");
-            } else if (lancéJoueur2 < lancéJoueur1) {
+            } else if (lancéJoueur2 > lancéJoueur1) {
                 joueurActif = joueurs.get(1);
-                System.out.println("Le joueur " + joueurs.get(1) + " commence la partie\n\n");
             } else {
                 System.out.println("Égalité. Les joueurs relancent les dés.");
             }
         } while (lancéJoueur1 == lancéJoueur2);
     }
     
+    public Joueur getJoueurActif(){
+        return joueurActif;
+    }
+
+    public Joueur getJoueurRival(){
+        if (joueurActif == joueurs.get(0)){
+            return joueurs.get(1);
+        } else {
+            return joueurs.get(0);
+        }
+    }
     
 
     // Autres getters et setters pour les attributs de la classe
