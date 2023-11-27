@@ -99,6 +99,35 @@ public class Joueur {
 
     }
 
+
+    public void ajouterCarteDansDefausse(Carte carte) {
+        this.defausse.add(carte);
+
+    }
+
+    public void ajouterCarteDansOeuvres(Carte carte) {
+        this.Oeuvres.add(carte);
+
+    }
+
+    public void ajouterCarteDansVieFuture(Carte carte) {
+        this.vieFuture.add(carte);
+
+    }
+
+    public void afficherCartesVieFuture() {
+        for (Carte carte : this.vieFuture) {
+            System.out.println(carte);
+        }
+    }
+
+    public void afficherCartesOeuvres() {
+        for (Carte carte : this.Oeuvres) {
+            System.out.println(carte);
+        }
+    }
+
+
     public void trasmettreCarte() {
         // TODO Auto-generated method stub
 
