@@ -1,7 +1,35 @@
+package Plateau;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Source;
+
+import Cartes.Bassesse;
+import Cartes.Carte;
+import Cartes.CoupdOeil;
+import Cartes.Crise;
+import Cartes.Deni;
+import Cartes.DernierSouffle;
+import Cartes.Destinee;
+import Cartes.Duperie;
+import Cartes.Fournaise;
+import Cartes.Incarnation;
+import Cartes.Jubile;
+import Cartes.Lendemain;
+import Cartes.Longevite;
+import Cartes.Mimetisme;
+import Cartes.Panique;
+import Cartes.Recyclage;
+import Cartes.RevesBrises;
+import Cartes.Roulette;
+import Cartes.Sauvetage;
+import Cartes.Semis;
+import Cartes.Transmigration;
+import Cartes.Vengeance;
+import Cartes.Vol;
+import Cartes.Voyage;
 
 public class Plateau {
     private List<Carte> source;
@@ -12,6 +40,11 @@ public class Plateau {
 
         this.source = source;
         this.fosse = fosse;
+    }
+
+    public Plateau() {
+        this.source = new java.util.ArrayList<Carte>();
+        this.fosse = new java.util.ArrayList<Carte>();
     }
 
     public List<Carte> getSource() {
@@ -31,85 +64,83 @@ public class Plateau {
     }
 
 
-    public String afficherSource() {
+    public void afficherSource() {
         for (Carte carte : this.source) {
             System.out.println(carte);
         }
-        return "afficherSource";
     }
 
     public void initialiserSource() {
-        this.source.add(new Duperie());
-        this.source.add(new Duperie());
-        this.source.add(new Destinee());
-        this.source.add(new Destinee());
-        this.source.add(new Destinee());
-        this.source.add(new Transmigration());
-        this.source.add(new Transmigration());
-        this.source.add(new Transmigration());
-        this.source.add(new CoupdOeil());
-        this.source.add(new CoupdOeil());
-        this.source.add(new CoupdOeil());
-        this.source.add(new Vol());
-        this.source.add(new Vol());
-        this.source.add(new Lendemain());
-        this.source.add(new Lendemain());
-        this.source.add(new Lendemain());
-        this.source.add(new Recyclage());
-        this.source.add(new Recyclage());
-        this.source.add(new Recyclage());
-        this.source.add(new Sauvetage());
-        this.source.add(new Sauvetage());
-        this.source.add(new Sauvetage());
-        this.source.add(new Longevite());
-        this.source.add(new Longevite());
-        this.source.add(new Longevite());
-        this.source.add(new Semis());
-        this.source.add(new Semis());
-        this.source.add(new Semis());
-        this.source.add(new RevesBrises());
-        this.source.add(new RevesBrises());
-        this.source.add(new RevesBrises());
-        this.source.add(new Deni());
-        this.source.add(new Deni());
-        this.source.add(new Deni());
-        this.source.add(new Voyage());
-        this.source.add(new Voyage());
-        this.source.add(new Voyage());
-        this.source.add(new Jubile());
-        this.source.add(new Jubile());
-        this.source.add(new Panique());
-        this.source.add(new Panique());
-        this.source.add(new Panique());
-        this.source.add(new Roulette());
-        this.source.add(new Roulette());
-        this.source.add(new Roulette());
-        this.source.add(new Fournaise());
-        this.source.add(new Fournaise());
-        this.source.add(new Fournaise());
-        this.source.add(new Vengeance());
-        this.source.add(new Vengeance());
-        this.source.add(new Bassesse());
-        this.source.add(new Bassesse());
-        this.source.add(new DernierSouffle());
-        this.source.add(new DernierSouffle());
-        this.source.add(new DernierSouffle());
-        this.source.add(new Crise());
-        this.source.add(new Crise());
-        this.source.add(new Crise());
-        this.source.add(new Incarnation());
-        this.source.add(new Incarnation());
-        this.source.add(new Incarnation());
-        this.source.add(new Incarnation());
-        this.source.add(new Incarnation());
-        this.source.add(new Mimetisme());
-        this.source.add(new Mimetisme());
-        Collections.shuffle((java.util.List<?>) this.source);
+    Map<Class<? extends Carte>, Integer> cartesAInitialiser = new HashMap<>();
+    cartesAInitialiser.put(Duperie.class, 2);
+    cartesAInitialiser.put(Destinee.class, 3);
+    cartesAInitialiser.put(Transmigration.class, 3);
+    cartesAInitialiser.put(CoupdOeil.class, 3);
+    cartesAInitialiser.put(RevesBrises.class, 3);
+    cartesAInitialiser.put(Deni.class, 3);
+    cartesAInitialiser.put(Vol.class, 2);
+    cartesAInitialiser.put(Lendemain.class, 3);
+    cartesAInitialiser.put(Recyclage.class, 3);
+    cartesAInitialiser.put(Sauvetage.class, 3);
+    cartesAInitialiser.put(Longevite.class, 3);
+    cartesAInitialiser.put(Semis.class, 3);
+    cartesAInitialiser.put(Voyage.class, 2);
+    cartesAInitialiser.put(Jubile.class, 2);
+    cartesAInitialiser.put(Panique.class, 3);
+    cartesAInitialiser.put(DernierSouffle.class, 3);
+    cartesAInitialiser.put(Crise.class, 3);
+    cartesAInitialiser.put(Roulette.class, 3);
+    cartesAInitialiser.put(Fournaise.class, 3);
+    cartesAInitialiser.put(Vengeance.class, 2);
+    cartesAInitialiser.put(Bassesse.class, 2);
+    cartesAInitialiser.put(Incarnation.class, 5);
+    cartesAInitialiser.put(Mimetisme.class, 2);
 
+    for (Map.Entry<Class<? extends Carte>, Integer> entry : cartesAInitialiser.entrySet()) {
+        Class<? extends Carte> carteClass = entry.getKey();
+        Integer nombre = entry.getValue();
+        for (int i = 0; i < nombre; i++) {
+            try {
+                this.source.add(carteClass.getDeclaredConstructor().newInstance());
+            } catch (Exception e) {
+                // Gérez l'exception comme il convient (log, throw, etc.)
+                e.printStackTrace();
+            }
+        }
+    }
 
+    // Mélangez la liste des cartes
+    Collections.shuffle(this.source);
     }
 
     public String toString() {
         return "Plateau{" + "source='" + this.source + "'" + ", fosse='" + this.fosse + "'" + "}";
     }
+
+     
+     public static void main(String[] args) {
+            Plateau plateau = new Plateau();
+            plateau.initialiserSource();
+            // Afficher le nombre de carte dans la source
+            System.out.println(plateau.source.size());
+            // Afficher le nombre de chaque couleur des cartes de la source ("rouge: 5", "bleu: 3", etc.)
+            Map<String, Integer> couleurCartes = new HashMap<>();
+            for (Carte carte : plateau.source) {
+                String couleur = carte.getCouleur();
+                if (couleurCartes.containsKey(couleur)) {
+                    couleurCartes.put(couleur, couleurCartes.get(couleur) + 1);
+                } else {
+                    couleurCartes.put(couleur, 1);
+                }
+            }
+            for (Map.Entry<String, Integer> entry : couleurCartes.entrySet()) {
+                String couleur = entry.getKey();
+                Integer nombre = entry.getValue();
+                System.out.println(couleur + ": " + nombre);
+            }
+            
+        }
 }
+
+
+

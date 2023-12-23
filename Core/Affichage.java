@@ -1,4 +1,4 @@
-package Partie;
+package Core;
 public class Affichage {
 
     public static void afficherTitre(String titre) {

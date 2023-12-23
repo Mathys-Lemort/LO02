@@ -1,3 +1,4 @@
+package Core;
 public enum EtatPartie {
     // Définissez les différents états du jeu ici
     INITIALISATION,

@@ -1,5 +1,4 @@
 package Cartes;
-import Cartes.Carte;
 import Joueurs.Joueur;
 
 public class Bassesse extends Carte {
