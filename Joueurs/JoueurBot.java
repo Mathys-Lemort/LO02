@@ -1,6 +1,6 @@
 package Joueurs;
 
-import Partie.StrategieJeu;
+import Core.StrategieJeu;
 
 public class JoueurBot implements StrategieJeu {
 

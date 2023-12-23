@@ -1,7 +1,33 @@
+package Plateau;
 import java.util.Collections;
 import java.util.List;
 
 import javax.xml.transform.Source;
+
+import Cartes.Bassesse;
+import Cartes.Carte;
+import Cartes.CoupdOeil;
+import Cartes.Crise;
+import Cartes.Deni;
+import Cartes.DernierSouffle;
+import Cartes.Destinee;
+import Cartes.Duperie;
+import Cartes.Fournaise;
+import Cartes.Incarnation;
+import Cartes.Jubile;
+import Cartes.Lendemain;
+import Cartes.Longevite;
+import Cartes.Mimetisme;
+import Cartes.Panique;
+import Cartes.Recyclage;
+import Cartes.RevesBrises;
+import Cartes.Roulette;
+import Cartes.Sauvetage;
+import Cartes.Semis;
+import Cartes.Transmigration;
+import Cartes.Vengeance;
+import Cartes.Vol;
+import Cartes.Voyage;
 
 public class Plateau {
     private List<Carte> source;
