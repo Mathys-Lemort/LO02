@@ -8,9 +8,9 @@ public class Voyage extends Carte{
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-            joueur.piocher();
-            joueur.piocher();
-            joueur.piocher();
+            joueur.ajouterCarte();
+            joueur.ajouterCarte();
+            joueur.ajouterCarte();
             
     }
     

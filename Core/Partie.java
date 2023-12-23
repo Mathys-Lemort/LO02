@@ -1,10 +1,11 @@
-package Partie;
+package Core;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Cartes.Carte;
 import Joueurs.Joueur;
+import Plateau.Plateau;
 
 
 
@@ -36,7 +37,7 @@ public class Partie {
     public void setEtatPartie(EtatPartie etatPartie) {
         this.etatPartie = etatPartie;
     }
-
+    
     // Méthodes pour gérer le déroulement de la partie
     public void initialiserPartie() {
         Scanner scanner = new Scanner(System.in);
@@ -67,19 +68,16 @@ public class Partie {
             }
 
         }
-    
-        // Vous pouvez initialiser le plateau ici si nécessaire
-        List<Carte> source = new ArrayList<Carte>();
-        List<Carte> fosse = new ArrayList<Carte>();
-        this.plateau = new Plateau(source, fosse);
-        // utilise initialiser source 
-        this.plateau.initialiserSource();
-    
+        this.plateau = new Plateau();
         this.setEtatPartie(EtatPartie.INITIALISATION);
+        this.plateau.initialiserSource();
+
 
         this.designerMalchanceux();
         this.distribuerMain();
         this.distribuerPileInitiale();
+                System.out.println(this.plateau.getSource().size());
+
     }
     
 
@@ -87,13 +85,16 @@ public class Partie {
         Scanner scanner = new Scanner(System.in);
 
         Affichage.afficherTitre("Tour de " + joueur.getPseudo());
-        // Check if the player can draw a card (if the pile is not empty)
         if (!joueur.pileVide()) {
-            joueur.piocher();
+                        System.out.println("Taille de la pile: " + joueur.getPile().size());
+                        System.out.println("Taille de la main: " + joueur.getMain().size());
+
+            joueur.ajouterCarte();
             Affichage.afficherMessage("Vous avez pioché une carte.");
         }
+            System.out.println("Taille de la pile: " + joueur.getPile().size());
+            System.out.println("Taille de la main: " + joueur.getMain().size());
 
-        // Give the player options for their turn
         boolean tourValide = false;
         while (!tourValide) {
             Affichage.afficherTitre("Choisissez une action:");
@@ -129,7 +130,7 @@ public class Partie {
                         joueur.passerTour();
                         tourValide = true;
                     } else {
-                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car votre pioche est vide.");
+                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car votre pile est vide.");
                     }
                     break;
                 default:

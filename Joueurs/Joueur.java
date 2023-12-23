@@ -24,6 +24,7 @@ public class Joueur {
         this.Oeuvres = new ArrayList<>();
         this.vieFuture = new ArrayList<>();
         this.strategieStrategies = new ArrayList<>();
+        this.positionEchelleKarmique = "Boursier";
     }
     public void jouerCartePourPoints(Carte carte) {
         this.Oeuvres.add(carte);
@@ -43,12 +44,6 @@ public class Joueur {
     public void jouerCartePourFutur(Carte carte) {
         this.vieFuture.add(carte);
         this.main.remove(carte);
-    }
-
-
-    public void piocher() {
-        this.main.add(this.pile.get(0));
-
     }
 
     public void defausser() {
@@ -83,12 +78,25 @@ public class Joueur {
         return this.main;
     }
 
+    public List<Carte> getOeuvres() {
+        return this.Oeuvres;
+    }
+    public List<Carte> getVieFuture() {
+        return this.vieFuture;
+    }
+    public List<Carte> getDefausse() {
+        return this.defausse;
+    }
+
+    public List<Carte> getPile() {
+        return this.pile;
+    }
     public boolean pileVide() {
         return this.pile.isEmpty();
     }
 
     public void ajouterCarte() {
-        this.main.add(this.pile.get(0));
+        this.main.add(this.pile.remove(0));
 
     }
 
@@ -148,5 +156,6 @@ public class Joueur {
         return this.id;
     }
 
+    
 
 }
