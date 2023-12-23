@@ -1,3 +1,8 @@
+package Cartes;
+
+import joueurs.Joueur;
+import Cartes.Carte;
+
 public class Bassesse extends Carte {
     public Bassesse() {
         super("Bassesse","rouge", 3, "Défaussez au hasard 2 cartes\n" + //
