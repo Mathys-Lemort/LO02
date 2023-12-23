@@ -1,7 +1,8 @@
-package joueurs;
+package Joueurs;
 import java.util.ArrayList;
 import java.util.List;
 import Cartes.Carte;
+import Partie.StrategieJeu;
 
 public class Joueur {
     private String id;

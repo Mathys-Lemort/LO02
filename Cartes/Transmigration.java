@@ -1,3 +1,7 @@
+package Cartes;
+import Cartes.Carte;
+import Joueurs.Joueur;
+
 public class Transmigration extends Carte{
 
     public Transmigration() {

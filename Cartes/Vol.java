@@ -1,3 +1,7 @@
+package Cartes;
+import Cartes.Carte;
+import Joueurs.Joueur;
+
 public class Vol extends Carte {
     public Vol() {
         super("Vol","bleu", 3, "Placez dans votre Main l Oeuvre Exposée d'un rival.", false);

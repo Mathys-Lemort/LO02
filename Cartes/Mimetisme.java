@@ -1,3 +1,7 @@
+package Cartes;
+import Cartes.Carte;
+import Joueurs.Joueur;
+
 public class Mimetisme extends Carte{
     public Mimetisme() {
         super("Mimetisme","None", 1, "Choisissez un Rival.Copiez le pouvoir de sonOeuvre Exposée.", true);

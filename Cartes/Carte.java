@@ -1,3 +1,6 @@
+package Cartes;
+import Joueurs.Joueur;
+
 public abstract class Carte {
     private String nom;
     private String couleur;

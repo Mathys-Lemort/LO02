@@ -1,7 +1,6 @@
 package Cartes;
-
-import joueurs.Joueur;
 import Cartes.Carte;
+import Joueurs.Joueur;
 
 public class Bassesse extends Carte {
     public Bassesse() {
@@ -13,4 +12,5 @@ public class Bassesse extends Carte {
     public void action(Joueur joueur, Joueur adversaire) {
         adversaire.defausserCarte(2);
     }
+
 }
