@@ -99,8 +99,8 @@ public class Partie {
                 case 1:
                 // Demander a l'utilisateur de choisir une carte    
                     Affichage.afficherMessage("Choisissez une carte à jouer:");
-                    int choix2 = scanner.nextInt();
-                    Carte carte = joueur.getMain().get(choix2-1);  
+                    choix = scanner.nextInt();
+                    Carte carte = joueur.getMain().get(choix-1);  
                     Affichage.afficherMessage("Vous avez choisi la carte " + carte.getNom() +" que vous ajoutez à vos oeuvres pour " + carte.getPoints() + " points !");            
                     joueur.jouerCartePourPoints(carte);
                     Affichage.afficherMessage("Voici vos oeuvres:\n");
@@ -116,9 +116,16 @@ public class Partie {
                     tourValide = true;
                     break;
                 case 3:
-                    joueur.jouerCartePourFutur(null);
+                    Affichage.afficherMessage("Choisissez une carte à placer dans votre Vie Future:");
+                    choix = scanner.nextInt();
+                    Carte carte3 = joueur.getMain().get(choix-1);
+                    Affichage.afficherMessage("Vous avez choisi la carte " + carte3.getNom() +" que vous ajoutez à votre Vie Future !");
+                    joueur.jouerCartePourFutur(carte3);
+                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+                    scanner.nextLine();
+                    scanner.nextLine();
                     tourValide = true;
-                    break;
+                    break;                   
                 case 4:
                     if (!joueur.pileVide()) {
                         joueur.passerTour();
