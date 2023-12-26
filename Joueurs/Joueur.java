@@ -2,6 +2,7 @@ package Joueurs;
 import java.util.ArrayList;
 import java.util.List;
 import Cartes.Carte;
+import Core.Affichage;
 import Core.StrategieJeu;
 
 public class Joueur {
@@ -62,12 +63,10 @@ public class Joueur {
     }
 
     public void afficherMain() {
-        for (Carte carte : this.main) {
-            System.out.println(carte);
+        for (int i = 0; i < this.main.size(); i++) {
+            System.out.println((i+1) + " - " + this.main.get(i));
         }
-
     }
-
     public void afficherCartesMain(int nbCartes) {
         for (int i = 0; i < nbCartes; i++) {
             System.out.println(this.main.get(i));

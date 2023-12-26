@@ -2,12 +2,9 @@ package Core;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import Cartes.Carte;
 import Joueurs.Joueur;
 import Plateau.Plateau;
-
-
 
 
 public class Partie {
@@ -17,9 +14,7 @@ public class Partie {
     private Joueur joueurActif;
     private EtatPartie etatPartie;
 
-    // Le constructeur est privé pour empêcher l'instanciation directe.
     private Partie() {
-        // initialisation des attributs
     }
 
     // Méthode pour obtenir l'instance du singleton
@@ -86,14 +81,11 @@ public class Partie {
 
         Affichage.afficherTitre("Tour de " + joueur.getPseudo());
         if (!joueur.pileVide()) {
-                        System.out.println("Taille de la pile: " + joueur.getPile().size());
-                        System.out.println("Taille de la main: " + joueur.getMain().size());
-
             joueur.ajouterCarte();
             Affichage.afficherMessage("Vous avez pioché une carte.");
         }
-            System.out.println("Taille de la pile: " + joueur.getPile().size());
-            System.out.println("Taille de la main: " + joueur.getMain().size());
+        Affichage.afficherTitre("Voici votre main:");
+        joueur.afficherMain();
 
         boolean tourValide = false;
         while (!tourValide) {
@@ -102,22 +94,24 @@ public class Partie {
             Affichage.afficherOption(2, "Jouer une carte pour un pouvoir");
             Affichage.afficherOption(3, "Placer une carte dans votre Vie Future");
             Affichage.afficherOption(4, "Passer votre tour");
-
-                    // "1. Jouer une carte pour des points\n" +
-                    // "2. Jouer une carte pour un pouvoir\n" +
-                    // "3. Placer une carte dans votre Vie Future\n" +
-                    // "4. Passer votre tour");
             int choix = scanner.nextInt();
-
             switch (choix) {
                 case 1:
-                    plateau.afficherSource();
-                    Affichage.afficherMessage("Choisissez une carte de la Source:");
-                    joueur.jouerCartePourPoints(null);
+                // Demander a l'utilisateur de choisir une carte    
+                    Affichage.afficherMessage("Choisissez une carte à jouer:");
+                    int choix2 = scanner.nextInt();
+                    Carte carte = joueur.getMain().get(choix2-1);  
+                    Affichage.afficherMessage("Vous avez choisi la carte " + carte.getNom() +" que vous ajoutez à vos oeuvres pour " + carte.getPoints() + " points !");            
+                    joueur.jouerCartePourPoints(carte);
+                    Affichage.afficherMessage("Voici vos oeuvres:\n");
+                    joueur.afficherCartesOeuvres();
+                    // Afficher une ligne pour que le joueur appuie sur entrez avant que le jeu continue 
+                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+                    scanner.nextLine();
+                    scanner.nextLine();
                     tourValide = true;
-                    break;
+                    break;                   
                 case 2:
-                    joueur.afficherMain();
                     joueur.jouerCartePourPouvoir(null,null);
                     tourValide = true;
                     break;

@@ -16,6 +16,10 @@ public abstract class Carte {
         this.estMosaique = estMosaique;
     }
 
+    public String getNom() {
+        return this.nom;
+    }
+    
     public String getCouleur() {
         return this.couleur;
     }
@@ -51,7 +55,13 @@ public abstract class Carte {
     public abstract void action(Joueur joueur, Joueur adversaire);
 
     public String toString() {
-        return this.nom+" : "
-                + this.pouvoir;
+        String base = this.nom + " - Couleur: ";
+        if (this.estMosaique) {
+            base += "Mosaique";
+        } else {
+            base += this.couleur;
+        }
+        return base + ", Points: " + this.points + ", Pouvoir: " + this.pouvoir + "\n";
     }
+    
 }
