@@ -1,20 +1,20 @@
 package Cartes;
+import Core.Affichage;
 import Joueurs.Joueur;
 
 public class Transmigration extends Carte{
 
     public Transmigration() {
-        super("Transmigration","bleu", 1, "Placez dans votre Main n’importequelle carte de votre Vie Future.", false);
+        super("Transmigration","bleu", 1, "Placez dans votre Main n’importe quelle carte de votre Vie Future.", false);
     }
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // // afficher les cartes de la vie future
-        // joueur.afficherCartesVieFuture();
-        // // demander quelle carte il veut placer dans sa main
-        // int choix = joueur.choisirCarteVieFuture();
-        // // ajouter la carte à la main
-        // joueur.ajouterCarteMain(joueur.getCarteVieFuture(choix));
+        Carte carte = joueur.getCarteVieFutureRandom();
+        joueur.ajouterCarteDansMain(carte);
+        joueur.getVieFuture().remove(carte);
+        Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
+
     }
     
     

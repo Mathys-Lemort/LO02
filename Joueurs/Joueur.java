@@ -219,6 +219,19 @@ public class Joueur {
         return this.defausse;
     }
 
+    public Carte getCarteVieFuture(int index){
+        return this.vieFuture.get(index);
+    }
+
+    public Carte getCarteVieFutureRandom(){
+        int index = (int) (Math.random() * this.vieFuture.size());
+        return this.vieFuture.get(index);
+    }
+
+    public void defausserOeuvreChoisit(Carte carte){
+        this.defausse.add(carte);
+        this.Oeuvres.remove(carte);
+    }
     
 
 }

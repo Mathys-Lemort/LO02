@@ -1,4 +1,5 @@
 package Cartes;
+import Core.Affichage;
 import Joueurs.Joueur;
 
 public class RevesBrises extends Carte {
@@ -9,8 +10,9 @@ public class RevesBrises extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        joueur.ajouterCarteDansVieFuture(adversaire.getCarteVieFuture(0));
+        adversaire.getVieFuture().remove(0);
+        Affichage.afficherMessage("Vous avez ajouté la première carte de la Vie Future de " + adversaire.getPseudo() + " à votre Vie Future.");
     }
     
 }

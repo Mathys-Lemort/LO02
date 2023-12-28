@@ -265,6 +265,7 @@ public class Partie {
 
     public void piocherSourceMain(Joueur joueur){
         joueur.ajouterCarteDansMain(plateau.getSource().remove(0));
+        Affichage.afficherMessage("Vous avez pioché la carte " + joueur.getMain().get(joueur.getMain().size()-1).getNom());
     }
     
     public void piocherSourcePile(Joueur joueur){

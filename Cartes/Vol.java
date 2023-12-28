@@ -8,7 +8,10 @@ public class Vol extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        Carte carte = adversaire.getOeuvreExposee();
+        joueur.ajouterCarteDansMain(carte);
+        adversaire.defausserOeuvreChoisit(carte);
+        System.out.println("Vous avez ajouté l'Oeuvre Exposée de " + adversaire.getPseudo() + " à votre Main.");
     }
     
 }
