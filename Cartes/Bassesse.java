@@ -1,4 +1,5 @@
 package Cartes;
+import Core.Affichage;
 import Joueurs.Joueur;
 
 public class Bassesse extends Carte {
@@ -10,6 +11,7 @@ public class Bassesse extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         adversaire.defausserCarte(2);
+        Affichage.afficherMessage("Votre adversaire a défaussé 2 cartes au hasard");
     }
 
 }

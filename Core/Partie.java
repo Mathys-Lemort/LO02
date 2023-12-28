@@ -13,8 +13,10 @@ public class Partie {
     private Plateau plateau;
     private Joueur joueurActif;
     private EtatPartie etatPartie;
+    private Scanner scanner;
 
     private Partie() {
+        this.scanner = new Scanner(System.in);
     }
 
     // Méthode pour obtenir l'instance du singleton
@@ -23,6 +25,10 @@ public class Partie {
             instance = new Partie();
         }
         return instance;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 
     public EtatPartie getEtatPartie() {
@@ -35,7 +41,6 @@ public class Partie {
     
     // Méthodes pour gérer le déroulement de la partie
     public void initialiserPartie() {
-        Scanner scanner = new Scanner(System.in);
         this.joueurs = new ArrayList<Joueur>();
     
         Affichage.afficherTitre("Initialisation de la Partie");
@@ -75,16 +80,21 @@ public class Partie {
 
     }
     
-
-    private void effectuerActionsTour(Joueur joueur) {
-        Scanner scanner = new Scanner(System.in);
-
-        Affichage.afficherTitre("Tour de " + joueur.getPseudo());
+    private void piocherCarteSiNecessaire(Joueur joueur) {
+        Affichage.afficherTitre(joueur.getPseudo() + ", c'est à votre tour.");
         if (!joueur.pileVide()) {
             joueur.ajouterCarte();
             Affichage.afficherMessage("Vous avez pioché une carte.");
         }
-        Affichage.afficherTitre("Voici votre main:");
+    }
+
+
+    private void effectuerActionsTour(Joueur joueur,boolean estRejouer) {
+
+        if (!estRejouer) {
+            piocherCarteSiNecessaire(joueur);
+        }
+        Affichage.afficherTitre("Voici votre main:" + joueur.getPseudo());
         joueur.afficherMain();
 
         boolean tourValide = false;
@@ -105,14 +115,15 @@ public class Partie {
                     joueur.jouerCartePourPoints(carte);
                     Affichage.afficherMessage("Voici vos oeuvres:\n");
                     joueur.afficherCartesOeuvres();
-                    // Afficher une ligne pour que le joueur appuie sur entrez avant que le jeu continue 
-                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                  
                     tourValide = true;
                     break;                   
                 case 2:
-                    joueur.jouerCartePourPouvoir(null,null);
+                    Affichage.afficherMessage("Choisissez une carte à jouer:");
+                    choix = scanner.nextInt();
+                    Carte carte2 = joueur.getMain().get(choix-1);
+                    Affichage.afficherMessage("Vous avez choisi la carte " + carte2.getNom() +" que vous jouez pour son pouvoir !");
+                    joueur.jouerCartePourPouvoir(carte2, this.getJoueurRival());
                     tourValide = true;
                     break;
                 case 3:
@@ -121,9 +132,7 @@ public class Partie {
                     Carte carte3 = joueur.getMain().get(choix-1);
                     Affichage.afficherMessage("Vous avez choisi la carte " + carte3.getNom() +" que vous ajoutez à votre Vie Future !");
                     joueur.jouerCartePourFutur(carte3);
-                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                  
                     tourValide = true;
                     break;                   
                 case 4:
@@ -152,7 +161,7 @@ public class Partie {
         }
 
         // Perform actions for the active player's turn
-        effectuerActionsTour(joueurActif);
+        effectuerActionsTour(joueurActif,false);
     }
 
     public void verifierFinPartie() {
@@ -212,7 +221,6 @@ public class Partie {
             Affichage.afficherMessage("Le joueur qui a lancé le plus petit nombre commence la partie.");
             Affichage.afficherMessage("En cas d'égalité, les joueurs relancent les dés.");
             Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-            Scanner scanner = new Scanner(System.in);
             scanner.nextLine();
             Affichage.afficherMessage(joueurs.get(0).getPseudo() + " a lancé " + lancéJoueur1);
             Affichage.afficherMessage(joueurs.get(1).getPseudo() + " a lancé " + lancéJoueur2);
@@ -239,13 +247,21 @@ public class Partie {
             return joueurs.get(0);
         }
     }
+
+    // Fonction qui fait rejouer le même joueur
+    public void rejouer(Joueur joueur) {
+        effectuerActionsTour(joueur,true);
+    }
+
+    public void afficher3PremieresCartesSource(){
+        for (int i = 0; i < 3; i++) {
+            Affichage.afficherOption(i, plateau.getSource().get(i).getNom());
+        }
+    }
+
+    public List<Carte> getCartesSource(){
+        return plateau.getSource();
+    }
     
-
-    // Autres getters et setters pour les attributs de la classe
-    // ...
-
-    // Méthodes pour interagir avec les joueurs et le plateau
-    // ...
 }
 
-// Vous devrez également définir les classes Joueur et Plateau selon votre diagramme

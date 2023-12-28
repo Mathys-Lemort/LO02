@@ -1,9 +1,12 @@
 package Joueurs;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 import Cartes.Carte;
 import Core.Affichage;
 import Core.StrategieJeu;
+import Core.Partie;
 
 public class Joueur {
     private String id;
@@ -37,9 +40,10 @@ public class Joueur {
     }
 
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
-        carte.action(this, rival);
         this.main.remove(carte);
         rival.main.add(carte);
+        carte.action(this, rival);
+       
     }
 
     public void jouerCartePourFutur(Carte carte) {
@@ -65,11 +69,6 @@ public class Joueur {
     public void afficherMain() {
         for (int i = 0; i < this.main.size(); i++) {
             System.out.println((i+1) + " - " + this.main.get(i));
-        }
-    }
-    public void afficherCartesMain(int nbCartes) {
-        for (int i = 0; i < nbCartes; i++) {
-            System.out.println(this.main.get(i));
         }
     }
     
@@ -132,9 +131,27 @@ public class Joueur {
     }
 
     public void afficherCartesOeuvres() {
-        for (Carte carte : this.Oeuvres) {
-            System.out.println(carte);
+        for (int i = 0; i < this.Oeuvres.size(); i++) {
+            System.out.println((i+1) + " - " + this.Oeuvres.get(i));
         }
+    }
+
+    public void defausserOeuvreChoix(){
+        Affichage.afficherMessage("Voici vos oeuvres:");
+        afficherCartesOeuvres();
+        Affichage.afficherMessage("Choisissez une carte à défausser:");
+        Scanner scanner = Partie.getInstance().getScanner();
+        int choix = scanner.nextInt();
+        Carte carte = this.Oeuvres.get(choix-1);
+        this.defausse.add(carte);
+        this.Oeuvres.remove(carte);
+        Affichage.afficherMessage(this.getPseudo() +", vous avez défaussé la carte " + carte.getNom()+" de vos oeuvres");          
+    }
+
+    public void defausserCarteChoisit(Carte carte){
+        this.defausse.add(carte);
+        this.main.remove(carte);
+        Affichage.afficherMessage(this.getPseudo() +", vous avez défaussé la carte " + carte.getNom()+ "de votre main");
     }
 
 

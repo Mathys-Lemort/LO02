@@ -8,6 +8,6 @@ public class Duperie extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        adversaire.afficherCartesMain(3);
+        adversaire.afficherMain();
     }
 }

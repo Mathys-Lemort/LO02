@@ -1,4 +1,8 @@
 package Cartes;
+import java.util.Scanner;
+
+import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 public class DernierSouffle extends Carte {
@@ -8,6 +12,11 @@ public class DernierSouffle extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        adversaire.defausserCarte(1);
+        adversaire.afficherMain();
+        Affichage.afficherMessage(adversaire.getPseudo() + " choisissez une carte à défausser de votre main:");
+        Scanner scanner = Partie.getInstance().getScanner();
+        int choix = scanner.nextInt();
+        Carte carte = joueur.getMain().get(choix-1);
+        joueur.defausserCarteChoisit(carte);
     }
 }
