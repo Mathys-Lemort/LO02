@@ -103,6 +103,10 @@ public class Joueur {
 
     }
 
+    public void suppCarteMain(Carte carte) {
+        this.main.remove(carte);
+
+    }
     public void ajouterCarteDansPile(Carte carte) {
         this.pile.add(carte);
 
@@ -170,6 +174,49 @@ public class Joueur {
 
     public String toString(){
         return this.id;
+    }
+
+    public ArrayList<Carte> getMainChiffre(int nbCartes) {
+        ArrayList<Carte> temp = new ArrayList<>();
+        for (int i = 0; i < nbCartes; i++) {
+            int index = (int) (Math.random() * this.main.size());
+            if (!temp.contains(this.main.get(index))) {
+                temp.add(this.main.get(index));
+            } else {
+                i--;
+            }
+        }
+        return temp;              
+    }
+
+    public void defausserCarteVieFutureChiffre(int nbCartes) {
+        for (int i = 0; i < nbCartes; i++) {
+            this.defausse.add(this.vieFuture.get(i));
+            this.vieFuture.remove(i);
+        }
+    }
+
+    public Carte getOeuvreExposee(){
+        return this.Oeuvres.get(this.Oeuvres.size()-1);    
+    }
+
+    public void defausserCartePile() {
+        this.defausse.add(this.pile.get(0));
+        this.pile.remove(0);
+    }
+
+    public ArrayList<Carte> getCartesFosse(int nbCartes) {
+        ArrayList<Carte> temp = new ArrayList<>();
+        for (int i = 0; i < nbCartes; i++) {
+            temp.add(this.defausse.get(i));
+           
+        }
+        return temp;              
+        
+    }
+
+    public List<Carte> getFosse(){
+        return this.defausse;
     }
 
     

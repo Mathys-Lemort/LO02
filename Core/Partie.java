@@ -262,6 +262,15 @@ public class Partie {
     public List<Carte> getCartesSource(){
         return plateau.getSource();
     }
+
+    public void piocherSourceMain(Joueur joueur){
+        joueur.ajouterCarteDansMain(plateau.getSource().remove(0));
+    }
+    
+    public void piocherSourcePile(Joueur joueur){
+        joueur.ajouterCarteDansPile(plateau.getSource().remove(0));
+    }
+
     
 }
 

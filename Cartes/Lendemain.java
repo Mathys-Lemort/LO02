@@ -1,5 +1,7 @@
 package Cartes;
 import Joueurs.Joueur;
+import Core.Affichage;
+import Core.Partie;
 
 public class Lendemain extends Carte{    
     public Lendemain() {
@@ -8,7 +10,15 @@ public class Lendemain extends Carte{
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        Partie.getInstance().piocherSourceMain(joueur);
+        Affichage.afficherMessage("Vous avez pioché une carte à la Source");
+        Affichage.afficherMessage("Voulez-vous jouer une autre carte ? (O/N)");
+        String choix = Partie.getInstance().getScanner().next();
+        if (choix.equals("oui")) {
+            Partie.getInstance().rejouer(joueur);
+        }
+
+        
     }
     
 }

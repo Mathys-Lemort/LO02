@@ -1,13 +1,15 @@
 package Cartes;
+import Core.Affichage;
 import Joueurs.Joueur;
 
 public class Mimetisme extends Carte{
     public Mimetisme() {
-        super("Mimetisme","None", 1, "Choisissez un Rival.Copiez le pouvoir de sonOeuvre Exposée.", true);
+        super("Mimetisme","None", 1, "Choisissez un Rival.Copiez le pouvoir de son Oeuvre Exposée.", true);
     }
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        throw new UnsupportedOperationException("Unimplemented method 'action'");
+        Affichage.afficherMessage("Vous avez copié le pouvoir de l'oeuvre exposée de " + adversaire.getPseudo() + " : " + adversaire.getOeuvreExposee().getPouvoir());
+        adversaire.getOeuvreExposee().action(joueur, adversaire);       
     }
 }
