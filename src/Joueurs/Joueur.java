@@ -53,6 +53,10 @@ public class Joueur {
 
     }
 
+    public void setPseudo(String pseudo) {
+        this.id = pseudo;
+    }
+
     public int getPoints(){
         int pointsRouge = 0;
         int pointsVert = 0;
