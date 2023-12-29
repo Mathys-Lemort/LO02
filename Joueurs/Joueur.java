@@ -1,12 +1,10 @@
 package Joueurs;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Scanner;
 
 import Cartes.Carte;
 import Core.Affichage;
-import Core.StrategieJeu;
 import Core.Partie;
 
 //Faire une enum des positions de l'échelle karmique
@@ -20,10 +18,8 @@ public class Joueur {
     private List<Carte> defausse;
     private List<Carte> Oeuvres;
     private List<Carte> vieFuture;
-    private List<StrategieJeu> strategieStrategies;
-    private int anneauxKarmiques;
-    private Dictionary<String, Integer> echelleKarmique;
     private EchelleKarmique positionEchelleKarmique;
+    private int anneauxKarmiques;
 
 
     public enum EchelleKarmique {
@@ -51,7 +47,6 @@ public class Joueur {
         this.defausse = new ArrayList<>();
         this.Oeuvres = new ArrayList<>();
         this.vieFuture = new ArrayList<>();
-        this.strategieStrategies = new ArrayList<>();
         this.anneauxKarmiques = 0;
         this.positionEchelleKarmique = EchelleKarmique.BOUSIER;
 
@@ -75,6 +70,9 @@ public class Joueur {
                 pointsBleu += carte.getPoints();
             }
         }
+        pointsRouge += this.anneauxKarmiques;
+        pointsVert += this.anneauxKarmiques;
+        pointsBleu += this.anneauxKarmiques;
         Affichage.afficherMessage(this.getPseudo() + ", vous avez " + pointsRouge + " points rouges, " + pointsVert + " points verts et " + pointsBleu + " points bleus");
         return Math.max(pointsRouge, Math.max(pointsVert, pointsBleu));
     }
@@ -268,14 +266,8 @@ public class Joueur {
     }
 
 
-    public void trasmettreCarte() {
-        // TODO Auto-generated method stub
-
-    }
-
     public void passerTour() {
-        // TODO Auto-generated method stub
-
+        Affichage.afficherMessage(this.getPseudo() + " passe son tour");
     }
 
     public void setStrategie() {

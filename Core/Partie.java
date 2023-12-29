@@ -1,7 +1,6 @@
 package Core;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import Cartes.Carte;
@@ -16,7 +15,6 @@ public class Partie {
     private Joueur joueurActif;
     private EtatPartie etatPartie;
     private Scanner scanner;
-    private Dictionary <String, Integer> echelleKarmique;
 
     private Partie() {
         this.scanner = new Scanner(System.in);
@@ -191,7 +189,6 @@ public class Partie {
     
     private void passerTour(Joueur joueur) {
         joueur.passerTour();
-        Affichage.afficherMessage(joueur.getPseudo() + " a passé son tour.");
     }
 
     private int obtenirChoixCarte(int nombreDeCartes) {
@@ -249,13 +246,13 @@ public class Partie {
         }
         
         // Demander aux joueurs s'ils veulent rejouer ou quitter
-        // Affichage.afficherMessage("Voulez-vous rejouer? (O/N)");
-        // String choix = scanner.nextLine();
-        // if (choix.equals("O")) {
-        //     commencerPartie();
-        // } else {
-        //     Affichage.afficherMessage("Merci d'avoir joué!");
-        // }
+        Affichage.afficherMessage("Voulez-vous rejouer? (O/N)");
+        String choix = scanner.nextLine();
+        if (choix.equals("O")) {
+            commencerPartie();
+        } else {
+            Affichage.afficherMessage("Merci d'avoir joué!");
+        }
     }
   
     public void distribuerMain(){
