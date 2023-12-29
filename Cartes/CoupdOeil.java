@@ -1,6 +1,7 @@
 package Cartes;
 import Joueurs.Joueur;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Core.Affichage;
@@ -17,16 +18,34 @@ public class CoupdOeil extends Carte {
     public void action(Joueur joueur, Joueur adversaire) {
         Affichage.afficherTitre("Voici la main de votre adversaire");
         adversaire.afficherMain();
-        Affichage.afficherMessage("Voulez-vous jouer une autre carte ? (O/N)");
         Scanner scannerPartie = Partie.getInstance().getScanner();
-        String choix = scannerPartie.nextLine();
-        if (choix.equals("O")) {
-            Partie.getInstance().rejouer(joueur);
+        int choix = 0;
+
+        while (choix != 1 && choix != 2) {
+            Affichage.afficherMessage("Voulez-vous jouer une autre carte ?");
+            Affichage.afficherOption(1, "Oui");
+            Affichage.afficherOption(2, "Non");
+
+            try {
+                choix = scannerPartie.nextInt();
+            } catch (InputMismatchException e) {
+                Affichage.afficherMessage("Entrée non valide. Veuillez choisir 1 ou 2.");
+                scannerPartie.nextLine(); // Nettoie le buffer du scanner
+                continue;
+            }
+
+            scannerPartie.nextLine(); // Consomme la nouvelle ligne après nextInt()
+
+            if (choix != 1 && choix != 2) {
+                Affichage.afficherMessage("Choix non valide. Veuillez choisir 1 ou 2.");
+            }
         }
-        else {
+
+        if (choix == 1) {
+            Partie.getInstance().rejouer(joueur);
+        } else {
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
         }
-        
-
     }
+
 }

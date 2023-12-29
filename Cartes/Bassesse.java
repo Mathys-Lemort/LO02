@@ -10,8 +10,21 @@ public class Bassesse extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        adversaire.defausserCarte(2);
-        Affichage.afficherMessage("Votre adversaire a défaussé 2 cartes au hasard");
+        int tailleMainAdversaire = adversaire.getMain().size();
+
+        if (tailleMainAdversaire == 0) {
+            Affichage.afficherMessage("Votre adversaire n'a pas de carte en main, aucune action possible.");
+            return;
+        }
+
+        int nbCartesADefaussées = Math.min(tailleMainAdversaire, 2);
+        adversaire.defausserCarte(nbCartesADefaussées);
+
+        String message = (nbCartesADefaussées == 1) 
+                        ? "Votre adversaire a défaussé 1 carte au hasard." 
+                        : "Votre adversaire a défaussé 2 cartes au hasard.";
+        Affichage.afficherMessage(message);
     }
+
 
 }

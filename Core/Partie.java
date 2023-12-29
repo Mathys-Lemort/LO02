@@ -111,33 +111,46 @@ public class Partie {
             Affichage.afficherOption(3, "Placer une carte dans votre Vie Future");
             Affichage.afficherOption(4, "Passer votre tour");
             int choix = scanner.nextInt();
+            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
             switch (choix) {
                 case 1:
                 // Demander a l'utilisateur de choisir une carte    
                     Affichage.afficherMessage("Choisissez une carte à jouer:");
                     choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
                     Carte carte = joueur.getMain().get(choix-1);  
                     Affichage.afficherMessage("Vous avez choisi la carte " + carte.getNom() +" que vous ajoutez à vos oeuvres pour " + carte.getPoints() + " points !");            
                     joueur.jouerCartePourPoints(carte);
                     Affichage.afficherMessage("Voici vos oeuvres:\n");
                     joueur.afficherCartesOeuvres();
+                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+                    scanner.nextLine();
                   
                     tourValide = true;
                     break;                   
                 case 2:
                     Affichage.afficherMessage("Choisissez une carte à jouer:");
                     choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
                     Carte carte2 = joueur.getMain().get(choix-1);
                     Affichage.afficherMessage("Vous avez choisi la carte " + carte2.getNom() +" que vous jouez pour son pouvoir !");
                     joueur.jouerCartePourPouvoir(carte2, this.getJoueurRival());
+                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+                    scanner.nextLine();
+
                     tourValide = true;
                     break;
                 case 3:
                     Affichage.afficherMessage("Choisissez une carte à placer dans votre Vie Future:");
                     choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
                     Carte carte3 = joueur.getMain().get(choix-1);
                     Affichage.afficherMessage("Vous avez choisi la carte " + carte3.getNom() +" que vous ajoutez à votre Vie Future !");
                     joueur.jouerCartePourFutur(carte3);
+
+                    // Demander au joueur d'appuyer sur entrée pour continuer
+                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
+                    scanner.nextLine();
                   
                     tourValide = true;
                     break;                   
@@ -267,10 +280,12 @@ public class Partie {
         effectuerActionsTour(joueur,true);
     }
 
-    public void afficher3PremieresCartesSource(){
+    public ArrayList<Carte> afficher3PremieresCartesSource(){
+        ArrayList<Carte> cartes = new ArrayList<Carte>();
         for (int i = 0; i < 3; i++) {
-            Affichage.afficherOption(i, plateau.getSource().get(i).getNom());
+            cartes.add(plateau.getSource().get(i));
         }
+        return cartes;
     }
 
     public List<Carte> getCartesSource(){

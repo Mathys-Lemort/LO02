@@ -10,9 +10,14 @@ public class Vengeance extends Carte{
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         Carte carte = adversaire.getOeuvreExposee();
-        adversaire.defausserOeuvreChoisit(carte);
-        Affichage.afficherMessage("Vous avez défaussé l'Oeuvre Exposée de " + adversaire.getPseudo() + ".");
+        if (carte == null) {
+            Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas d'Oeuvre Exposée à défausser.");
+            return;
+        }
 
+        adversaire.defausserOeuvreChoisit(carte);
+        Affichage.afficherMessage("Vous avez défaussé l'Oeuvre Exposée de " + adversaire.getPseudo() + " : " + carte.getNom() + ".");
     }
+
     
 }

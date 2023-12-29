@@ -134,10 +134,21 @@ public class Joueur {
 
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         this.main.remove(carte);
-        rival.main.add(carte);
+        // demander au rival si il veut mettre la carte dans sa vie future
+        Affichage.afficherTitre(rival.getPseudo() + ", Attention !");
+        Affichage.afficherMessage("Voulez vous mettre la carte " + carte.getNom() + " dans votre vie future ?");
+        Affichage.afficherOption(1, "- Oui");
+        Affichage.afficherOption(2, "- Non");
+        int choix = Partie.getInstance().getScanner().nextInt();
+        Partie.getInstance().getScanner().nextLine(); // Consomme la nouvelle ligne après nextInt()
+        if (choix == 1) {
+            rival.ajouterCarteDansVieFuture(carte);
+        } else {
+            rival.defausserCarteChoisit(carte);
+        }
         carte.action(this, rival);
-       
     }
+    
 
     public void jouerCartePourFutur(Carte carte) {
         this.vieFuture.add(carte);
@@ -243,6 +254,7 @@ public class Joueur {
         Affichage.afficherMessage("Choisissez une carte à défausser:");
         Scanner scanner = Partie.getInstance().getScanner();
         int choix = scanner.nextInt();
+        scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
         Carte carte = this.Oeuvres.get(choix-1);
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
@@ -294,23 +306,31 @@ public class Joueur {
     }
 
     public Carte getOeuvreExposee(){
-        return this.Oeuvres.get(this.Oeuvres.size()-1);    
+        // Vérifier si il y a une oeuvre exposée si oui la return sinon return null
+        if (this.Oeuvres.size() > 0) {
+            return this.Oeuvres.get(0);
+        }
+        else {
+            return null;
+        }
     }
 
     public void defausserCartePile() {
+        Affichage.afficherMessage("Vous avez défaussé la carte " + this.pile.get(0).getNom() + " de la pile");
         this.defausse.add(this.pile.get(0));
         this.pile.remove(0);
     }
 
     public ArrayList<Carte> getCartesFosse(int nbCartes) {
-        ArrayList<Carte> temp = new ArrayList<>();
-        for (int i = 0; i < nbCartes; i++) {
-            temp.add(this.defausse.get(i));
-           
-        }
-        return temp;              
-        
+    ArrayList<Carte> temp = new ArrayList<>();
+    // Limitez le nombre de cartes à récupérer à la taille de la liste 'defausse'
+    int actualNbCartes = Math.min(nbCartes, this.defausse.size());
+    for (int i = 0; i < actualNbCartes; i++) {
+        temp.add(this.defausse.get(i));
     }
+    return temp;              
+}
+
 
     public List<Carte> getFosse(){
         return this.defausse;

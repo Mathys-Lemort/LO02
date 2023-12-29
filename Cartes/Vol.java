@@ -1,4 +1,5 @@
 package Cartes;
+import Core.Affichage;
 import Joueurs.Joueur;
 
 public class Vol extends Carte {
@@ -9,9 +10,15 @@ public class Vol extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         Carte carte = adversaire.getOeuvreExposee();
+        if (carte == null) {
+            Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas d'Oeuvre Exposée à ajouter à votre Main.");
+            return;
+        }
+
         joueur.ajouterCarteDansMain(carte);
         adversaire.defausserOeuvreChoisit(carte);
-        System.out.println("Vous avez ajouté l'Oeuvre Exposée de " + adversaire.getPseudo() + " à votre Main.");
+        Affichage.afficherMessage("Vous avez ajouté l'Oeuvre Exposée de " + adversaire.getPseudo() + ", \"" + carte.getNom() + "\", à votre Main.");
     }
+
     
 }

@@ -1,4 +1,5 @@
 package Cartes;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Core.Affichage;
@@ -12,11 +13,33 @@ public class DernierSouffle extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
+        // Vérifier si l'adversaire a des cartes en main
+        if (adversaire.getMain().size() == 0) {
+            Affichage.afficherMessage("Votre adversaire n'a pas de carte en main.");
+            return;
+        }
+
         adversaire.afficherMain();
-        Affichage.afficherMessage(adversaire.getPseudo() + " choisissez une carte à défausser de votre main:");
+        Affichage.afficherMessage(adversaire.getPseudo() + ", choisissez une carte à défausser de votre main (entrez le numéro de la carte):");
         Scanner scanner = Partie.getInstance().getScanner();
-        int choix = scanner.nextInt();
-        Carte carte = joueur.getMain().get(choix-1);
-        joueur.defausserCarteChoisit(carte);
+        int choix;
+        try {
+            choix = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            Affichage.afficherMessage("Entrée non valide. Veuillez entrer un nombre.");
+            scanner.nextLine(); // Nettoie le buffer du scanner
+            return;
+        }
+
+        // Vérifier si le choix est dans la plage valide
+        if (choix < 1 || choix > adversaire.getMain().size()) {
+            Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro de carte valide.");
+            return;
+        }
+
+        Carte carte = adversaire.getMain().get(choix - 1);
+        adversaire.defausserCarteChoisit(carte);
+        Affichage.afficherMessage("Vous avez défaussé " + carte.getNom() + " de la main de " + adversaire.getPseudo() + ".");
     }
+
 }

@@ -10,12 +10,21 @@ public class Transmigration extends Carte{
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        Carte carte = joueur.getCarteVieFutureRandom();
-        joueur.ajouterCarteDansMain(carte);
-        joueur.getVieFuture().remove(carte);
-        Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
+        if (joueur.getVieFuture().isEmpty()) {
+            Affichage.afficherMessage(joueur.getPseudo() + " n'a pas de cartes dans sa Vie Future.");
+            return;
+        }
 
+        Carte carte = joueur.getCarteVieFutureRandom();
+        if (carte != null) {
+            joueur.ajouterCarteDansMain(carte);
+            joueur.getVieFuture().remove(carte);
+            Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
+        } else {
+            Affichage.afficherMessage("Erreur lors de la récupération d'une carte de la Vie Future.");
+        }
     }
+
     
     
 }
