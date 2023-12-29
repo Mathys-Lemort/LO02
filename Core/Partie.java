@@ -1,6 +1,7 @@
 package Core;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.Scanner;
 import Cartes.Carte;
 import Joueurs.Joueur;
@@ -14,9 +15,13 @@ public class Partie {
     private Joueur joueurActif;
     private EtatPartie etatPartie;
     private Scanner scanner;
+    private Dictionary <String, Integer> echelleKarmique;
 
     private Partie() {
         this.scanner = new Scanner(System.in);
+        
+
+
     }
 
     // Méthode pour obtenir l'instance du singleton
@@ -99,6 +104,7 @@ public class Partie {
 
         boolean tourValide = false;
         while (!tourValide) {
+            Affichage.afficherMessage("Vous êtes à l'étape " + joueur.getPositionEchelleKarmique() + " de l'échelle karmique.");
             Affichage.afficherTitre("Choisissez une action:");
             Affichage.afficherOption(1, "Jouer une carte pour des points");
             Affichage.afficherOption(2, "Jouer une carte pour un pouvoir");
@@ -160,16 +166,23 @@ public class Partie {
             joueurActif = joueurs.get((currentIndex + 1) % joueurs.size());
         }
 
-        // Perform actions for the active player's turn
-        effectuerActionsTour(joueurActif,false);
+        // Vérifier si la main et la pile du joueur actif sont vides
+        if (joueurActif.mainVide() && joueurActif.pileVide()) {
+            Affichage.afficherTitre("Réincarnation de " + joueurActif.getPseudo());
+            Affichage.afficherMessage("Vous n'avez plus de cartes dans votre main ni dans votre pile.");
+            // Le joueur meurt donc et il essaie de se réincarner dans sa prochaine vie (si il a assez de points)
+            joueurActif.reincarnation();
+        }
+        
+        else{
+            effectuerActionsTour(joueurActif,false);
+        }
     }
 
-    public void verifierFinPartie() {
-        // Code pour vérifier si la partie est terminée
-    }    
-
     public void terminerPartie() {
-        // Code pour terminer la partie
+        this.setEtatPartie(EtatPartie.TERMINE);
+        Affichage.afficherTitre("Fin de la partie");
+        Affichage.afficherMessage("Le joueur " + joueurActif.getPseudo() + " a gagné la partie!");
     }
     
     public void commencerPartie() {
@@ -181,15 +194,16 @@ public class Partie {
         // Démarrez la boucle de jeu.
         while (this.etatPartie == EtatPartie.EN_COURS) {
             tourSuivant(); // Exécutez un tour de jeu.
-    
-            verifierFinPartie(); // Vérifiez si la partie est terminée.
-    
-            // Ici, vous pouvez également implémenter une logique pour sauvegarder l'état du jeu,
-            // mettre à jour l'interface utilisateur, etc.
         }
-    
-        // Terminez la partie et nettoyez si nécessaire.
-        terminerPartie();
+        
+        // Demander aux joueurs s'ils veulent rejouer ou quitter
+        // Affichage.afficherMessage("Voulez-vous rejouer? (O/N)");
+        // String choix = scanner.nextLine();
+        // if (choix.equals("O")) {
+        //     commencerPartie();
+        // } else {
+        //     Affichage.afficherMessage("Merci d'avoir joué!");
+        // }
     }
   
     public void distribuerMain(){

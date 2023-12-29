@@ -1,5 +1,6 @@
 package Joueurs;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,6 +8,10 @@ import Cartes.Carte;
 import Core.Affichage;
 import Core.StrategieJeu;
 import Core.Partie;
+
+//Faire une enum des positions de l'échelle karmique
+
+
 
 public class Joueur {
     private String id;
@@ -16,9 +21,28 @@ public class Joueur {
     private List<Carte> Oeuvres;
     private List<Carte> vieFuture;
     private List<StrategieJeu> strategieStrategies;
-    private String positionEchelleKarmique;
     private int anneauxKarmiques;
+    private Dictionary<String, Integer> echelleKarmique;
+    private EchelleKarmique positionEchelleKarmique;
 
+
+    public enum EchelleKarmique {
+        BOUSIER(0),
+        SERPENT(4), // 4 est le nombre de points nécessaires pour passer à l'étape suivante
+        LOUP(5),
+        SINGE(6),
+        TRANSCEANDANCE(7);    
+        private final int pointsPourAvancer;
+    
+        EchelleKarmique(int points) {
+            this.pointsPourAvancer = points;
+        }
+    
+        public int getPointsPourAvancer() {
+            return this.pointsPourAvancer;
+        }
+    }
+    
     // Constructeur
     public Joueur(String id) {
         this.id = id;
@@ -28,12 +52,81 @@ public class Joueur {
         this.Oeuvres = new ArrayList<>();
         this.vieFuture = new ArrayList<>();
         this.strategieStrategies = new ArrayList<>();
-        this.positionEchelleKarmique = "Boursier";
+        this.anneauxKarmiques = 0;
+        this.positionEchelleKarmique = EchelleKarmique.BOUSIER;
+
+
     }
+
+    public int getPoints(){
+        int pointsRouge = 0;
+        int pointsVert = 0;
+        int pointsBleu = 0;
+        for (Carte carte : this.Oeuvres) {
+            if (carte.getCouleur().equals("rouge")) {
+                pointsRouge += carte.getPoints();
+            } else if (carte.getCouleur().equals("vert")) {
+                pointsVert += carte.getPoints();
+            } else if (carte.getCouleur().equals("bleu")) {
+                pointsBleu += carte.getPoints();
+            } else {
+                pointsRouge += carte.getPoints();
+                pointsVert += carte.getPoints();
+                pointsBleu += carte.getPoints();
+            }
+        }
+        Affichage.afficherMessage(this.getPseudo() + ", vous avez " + pointsRouge + " points rouges, " + pointsVert + " points verts et " + pointsBleu + " points bleus");
+        return Math.max(pointsRouge, Math.max(pointsVert, pointsBleu));
+    }
+
+    public String getPositionEchelleKarmique() {
+        return this.positionEchelleKarmique.name();
+    }
+
+    public void reincarnation() {
+        // Vérifier si le joueur a assez de points pour passer à l'étape suivante
+        if (this.getPoints() >= this.positionEchelleKarmique.getPointsPourAvancer()) {
+            // Passer à l'étape suivante
+            this.positionEchelleKarmique = EchelleKarmique.values()[this.positionEchelleKarmique.ordinal() + 1];
+            Affichage.afficherMessage("Vous passez maintenant à l'étape " + this.positionEchelleKarmique.name() + " de l'échelle karmique");
+
+        }
+        else {
+            // Rajouter un anneau karmique
+            this.anneauxKarmiques++;
+            Affichage.afficherMessage(this.getPseudo() + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique");
+        }
+        // Si il n'a pas atteint la transceandance, il est réincarné
+        if (this.positionEchelleKarmique != EchelleKarmique.TRANSCEANDANCE) {
+             this.defausse.addAll(this.Oeuvres);
+            this.Oeuvres.clear();
+            this.main.addAll(this.vieFuture);
+            this.vieFuture.clear();
+            this.pile.clear();
+            while ((this.main.size() + this.pile.size()) < 6) {
+                Partie.getInstance().piocherSourcePile(this);
+            }
+            Affichage.afficherMessage(this.getPseudo() + ", vous avez été réincarné");
+        }
+        else {
+            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
+            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
+            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
+
+            Partie.getInstance().terminerPartie();
+        }
+        
+       
+
+
+
+    }
+
     public void jouerCartePourPoints(Carte carte) {
         this.Oeuvres.add(carte);
         this.main.remove(carte);
     }
+
 
     public String getPseudo () {
         return this.id;
@@ -91,6 +184,10 @@ public class Joueur {
     }
     public boolean pileVide() {
         return this.pile.isEmpty();
+    }
+
+    public boolean mainVide() {
+        return this.main.isEmpty();
     }
 
     public void ajouterCarte() {
