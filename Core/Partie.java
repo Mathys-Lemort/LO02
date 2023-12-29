@@ -2,6 +2,7 @@ package Core;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import Cartes.Carte;
 import Joueurs.Joueur;
@@ -93,81 +94,119 @@ public class Partie {
         }
     }
 
-
-    private void effectuerActionsTour(Joueur joueur,boolean estRejouer) {
-
-        if (!estRejouer) {
-            piocherCarteSiNecessaire(joueur);
-        }
-        Affichage.afficherTitre("Voici votre main:" + joueur.getPseudo());
-        joueur.afficherMain();
-
-        boolean tourValide = false;
-        while (!tourValide) {
-            Affichage.afficherMessage("Vous êtes à l'étape " + joueur.getPositionEchelleKarmique() + " de l'échelle karmique.");
-            Affichage.afficherTitre("Choisissez une action:");
+    private int demanderChoixAction(Joueur joueur) {
+        while (true) {
+            Affichage.afficherTitre(joueur.getPseudo() + ", choisissez votre action");
             Affichage.afficherOption(1, "Jouer une carte pour des points");
             Affichage.afficherOption(2, "Jouer une carte pour un pouvoir");
             Affichage.afficherOption(3, "Placer une carte dans votre Vie Future");
             Affichage.afficherOption(4, "Passer votre tour");
-            int choix = scanner.nextInt();
-            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
-            switch (choix) {
-                case 1:
-                // Demander a l'utilisateur de choisir une carte    
-                    Affichage.afficherMessage("Choisissez une carte à jouer:");
-                    choix = scanner.nextInt();
-                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
-                    Carte carte = joueur.getMain().get(choix-1);  
-                    Affichage.afficherMessage("Vous avez choisi la carte " + carte.getNom() +" que vous ajoutez à vos oeuvres pour " + carte.getPoints() + " points !");            
-                    joueur.jouerCartePourPoints(carte);
-                    Affichage.afficherMessage("Voici vos oeuvres:\n");
-                    joueur.afficherCartesOeuvres();
-                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-                    scanner.nextLine();
-                  
-                    tourValide = true;
-                    break;                   
-                case 2:
-                    Affichage.afficherMessage("Choisissez une carte à jouer:");
-                    choix = scanner.nextInt();
-                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
-                    Carte carte2 = joueur.getMain().get(choix-1);
-                    Affichage.afficherMessage("Vous avez choisi la carte " + carte2.getNom() +" que vous jouez pour son pouvoir !");
-                    joueur.jouerCartePourPouvoir(carte2, this.getJoueurRival());
-                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-                    scanner.nextLine();
-
-                    tourValide = true;
-                    break;
-                case 3:
-                    Affichage.afficherMessage("Choisissez une carte à placer dans votre Vie Future:");
-                    choix = scanner.nextInt();
-                    scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
-                    Carte carte3 = joueur.getMain().get(choix-1);
-                    Affichage.afficherMessage("Vous avez choisi la carte " + carte3.getNom() +" que vous ajoutez à votre Vie Future !");
-                    joueur.jouerCartePourFutur(carte3);
-
-                    // Demander au joueur d'appuyer sur entrée pour continuer
-                    Affichage.afficherMessage("Appuyez sur Entrée pour continuer...");
-                    scanner.nextLine();
-                  
-                    tourValide = true;
-                    break;                   
-                case 4:
-                    if (!joueur.pileVide()) {
-                        joueur.passerTour();
-                        tourValide = true;
-                    } else {
-                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car votre pile est vide.");
-                    }
-                    break;
-                default:
-                    Affichage.afficherMessage("Action non valide. Veuillez choisir une action parmi les options.");
-                    break;
+            
+            try {
+                int choix = scanner.nextInt();
+                if (choix >= 1 && choix <= 4) {
+                    return choix;
+                }
+                Affichage.afficherMessage("Choix non valide. Veuillez choisir une option entre 1 et 4.");
+            } catch (InputMismatchException e) {
+                Affichage.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.nextLine(); // Nettoie le buffer du scanner
             }
         }
     }
+
+    private void effectuerActionsTour(Joueur joueur, boolean estRejouer) {
+        if (!estRejouer) {
+            piocherCarteSiNecessaire(joueur);
+        }
+        Affichage.afficherTitre("Tour de " + joueur.getPseudo());
+        joueur.afficherMain();
+    
+        int choixAction = demanderChoixAction(joueur);
+        switch (choixAction) {
+            case 1:
+                jouerCartePourPoints(joueur);
+                break;
+            case 2:
+                jouerCartePourPouvoir(joueur);
+                break;
+            case 3:
+                placerCarteDansVieFuture(joueur);
+                break;
+            case 4:
+                passerTour(joueur);
+                break;
+            default:
+                Affichage.afficherMessage("Choix non valide.");
+                break;
+        }
+    }
+    
+    private void jouerCartePourPoints(Joueur joueur) {
+        if (joueur.getMain().isEmpty()) {
+            Affichage.afficherMessage("Vous n'avez pas de cartes à jouer pour des points.");
+            return;
+        }
+    
+        Affichage.afficherMessage("Choisissez une carte à jouer pour des points:");
+        joueur.afficherMain();
+        int choix = obtenirChoixCarte(joueur.getMain().size());
+    
+        Carte carteChoisie = joueur.getMain().get(choix - 1);
+        joueur.jouerCartePourPoints(carteChoisie);
+        Affichage.afficherMessage("Vous avez joué " + carteChoisie.getNom() + " pour " + carteChoisie.getPoints() + " points.");
+    }
+    
+    
+    private void jouerCartePourPouvoir(Joueur joueur) {
+        if (joueur.getMain().isEmpty()) {
+            Affichage.afficherMessage("Vous n'avez pas de cartes à jouer pour un pouvoir.");
+            return;
+        }
+    
+        Affichage.afficherMessage("Choisissez une carte à jouer pour son pouvoir:");
+        joueur.afficherMain();
+        int choix = obtenirChoixCarte(joueur.getMain().size());
+    
+        Carte carteChoisie = joueur.getMain().get(choix - 1);
+        joueur.jouerCartePourPouvoir(carteChoisie, getJoueurRival());
+    }
+    
+    
+    private void placerCarteDansVieFuture(Joueur joueur) {
+        if (joueur.getMain().isEmpty()) {
+            Affichage.afficherMessage("Vous n'avez pas de cartes à placer dans votre Vie Future.");
+            return;
+        }
+    
+        Affichage.afficherMessage("Choisissez une carte à placer dans votre Vie Future:");
+        joueur.afficherMain();
+        int choix = obtenirChoixCarte(joueur.getMain().size());
+    
+        Carte carteChoisie = joueur.getMain().get(choix - 1);
+        joueur.jouerCartePourFutur(carteChoisie);
+        Affichage.afficherMessage("Vous avez placé " + carteChoisie.getNom() + " dans votre Vie Future.");
+    }
+    
+    
+    private void passerTour(Joueur joueur) {
+        joueur.passerTour();
+        Affichage.afficherMessage(joueur.getPseudo() + " a passé son tour.");
+    }
+
+    private int obtenirChoixCarte(int nombreDeCartes) {
+        int choix;
+        do {
+            choix = scanner.nextInt();
+            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+            if (choix < 1 || choix > nombreDeCartes) {
+                Affichage.afficherMessage("Choix non valide. Veuillez choisir un numéro entre 1 et " + nombreDeCartes + ".");
+            }
+        } while (choix < 1 || choix > nombreDeCartes);
+        return choix;
+    }
+    
+    
 
     public void tourSuivant() {
         // Determine active player: assuming joueurActif is correctly set to the starting player.
