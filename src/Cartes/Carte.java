@@ -1,5 +1,16 @@
 package Cartes;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+
+import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 
 public abstract class Carte {
     private String nom;
@@ -16,10 +27,90 @@ public abstract class Carte {
         this.estMosaique = estMosaique;
     }
 
+    protected boolean demanderJouerAutreCarte() {
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            return demanderJouerAutreCarteGraphique();
+        } else {
+            return demanderJouerAutreCarteConsole();
+        }
+    }
+
+    private boolean demanderJouerAutreCarteGraphique() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Jouer une autre carte");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous jouer une autre carte ?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    private boolean demanderJouerAutreCarteConsole() {
+        Scanner scanner = Partie.getInstance().getScanner();
+        int choix;
+        do {
+            Affichage.afficherMessage("Voulez-vous jouer une autre carte ?");
+            Affichage.afficherOption(1, "Oui");
+            Affichage.afficherOption(2, "Non");
+
+            choix = scanner.nextInt();
+            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+        } while (choix != 1 && choix != 2);
+
+        return choix == 1;
+    }
+
+
+    protected int obtenirChoixCarte(List<Carte> cartes) {
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            return afficherDialogueGraphique(cartes);
+        } else {
+            return demanderChoixConsole(cartes);
+        }
+    }
+    
+    protected int afficherDialogueGraphique(List<Carte> cartes) {
+        List<String> choixCartes = new ArrayList<>();
+        for (int i = 0; i < cartes.size(); i++) {
+            choixCartes.add((i + 1) + ". " + cartes.get(i).getNom());
+        }
+    
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, choixCartes);
+        dialog.setTitle("Choix de la carte");
+        dialog.setHeaderText("Choisissez une carte");
+        Optional<String> result = dialog.showAndWait();
+    
+        if (result.isPresent()) {
+            String selectedOption = result.get();
+            return choixCartes.indexOf(selectedOption);
+        } else {
+            return -1; // Aucune carte sélectionnée
+        }
+    }
+    
+    protected int demanderChoixConsole(List<Carte> cartes) {
+        Affichage.afficherMessage("Choisissez une carte :");
+        for (int i = 0; i < cartes.size(); i++) {
+            Affichage.afficherOption(i + 1, cartes.get(i).getNom());
+        }
+    
+        Scanner scanner = Partie.getInstance().getScanner();
+        int choix;
+        do {
+            choix = scanner.nextInt() - 1;
+            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+            if (choix < 0 || choix >= cartes.size()) {
+                Affichage.afficherMessage("Choix non valide. Veuillez choisir un numéro valide.");
+            }
+        } while (choix < 0 || choix >= cartes.size());
+    
+        return choix;
+    }
+    
     public String getNom() {
         return this.nom;
     }
-    
+
     public String getCouleur() {
         return this.couleur;
     }
@@ -63,5 +154,5 @@ public abstract class Carte {
         }
         return base + ", Points: " + this.points + ", Pouvoir: " + this.pouvoir + "\n";
     }
-    
+
 }
