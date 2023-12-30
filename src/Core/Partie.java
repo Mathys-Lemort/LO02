@@ -1,12 +1,16 @@
 package Core;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import Cartes.Carte;
 import Joueurs.Joueur;
 import Plateau.Plateau;
+import javafx.application.Platform;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 
 public class Partie {
     private static Partie instance;
@@ -19,6 +23,7 @@ public class Partie {
     private int resultatLanceJoueur2;
     private String joueurCommence;
     private Mode mode;
+    private boolean rejouer;
 
     public enum Mode {
         CONSOLE, GRAPHIQUE
@@ -30,12 +35,21 @@ public class Partie {
         this.plateau = new Plateau();
         this.setEtatPartie(EtatPartie.INITIALISATION);
         this.plateau.initialiserSource();
+        this.rejouer = false;
 
         
 
             
         
 
+    }
+
+    public boolean getRejouer() {
+        return rejouer;
+    }
+    
+    public void setRejouer(boolean rejouer) {
+        this.rejouer = rejouer;
     }
 
     public void setMode(Mode mode) {
@@ -427,4 +441,6 @@ public class Partie {
             return getJoueur2();
         }
     }
+
+
 }

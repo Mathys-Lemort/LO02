@@ -195,9 +195,12 @@ public class Joueur {
     }
 
     public void afficherMain() {
+        String message = "";
         for (int i = 0; i < this.main.size(); i++) {
-            Affichage.afficherMessage(i + 1 + "-" + this.main.get(i).toString());
+            message += (i + 1) + " - " + this.main.get(i).toString() + "\n";
         }
+        Affichage.afficherMessage(message);
+
     }
 
     public List<Carte> getMain() {
@@ -264,15 +267,20 @@ public class Joueur {
     }
 
     public void afficherCartesVieFuture() {
-        for (Carte carte : this.vieFuture) {
-            System.out.println(carte);
+        String message = "";
+        for (int i = 0; i < this.vieFuture.size(); i++) {
+            message += (i + 1) + " - " + this.vieFuture.get(i).toString() + "\n";
         }
+        Affichage.afficherMessage(message);
+        
     }
 
     public void afficherCartesOeuvres() {
+        String message = "";
         for (int i = 0; i < this.Oeuvres.size(); i++) {
-            System.out.println((i + 1) + " - " + this.Oeuvres.get(i));
+            message += (i + 1) + " - " + this.Oeuvres.get(i).toString() + "\n";
         }
+        Affichage.afficherMessage(message);
     }
 
     public void defausserOeuvreChoix() {

@@ -44,17 +44,31 @@ public class ControleurJouerPoints implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         System.out.println(carte.getNom());
         modelePartie.jouerCartePoints(carte);
+        
         if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
             Joueur joueur = modelePartie.getJoueur2();
+            // Vérifier si le joueur a des cartes en main et dans sa pile
+            if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+                // Le joueur se réincarne
+                joueur.reincarnation();
+            }
             modelePartie.piocherCarte(joueur);
-            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
+            
+            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(),
+                    joueur.getVieFuture());
             modelePartie.setJoueurActif(joueur);
         } else {
             Joueur joueur = modelePartie.getJoueur1();
+            if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+                // Le joueur se réincarne
+                joueur.reincarnation();
+            }
+            
             modelePartie.piocherCarte(joueur);
-            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
+            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(),
+                    joueur.getVieFuture());
             modelePartie.setJoueurActif(joueur);
-        }        
+        }
     }
 
 }

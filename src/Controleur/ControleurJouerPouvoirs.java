@@ -50,13 +50,25 @@ public void handle(ActionEvent actionEvent) {
     joueurActif.getMain().remove(carte);
     joueurActif.demanderPrendreCarte(adversaire, carte);
     carte.action(joueurActif, adversaire);
+    if(modelePartie.getRejouer()) {
+        modelePartie.setRejouer(false);
+        return;
+    }
     if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
         Joueur joueur = modelePartie.getJoueur2();
+        if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+            // Le joueur se réincarne
+            joueur.reincarnation();
+        }
         modelePartie.piocherCarte(joueur);
         vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
         modelePartie.setJoueurActif(joueur);
     } else {
         Joueur joueur = modelePartie.getJoueur1();
+        if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+            // Le joueur se réincarne
+            joueur.reincarnation();
+        }
         modelePartie.piocherCarte(joueur);
         vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
         modelePartie.setJoueurActif(joueur);

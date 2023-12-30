@@ -1,6 +1,8 @@
 package Core;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 
 public class Affichage {
 
@@ -17,18 +19,26 @@ public class Affichage {
     }
 
     public static void afficherMessage(String message) {
-        System.out.println(ANSI_YELLOW + "  ➤ " + message + ANSI_RESET);
+    System.out.println(ANSI_YELLOW + "  ➤ " + message + ANSI_RESET);
 
-        // Afficher les alertes seulement si on est en mode graphique
-        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        }
+    if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
 
+        // Créer un panneau de texte qui prend en charge le défilement pour les longs messages
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(new Label(message));
+        scrollPane.setPrefHeight(180); // Hauteur préférée
+        scrollPane.setPrefWidth(360); // Largeur préférée
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Barre de défilement si nécessaire
+
+        alert.getDialogPane().setContent(scrollPane);
+
+        alert.showAndWait();
     }
+}
+
 
     public static void afficherOption(int num, String option) {
         System.out.println(ANSI_GREEN + "  [" + num + "] " + option + ANSI_RESET);

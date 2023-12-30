@@ -35,6 +35,7 @@ public class Jeu extends Application {
     private String joueur2Pseudo;
     private Partie partie;
     private Button debutJeu;
+    private Button passerTour;
 
     @Override
     public void init() {
@@ -43,6 +44,10 @@ public class Jeu extends Application {
         boutonJouer = new Button("Jouer à Karmaka");
         boutonJouer.setFont(Font.font(FONT_STYLE, FONT_SIZE));
         boutonJouer.setDisable(true); // Initially disable the button
+
+        passerTour = new Button("Passer le tour");
+        passerTour.setFont(Font.font(FONT_STYLE, FONT_SIZE));
+        passerTour.setOnAction(new ControleurPasserTour(this, partie));
 
         debutJeu = new Button("Commencer la partie");
         debutJeu.setFont(Font.font(FONT_STYLE, FONT_SIZE));
@@ -195,6 +200,7 @@ public class Jeu extends Application {
         // Ajouter les conteneurs à l'écran de jeu
         ecranJeu.setLeft(vboxMainJoueur); // Positionner la main du joueur à gauche
         ecranJeu.setRight(vboxFosseJoueur); // Positionner la fosse du joueur à droite
+        ecranJeu.setBottom(passerTour); // Positionner le bouton passer le tour en bas
         
 
         // Vous pouvez également ajouter des boutons ou d'autres éléments d'interaction
@@ -206,6 +212,7 @@ public class Jeu extends Application {
     public void afficherEcranJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
             List<Carte> fosseJoueur, List<Carte> vieFuture) {
         System.out.println(joueurActifPseudo + " commence !");
+        panelCentral.setBottom(null); // Cela supprimera le bouton "Commencer la partie"
         panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
     }
 

@@ -19,10 +19,17 @@ public class CoupdOeil extends Carte {
         }
 
         if (demanderJouerAutreCarte()) {
+            // Si on est en mode graphique alors mettre le boolean rejouer à true pour qu'on puisse rejouer
+            if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+                Partie.getInstance().setRejouer(true);
+            }
+            else{
             Partie.getInstance().rejouer(joueur);
+            }
         } else {
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
         }
+    
     }
 
 }
