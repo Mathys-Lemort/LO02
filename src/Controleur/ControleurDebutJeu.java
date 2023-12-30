@@ -41,6 +41,7 @@ public class ControleurDebutJeu implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         modelePartie.initialiserPartie();
         Joueur joueur = modelePartie.getJoueurActif();
+        modelePartie.piocherCarte(joueur);
         vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
     }
 

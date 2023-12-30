@@ -1,15 +1,17 @@
 package Joueurs;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import Cartes.Carte;
 import Core.Affichage;
 import Core.Partie;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 
 //Faire une enum des positions de l'échelle karmique
-
-
 
 public class Joueur {
     private String id;
@@ -21,24 +23,24 @@ public class Joueur {
     private EchelleKarmique positionEchelleKarmique;
     private int anneauxKarmiques;
 
-
     public enum EchelleKarmique {
         BOUSIER(0),
         SERPENT(4), // 4 est le nombre de points nécessaires pour passer à l'étape suivante
         LOUP(5),
         SINGE(6),
-        TRANSCEANDANCE(7);    
+        TRANSCEANDANCE(7);
+
         private final int pointsPourAvancer;
-    
+
         EchelleKarmique(int points) {
             this.pointsPourAvancer = points;
         }
-    
+
         public int getPointsPourAvancer() {
             return this.pointsPourAvancer;
         }
     }
-    
+
     // Constructeur
     public Joueur(String id) {
         this.id = id;
@@ -50,14 +52,13 @@ public class Joueur {
         this.anneauxKarmiques = 0;
         this.positionEchelleKarmique = EchelleKarmique.BOUSIER;
 
-
     }
 
     public void setPseudo(String pseudo) {
         this.id = pseudo;
     }
 
-    public int getPoints(){
+    public int getPoints() {
         int pointsRouge = 0;
         int pointsVert = 0;
         int pointsBleu = 0;
@@ -77,7 +78,8 @@ public class Joueur {
         pointsRouge += this.anneauxKarmiques;
         pointsVert += this.anneauxKarmiques;
         pointsBleu += this.anneauxKarmiques;
-        Affichage.afficherMessage(this.getPseudo() + ", vous avez " + pointsRouge + " points rouges, " + pointsVert + " points verts et " + pointsBleu + " points bleus");
+        Affichage.afficherMessage(this.getPseudo() + ", vous avez " + pointsRouge + " points rouges, " + pointsVert
+                + " points verts et " + pointsBleu + " points bleus");
         return Math.max(pointsRouge, Math.max(pointsVert, pointsBleu));
     }
 
@@ -90,17 +92,18 @@ public class Joueur {
         if (this.getPoints() >= this.positionEchelleKarmique.getPointsPourAvancer()) {
             // Passer à l'étape suivante
             this.positionEchelleKarmique = EchelleKarmique.values()[this.positionEchelleKarmique.ordinal() + 1];
-            Affichage.afficherMessage("Vous passez maintenant à l'étape " + this.positionEchelleKarmique.name() + " de l'échelle karmique");
+            Affichage.afficherMessage("Vous passez maintenant à l'étape " + this.positionEchelleKarmique.name()
+                    + " de l'échelle karmique");
 
-        }
-        else {
+        } else {
             // Rajouter un anneau karmique
             this.anneauxKarmiques++;
-            Affichage.afficherMessage(this.getPseudo() + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique");
+            Affichage.afficherMessage(this.getPseudo()
+                    + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique");
         }
         // Si il n'a pas atteint la transceandance, il est réincarné
         if (this.positionEchelleKarmique != EchelleKarmique.TRANSCEANDANCE) {
-             this.defausse.addAll(this.Oeuvres);
+            this.defausse.addAll(this.Oeuvres);
             this.Oeuvres.clear();
             this.main.addAll(this.vieFuture);
             this.vieFuture.clear();
@@ -109,18 +112,13 @@ public class Joueur {
                 Partie.getInstance().piocherSourcePile(this);
             }
             Affichage.afficherMessage(this.getPseudo() + ", vous avez été réincarné");
-        }
-        else {
+        } else {
             Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
             Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
             Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
 
             Partie.getInstance().terminerPartie();
         }
-        
-       
-
-
 
     }
 
@@ -129,28 +127,53 @@ public class Joueur {
         this.main.remove(carte);
     }
 
-
-    public String getPseudo () {
+    public String getPseudo() {
         return this.id;
+    }
+
+    public void demanderPrendreCarte(Joueur rival, Carte carte) {
+        String message = rival.getPseudo() + ", voulez-vous mettre la carte "
+                + carte.getNom() + " dans votre vie future ?";
+        int choix = obtenirChoixUtilisateur(rival, message, "Choix de la carte à défausser");
+
+        if (choix == 1) {
+            rival.ajouterCarteDansVieFuture(carte);
+        } else if (choix == 2) {
+            rival.defausserCarteChoisit(carte);
+        } else {
+            Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro valide.");
+        }
+    }
+
+    public int obtenirChoixUtilisateur(Joueur joueur, String message, String titre) {
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            return afficherDialogueGraphique(joueur, message, titre);
+        } else {
+            Affichage.afficherMessage(message);
+            Affichage.afficherOption(1, "- Oui");
+            Affichage.afficherOption(2, "- Non");
+            return Partie.getInstance().getScanner().nextInt();
+        }
+    }
+
+    private int afficherDialogueGraphique(Joueur joueur, String message, String titre) {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("- Oui", "- Oui", "- Non");
+        dialog.setTitle(titre);
+        dialog.setHeaderText(joueur.getPseudo() + ", Attention !");
+        dialog.setContentText(message);
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            return result.get().equals("- Oui") ? 1 : 2;
+        }
+        return -1; // Gérer le cas où l'utilisateur n'a pas fait de choix
     }
 
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         this.main.remove(carte);
-        // demander au rival si il veut mettre la carte dans sa vie future
-        Affichage.afficherTitre(rival.getPseudo() + ", Attention !");
-        Affichage.afficherMessage("Voulez vous mettre la carte " + carte.getNom() + " dans votre vie future ?");
-        Affichage.afficherOption(1, "- Oui");
-        Affichage.afficherOption(2, "- Non");
-        int choix = Partie.getInstance().getScanner().nextInt();
-        Partie.getInstance().getScanner().nextLine(); // Consomme la nouvelle ligne après nextInt()
-        if (choix == 1) {
-            rival.ajouterCarteDansVieFuture(carte);
-        } else {
-            rival.defausserCarteChoisit(carte);
-        }
+        demanderPrendreCarte(rival, carte);
         carte.action(this, rival);
     }
-    
 
     public void jouerCartePourFutur(Carte carte) {
         this.vieFuture.add(carte);
@@ -174,10 +197,10 @@ public class Joueur {
 
     public void afficherMain() {
         for (int i = 0; i < this.main.size(); i++) {
-            System.out.println((i+1) + " - " + this.main.get(i));
+            Affichage.afficherMessage(i + 1 + "-" + this.main.get(i).toString());
         }
     }
-    
+
     public List<Carte> getMain() {
         return this.main;
     }
@@ -185,9 +208,11 @@ public class Joueur {
     public List<Carte> getOeuvres() {
         return this.Oeuvres;
     }
+
     public List<Carte> getVieFuture() {
         return this.vieFuture;
     }
+
     public List<Carte> getDefausse() {
         return this.defausse;
     }
@@ -195,6 +220,7 @@ public class Joueur {
     public List<Carte> getPile() {
         return this.pile;
     }
+
     public boolean pileVide() {
         return this.pile.isEmpty();
     }
@@ -217,11 +243,11 @@ public class Joueur {
         this.main.remove(carte);
 
     }
+
     public void ajouterCarteDansPile(Carte carte) {
         this.pile.add(carte);
 
     }
-
 
     public void ajouterCarteDansDefausse(Carte carte) {
         this.defausse.add(carte);
@@ -246,29 +272,30 @@ public class Joueur {
 
     public void afficherCartesOeuvres() {
         for (int i = 0; i < this.Oeuvres.size(); i++) {
-            System.out.println((i+1) + " - " + this.Oeuvres.get(i));
+            System.out.println((i + 1) + " - " + this.Oeuvres.get(i));
         }
     }
 
-    public void defausserOeuvreChoix(){
+    public void defausserOeuvreChoix() {
         Affichage.afficherMessage("Voici vos oeuvres:");
         afficherCartesOeuvres();
         Affichage.afficherMessage("Choisissez une carte à défausser:");
         Scanner scanner = Partie.getInstance().getScanner();
         int choix = scanner.nextInt();
         scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
-        Carte carte = this.Oeuvres.get(choix-1);
+        Carte carte = this.Oeuvres.get(choix - 1);
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
-        Affichage.afficherMessage(this.getPseudo() +", vous avez défaussé la carte " + carte.getNom()+" de vos oeuvres");          
+        Affichage.afficherMessage(
+                this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de vos oeuvres");
     }
 
-    public void defausserCarteChoisit(Carte carte){
+    public void defausserCarteChoisit(Carte carte) {
         this.defausse.add(carte);
         this.main.remove(carte);
-        Affichage.afficherMessage(this.getPseudo() +", vous avez défaussé la carte " + carte.getNom()+ "de votre main");
+        Affichage.afficherMessage(
+                this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + "de votre main");
     }
-
 
     public void passerTour() {
         Affichage.afficherMessage(this.getPseudo() + " passe son tour");
@@ -277,7 +304,7 @@ public class Joueur {
     public void setStrategie() {
     }
 
-    public String toString(){
+    public String toString() {
         return this.id;
     }
 
@@ -291,7 +318,7 @@ public class Joueur {
                 i--;
             }
         }
-        return temp;              
+        return temp;
     }
 
     public void defausserCarteVieFutureChiffre(int nbCartes) {
@@ -301,12 +328,11 @@ public class Joueur {
         }
     }
 
-    public Carte getOeuvreExposee(){
+    public Carte getOeuvreExposee() {
         // Vérifier si il y a une oeuvre exposée si oui la return sinon return null
         if (this.Oeuvres.size() > 0) {
             return this.Oeuvres.get(0);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -318,33 +344,31 @@ public class Joueur {
     }
 
     public ArrayList<Carte> getCartesFosse(int nbCartes) {
-    ArrayList<Carte> temp = new ArrayList<>();
-    // Limitez le nombre de cartes à récupérer à la taille de la liste 'defausse'
-    int actualNbCartes = Math.min(nbCartes, this.defausse.size());
-    for (int i = 0; i < actualNbCartes; i++) {
-        temp.add(this.defausse.get(i));
+        ArrayList<Carte> temp = new ArrayList<>();
+        // Limitez le nombre de cartes à récupérer à la taille de la liste 'defausse'
+        int actualNbCartes = Math.min(nbCartes, this.defausse.size());
+        for (int i = 0; i < actualNbCartes; i++) {
+            temp.add(this.defausse.get(i));
+        }
+        return temp;
     }
-    return temp;              
-}
 
-
-    public List<Carte> getFosse(){
+    public List<Carte> getFosse() {
         return this.defausse;
     }
 
-    public Carte getCarteVieFuture(int index){
+    public Carte getCarteVieFuture(int index) {
         return this.vieFuture.get(index);
     }
 
-    public Carte getCarteVieFutureRandom(){
+    public Carte getCarteVieFutureRandom() {
         int index = (int) (Math.random() * this.vieFuture.size());
         return this.vieFuture.get(index);
     }
 
-    public void defausserOeuvreChoisit(Carte carte){
+    public void defausserOeuvreChoisit(Carte carte) {
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
     }
-    
 
 }

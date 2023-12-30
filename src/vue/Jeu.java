@@ -15,6 +15,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -153,9 +154,10 @@ public class Jeu extends Application {
         utiliserPoints.setOnAction(new ControleurJouerPoints(this, partie, carte));
 
         MenuItem utiliserPouvoirs = new MenuItem("Utiliser pour pouvoirs");
+        utiliserPouvoirs.setOnAction(new ControleurJouerPouvoirs(this, partie, carte));
 
         MenuItem mettreVieFuture = new MenuItem("Mettre dans la vie future");
-        // mettreVieFuture.setOnAction(event -> /* Implémenter l'action */);
+        mettreVieFuture.setOnAction(new ControleurJouerVieFuture(this, partie, carte));
 
         contextMenu.getItems().addAll(utiliserPoints, utiliserPouvoirs, mettreVieFuture);
 
@@ -192,9 +194,12 @@ public class Jeu extends Application {
             vboxFosseJoueur.getChildren().add(new Label(carte.getNom()));
         }
 
+        // Ajouter en bas un InputText pour permettre au joueur d'entre le nombre de l'option qu'il veut choisir avec un boutton envoyer qui permettra de print directement dans le terminal le choix du joueur
+        
         // Ajouter les conteneurs à l'écran de jeu
         ecranJeu.setLeft(vboxMainJoueur); // Positionner la main du joueur à gauche
         ecranJeu.setRight(vboxFosseJoueur); // Positionner la fosse du joueur à droite
+        
 
         // Vous pouvez également ajouter des boutons ou d'autres éléments d'interaction
         // ici

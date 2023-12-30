@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
  * Contrôleur à activer lorsque l'on clique sur le bouton rejouer ou Lancer une
  * partie
  */
-public class ControleurJouerPoints implements EventHandler<ActionEvent> {
+public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
     /**
      * modèle du jeu
      */
@@ -27,7 +27,7 @@ public class ControleurJouerPoints implements EventHandler<ActionEvent> {
      * @param p vue du jeu
      * @param m modèle du jeu
      */
-    public ControleurJouerPoints(Jeu vueJeu, Core.Partie modelePartie, Carte carte) {
+    public ControleurJouerVieFuture(Jeu vueJeu, Core.Partie modelePartie, Carte carte) {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
         this.carte = carte;
@@ -44,7 +44,7 @@ public class ControleurJouerPoints implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         System.out.println(carte.getNom());
-        modelePartie.jouerCartePoints(carte);
+        modelePartie.jouerCarteVieFuture(carte);
         if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
             Joueur joueur = modelePartie.getJoueur2();
             modelePartie.piocherCarte(joueur);

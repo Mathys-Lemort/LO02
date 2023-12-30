@@ -1,5 +1,8 @@
 package Core;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
+
 public class Affichage {
 
     // Utilisez ces constantes pour ajouter de la couleur à votre affichage
@@ -16,35 +19,53 @@ public class Affichage {
 
     public static void afficherMessage(String message) {
         System.out.println(ANSI_YELLOW + "  ➤ " + message + ANSI_RESET);
+
+        // Afficher les alertes seulement si on est en mode graphique
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
+
     }
 
     public static void afficherOption(int num, String option) {
         System.out.println(ANSI_GREEN + "  [" + num + "] " + option + ANSI_RESET);
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("[" + num + "] " + option);
+            alert.showAndWait();         
+        }
     }
+
 
     private static String centrerTexte(String texte, int largeur) {
         // Tronquer le texte si nécessaire
         if (texte.length() > largeur) {
             texte = texte.substring(0, largeur);
         }
-    
+
         int espacesDevant = (largeur - texte.length()) / 2;
         StringBuilder sb = new StringBuilder();
-    
+
         // Ajouter des espaces avant le texte
         for (int i = 0; i < espacesDevant; i++) {
             sb.append(" ");
         }
-    
+
         sb.append(texte);
-    
+
         // Compléter avec des espaces pour aligner à droite
         while (sb.length() + 2 < largeur) {
             sb.append(" ");
         }
-    
+
         return sb.toString();
     }
-    
+
     // Autres méthodes d'affichage personnalisées
 }

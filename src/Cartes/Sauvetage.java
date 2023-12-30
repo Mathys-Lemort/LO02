@@ -6,6 +6,7 @@ import java.util.Scanner;
 import Core.Affichage;
 import Core.Partie;
 import Joueurs.Joueur;
+import javafx.scene.control.TextInputDialog;
 
 public class Sauvetage extends Carte {
     public Sauvetage() {
@@ -23,6 +24,30 @@ public class Sauvetage extends Carte {
         Affichage.afficherMessage("Choisissez une carte à ajouter à votre Main :");
         for (int i = 0; i < cartesFosse.size(); i++) {
             Affichage.afficherOption(i + 1, cartesFosse.get(i).getNom());
+        }
+        // Si le jeu est en mode graphique on créer une alerte de texte pour demander à l'utilisateur de choisir une carte
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Choix de la carte à ajouter à la Main");
+            dialog.setHeaderText("Choisissez le numéro de la carte à ajouter à la Main");
+            dialog.setContentText("Numéro de la carte :");
+            dialog.showAndWait();
+            String result = dialog.getResult();
+            try {
+                int choix = Integer.parseInt(result);
+                if (choix < 1 || choix > cartesFosse.size()) {
+                    Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro de carte valide.");
+                    return;
+                }
+                Carte carte = cartesFosse.get(choix - 1);
+                joueur.ajouterCarteDansMain(carte);
+                joueur.getFosse().remove(carte);
+                Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
+            } catch (NumberFormatException e) {
+                Affichage.afficherMessage("Entrée non valide. Veuillez entrer un nombre.");
+                return;
+            }
+            return;
         }
 
         Scanner scanner = Partie.getInstance().getScanner();

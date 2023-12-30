@@ -1,6 +1,7 @@
 package Controleur;
 
 import vue.Jeu;
+import Core.Partie.Mode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -28,6 +29,7 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
         this.modelePartie = modelePartie;
         this.modelePartie.setJoueur1Pseudo(joueur1Pseudo);
         this.modelePartie.setJoueur2Pseudo(joueur2Pseudo);
+        this.modelePartie.setMode(Mode.GRAPHIQUE);
 
     }
 

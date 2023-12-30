@@ -1,5 +1,6 @@
 package Cartes;
 import Joueurs.Joueur;
+import javafx.scene.control.TextInputDialog;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -31,6 +32,28 @@ public class Duperie extends Carte {
         int choix = 0;
         while (choix < 1 || choix > nombreCartesAPresenter) {
             Affichage.afficherMessage("Quelle carte voulez-vous prendre ? (entrez un numéro valide)");
+            // Si le jeu est en mode graphique on créer une alerte de texte pour demander à l'utilisateur de choisir une carte
+            if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Choix de la carte à prendre");
+                dialog.setHeaderText("Choisissez le numéro de la carte à prendre");
+                dialog.setContentText("Numéro de la carte :");
+                dialog.showAndWait();
+                String result = dialog.getResult();
+                try {
+                    choix = Integer.parseInt(result);
+                    if (choix < 1 || choix > nombreCartesAPresenter) {
+                        Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro de carte valide.");
+                        continue;
+                    }
+                } catch (NumberFormatException e) {
+                    Affichage.afficherMessage("Entrée non valide. Veuillez entrer un nombre.");
+                    continue;
+                }
+                break;
+            }
+
+
             try {
                 choix = scanner.nextInt();
             } catch (InputMismatchException e) {

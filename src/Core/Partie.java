@@ -18,6 +18,11 @@ public class Partie {
     private int resultatLanceJoueur1;
     private int resultatLanceJoueur2;
     private String joueurCommence;
+    private Mode mode;
+
+    public enum Mode {
+        CONSOLE, GRAPHIQUE
+    }
 
     private Partie() {
         this.scanner = new Scanner(System.in);
@@ -26,6 +31,19 @@ public class Partie {
         this.setEtatPartie(EtatPartie.INITIALISATION);
         this.plateau.initialiserSource();
 
+        
+
+            
+        
+
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
     // Méthode pour obtenir l'instance du singleton
@@ -82,6 +100,13 @@ public class Partie {
 
         this.distribuerMain();
         this.distribuerPileInitiale();
+
+    }
+
+    public void piocherCarte(Joueur joueur){
+        if (!joueur.pileVide()){
+            joueur.ajouterCarte();
+        }
 
     }
 
@@ -390,6 +415,11 @@ public class Partie {
         joueurActif.jouerCartePourPoints(carte);
     }
 
+    public void jouerCarteVieFuture(Carte carte) {
+        System.out.println(joueurActif);
+        joueurActif.jouerCartePourFutur(carte);
+    }
+
     public Joueur getJoueurPseudo(String pseudo) {
         if (getJoueur1().getPseudo().equals(pseudo)) {
             return getJoueur1();
@@ -397,5 +427,4 @@ public class Partie {
             return getJoueur2();
         }
     }
-
 }

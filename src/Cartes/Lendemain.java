@@ -22,6 +22,7 @@ public class Lendemain extends Carte{
             Affichage.afficherMessage("Voulez-vous jouer une autre carte ?");
             Affichage.afficherOption(1, "Oui");
             Affichage.afficherOption(2, "Non");
+            
             try {
                 choix = scanner.nextInt();
             } catch (InputMismatchException e) {

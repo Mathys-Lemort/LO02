@@ -5,6 +5,7 @@ import java.util.Scanner;
 import Core.Affichage;
 import Core.Partie;
 import Joueurs.Joueur;
+import javafx.scene.control.TextInputDialog;
 
 public class Crise extends Carte {
     public Crise() {
@@ -24,6 +25,29 @@ public class Crise extends Carte {
         adversaire.afficherCartesOeuvres();
         
         Affichage.afficherMessage("Choisissez le numéro de l'œuvre à défausser :");
+        // Si le jeu est en mode graphique on créer une alerte de texte pour demander à l'utilisateur de choisir une carte
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Choix de l'oeuvre à défausser");
+            dialog.setHeaderText("Choisissez le numéro de l'oeuvre à défausser");
+            dialog.setContentText("Numéro de l'oeuvre :");
+            dialog.showAndWait();
+            String result = dialog.getResult();
+            try {
+                int choix = Integer.parseInt(result);
+                if (choix < 1 || choix > adversaire.getOeuvres().size()) {
+                    Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro de carte valide.");
+                    return;
+                }
+                Carte carte = adversaire.getOeuvres().get(choix - 1);
+                adversaire.defausserOeuvreChoisit(carte);
+                Affichage.afficherMessage(adversaire.getPseudo() + " a défaussé l'œuvre " + carte.getNom() + ".");
+            } catch (NumberFormatException e) {
+                Affichage.afficherMessage("Entrée non valide. Veuillez entrer un nombre.");
+                return;
+            }
+            return;
+        }
         Scanner scanner = Partie.getInstance().getScanner();
         int choix;
         try {
