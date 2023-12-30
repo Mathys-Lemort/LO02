@@ -118,10 +118,6 @@ public class Jeu extends Application {
         return joueur2Pseudo;
     }
 
-    
-
-
-
     // Dans vue.Jeu
     public void afficherResultatDes(int lanceJoueur1, int lanceJoueur2, String joueurCommence) {
         // Cette méthode sera appelée par le contrôleur après le lancer de dés
@@ -195,13 +191,14 @@ public class Jeu extends Application {
             vboxFosseJoueur.getChildren().add(new Label(carte.getNom()));
         }
 
-        // Ajouter en bas un InputText pour permettre au joueur d'entre le nombre de l'option qu'il veut choisir avec un boutton envoyer qui permettra de print directement dans le terminal le choix du joueur
-        
+        // Ajouter en bas un InputText pour permettre au joueur d'entre le nombre de
+        // l'option qu'il veut choisir avec un boutton envoyer qui permettra de print
+        // directement dans le terminal le choix du joueur
+
         // Ajouter les conteneurs à l'écran de jeu
         ecranJeu.setLeft(vboxMainJoueur); // Positionner la main du joueur à gauche
         ecranJeu.setRight(vboxFosseJoueur); // Positionner la fosse du joueur à droite
         ecranJeu.setBottom(passerTour); // Positionner le bouton passer le tour en bas
-        
 
         // Vous pouvez également ajouter des boutons ou d'autres éléments d'interaction
         // ici
@@ -213,6 +210,13 @@ public class Jeu extends Application {
             List<Carte> fosseJoueur, List<Carte> vieFuture) {
         System.out.println(joueurActifPseudo + " commence !");
         panelCentral.setBottom(null); // Cela supprimera le bouton "Commencer la partie"
+        panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
+    }
+
+    // Dans Jeu.java
+    public void rafraichirVueJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
+            List<Carte> fosseJoueur, List<Carte> vieFuture) {
+        // Supprime les anciens éléments de la main du joueur et ajoute les nouveaux
         panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
     }
 

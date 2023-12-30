@@ -48,10 +48,15 @@ public void handle(ActionEvent actionEvent) {
     // Exécute l'action de la carte
     // Suppriemr la carte de la main du joueur
     joueurActif.getMain().remove(carte);
+    vueJeu.rafraichirVueJoueur(joueurActif.getPseudo(), joueurActif.getMain(), joueurActif.getPile(), joueurActif.getFosse(), joueurActif.getVieFuture());
+
     joueurActif.demanderPrendreCarte(adversaire, carte);
     carte.action(joueurActif, adversaire);
+
     if(modelePartie.getRejouer()) {
+        // Mettre à jour l'affichage
         modelePartie.setRejouer(false);
+        vueJeu.rafraichirVueJoueur(joueurActif.getPseudo(), joueurActif.getMain(), joueurActif.getPile(), joueurActif.getFosse(), joueurActif.getVieFuture());
         return;
     }
     if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
@@ -73,6 +78,7 @@ public void handle(ActionEvent actionEvent) {
         vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
         modelePartie.setJoueurActif(joueur);
     }      
+
 
 
 }
