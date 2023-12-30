@@ -2,12 +2,8 @@ package Cartes;
 
 import Core.Affichage;
 import Joueurs.Joueur;
-import javafx.scene.control.ChoiceDialog;
 import Core.Partie;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class Roulette extends Carte {
     public Roulette() {

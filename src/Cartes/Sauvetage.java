@@ -2,7 +2,6 @@ package Cartes;
 
 import Core.Affichage;
 import Joueurs.Joueur;
-import Core.Partie;
 
 import java.util.ArrayList;
 

@@ -1,12 +1,8 @@
 package Cartes;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import Core.Affichage;
-import Core.Partie;
 import Joueurs.Joueur;
-import javafx.scene.control.ChoiceDialog;
 
 public class Jubile extends Carte {
     public Jubile() {

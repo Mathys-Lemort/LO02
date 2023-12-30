@@ -1,13 +1,9 @@
 package Cartes;
 
 import Core.Affichage;
-import Core.Partie;
 import Joueurs.Joueur;
-import javafx.scene.control.ChoiceDialog;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class Duperie extends Carte {
     public Duperie() {

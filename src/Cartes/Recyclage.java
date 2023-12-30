@@ -1,14 +1,9 @@
 package Cartes;
 
 import Core.Affichage;
-import Core.Partie;
 import Joueurs.Joueur;
-import javafx.scene.control.ChoiceDialog;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class Recyclage extends Carte {
     public Recyclage() {

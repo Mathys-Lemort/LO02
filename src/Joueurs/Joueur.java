@@ -9,7 +9,6 @@ import Cartes.Carte;
 import Core.Affichage;
 import Core.Partie;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TextInputDialog;
 
 //Faire une enum des positions de l'échelle karmique
 

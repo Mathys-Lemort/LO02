@@ -15,13 +15,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import Core.Partie;
-import Joueurs.Joueur;
 
 public class Jeu extends Application {
     private static final int WINDOW_WIDTH = 800;
@@ -37,7 +35,6 @@ public class Jeu extends Application {
     private String joueur2Pseudo;
     private Partie partie;
     private Button debutJeu;
-    private Joueur joueurActif;
 
     @Override
     public void init() {
@@ -49,7 +46,6 @@ public class Jeu extends Application {
 
         debutJeu = new Button("Commencer la partie");
         debutJeu.setFont(Font.font(FONT_STYLE, FONT_SIZE));
-        joueurActif = partie.getJoueurActif();
 
         joueur1TextField = new TextField();
         joueur1TextField.setPromptText("Pseudo du joueur 1");
