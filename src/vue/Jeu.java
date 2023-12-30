@@ -12,11 +12,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import Core.Partie;
@@ -66,6 +77,9 @@ public class Jeu extends Application {
     public void start(Stage primaryStage) {
         afficherEcranAccueil();
         Scene scene = new Scene(panelCentral, WINDOW_WIDTH, WINDOW_HEIGHT);
+        // Faire un lien vers le fichier css qui est dans vue/style.css sachant que le
+        // fichier jeu est dans vue/Jeu.java
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("Karmaka");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -79,6 +93,7 @@ public class Jeu extends Application {
         BorderPane fenetre = new BorderPane();
         fenetre.setStyle("-fx-background-image: url('file:img/karmaka.jpg');" +
                 "-fx-background-size: cover;");
+                
 
         VBox vbox = new VBox(10); // Spacing between nodes
         vbox.getChildren().add(new Label("Entrez les pseudos des joueurs pour commencer"));
@@ -136,13 +151,49 @@ public class Jeu extends Application {
         panelCentral.setBottom(debutJeu);
     }
 
-    // Puis, dans votre méthode afficherEcranJeu(), vous initialiserez la partie
-    // avec le joueur actif.
+    private void mettreAJourIndicateurTour(String joueurActifPseudo) {
+        Label labelTour = new Label("Tour de : " + joueurActifPseudo);
+        // Lui donner un identifiant 
+        labelTour.setId("label-tour");
 
-    private VBox createCardButton(Carte carte) {
+        HBox hboxTour = new HBox(labelTour);
+        hboxTour.setAlignment(Pos.CENTER);
+        hboxTour.setSpacing(10);
+
+        panelCentral.setTop(hboxTour);
+    }
+
+    private VBox createFosseCard(Carte carte) {
         VBox cardBox = new VBox();
-        Button cardButton = new Button(carte.getNom());
-        cardBox.getChildren().add(cardButton);
+
+        // Créer un ImageView pour afficher l'image de la carte
+        ImageView cardImageView = new ImageView(new Image("file:img/" + carte.getNom() + ".png"));
+
+        // Définir la taille de l'ImageView pour correspondre à la taille de l'image
+        cardImageView.setFitWidth(150);
+        cardImageView.setFitHeight(200);
+
+        // Ajouter l'ImageView à la VBox
+        cardBox.getChildren().add(cardImageView);
+        cardBox.getStyleClass().add("card-box");
+
+        // Ajouter le nom de la carte en dessous de l'image
+        Label cardNameLabel = new Label(carte.getNom());
+        cardNameLabel.getStyleClass().add("white-label"); // Ajout de la classe CSS
+        cardBox.getChildren().add(cardNameLabel);
+
+        return cardBox;
+    }
+
+    private VBox createMainCard(Carte carte) {
+        VBox cardBox = new VBox();
+
+        // Créer un ImageView pour afficher l'image de la carte
+        ImageView cardImageView = new ImageView(new Image("file:img/" + carte.getNom() + ".png"));
+
+        // Définir la taille de l'ImageView pour correspondre à la taille de l'image
+        cardImageView.setFitWidth(150);
+        cardImageView.setFitHeight(200);
 
         // Créer le menu contextuel
         ContextMenu contextMenu = new ContextMenu();
@@ -158,12 +209,20 @@ public class Jeu extends Application {
 
         contextMenu.getItems().addAll(utiliserPoints, utiliserPouvoirs, mettreVieFuture);
 
-        // Gérer le clic sur le bouton pour afficher le menu contextuel
-        cardButton.setOnMouseClicked(event -> {
+        // Gérer le clic sur l'image pour afficher le menu contextuel
+        cardImageView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                contextMenu.show(cardButton, event.getScreenX(), event.getScreenY());
+                contextMenu.show(cardImageView, event.getScreenX(), event.getScreenY());
             }
         });
+        cardBox.getStyleClass().add("card-box");
+        
+
+        cardImageView.setOnMouseEntered(event -> cardImageView.setOpacity(0.7));
+        cardImageView.setOnMouseExited(event -> cardImageView.setOpacity(1.0));
+
+        // Ajouter l'ImageView à la VBox
+        cardBox.getChildren().add(cardImageView);
 
         return cardBox;
     }
@@ -171,33 +230,67 @@ public class Jeu extends Application {
     private BorderPane creerEcranJeu(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
             List<Carte> fosseJoueur, List<Carte> vieFuture) {
         BorderPane ecranJeu = new BorderPane();
+        ecranJeu.getStyleClass().add("border-pane");
 
-        // Créer les différents composants pour la main, la pile, la fosse, etc.
+        mettreAJourIndicateurTour(joueurActifPseudo);
+        // Mettre l'image img/background.jpg en arrière-plan de l'écran de jeu
+        
+        
+        // Créer un SplitPane pour diviser l'écran en deux parties
+        SplitPane splitPane = new SplitPane();
+        // DOnner 70% de l'espace à la main du joueur et 30% à la fosse
+        splitPane.setDividerPositions(0.7);
+
+        // Partie gauche du SplitPane : la main du joueur
+        ScrollPane scrollPaneMainJoueur = new ScrollPane();
+        scrollPaneMainJoueur.setFitToWidth(true);
+
         VBox vboxMainJoueur = new VBox(5); // Container for the player's hand
-        vboxMainJoueur.getChildren().add(new Label("Main du joueur"));
+        Label labelMainJoueur = new Label("Main du joueur");
+        labelMainJoueur.getStyleClass().add("titre_cartes");
+        vboxMainJoueur.getChildren().add(labelMainJoueur);
+
         for (Carte carte : mainJoueur) {
-            VBox carteButton = createCardButton(carte);
-            vboxMainJoueur.getChildren().add(carteButton);
-            vboxMainJoueur.getChildren().add(new Label("Pouvoir : " + carte.getPouvoir()));
-            vboxMainJoueur.getChildren().add(new Label("Points : " + carte.getPoints()));
+            VBox carteBox = createMainCard(carte);
+            vboxMainJoueur.getChildren().add(carteBox);
+            Label pouvoir = new Label("Pouvoir : " + carte.getPouvoir());
+            pouvoir.getStyleClass().add("white-label");
+            vboxMainJoueur.getChildren().add(pouvoir);
+            pouvoir.setWrapText(true);        
+            Label points = new Label("Points : " + carte.getPoints());
+            points.getStyleClass().add("white-label");
+            vboxMainJoueur.getChildren().add(points);            
         }
-        // Add more UI components that represent the player's hand cards
+
+        // Ajouter la VBox contenant la main du joueur au ScrollPane
+        scrollPaneMainJoueur.setContent(vboxMainJoueur);
+
+        // Partie droite du SplitPane : la fosse du joueur
+        ScrollPane scrollPaneFosseJoueur = new ScrollPane();
+        scrollPaneFosseJoueur.setFitToWidth(true);
 
         VBox vboxFosseJoueur = new VBox(5); // Container for the discard pile
-        vboxFosseJoueur.getChildren().add(new Label("Fosse du joueur"));
+        System.out.println(fosseJoueur);
+        Label labelFosseJoueur = new Label("Fosse du joueur");
+        labelFosseJoueur.getStyleClass().add("titre_cartes");
+        vboxFosseJoueur.getChildren().add(labelFosseJoueur);
         for (Carte carte : fosseJoueur) {
-            // Créer un bouton avec le nom de la carte et metter en dessus le pouvoir et le
-            // nombre de point de la carte
-            vboxFosseJoueur.getChildren().add(new Label(carte.getNom()));
+            VBox carteBox = createFosseCard(carte);
+            vboxFosseJoueur.getChildren().add(carteBox);
         }
 
-        // Ajouter en bas un InputText pour permettre au joueur d'entre le nombre de
-        // l'option qu'il veut choisir avec un boutton envoyer qui permettra de print
-        // directement dans le terminal le choix du joueur
+        scrollPaneMainJoueur.getStyleClass().add("scroll-pane-card");
+        scrollPaneFosseJoueur.getStyleClass().add("scroll-pane-card");
+        splitPane.getStyleClass().add("split-pane-game");
 
-        // Ajouter les conteneurs à l'écran de jeu
-        ecranJeu.setLeft(vboxMainJoueur); // Positionner la main du joueur à gauche
-        ecranJeu.setRight(vboxFosseJoueur); // Positionner la fosse du joueur à droite
+        // Ajouter les conteneurs aux parties gauche et droite du SplitPane
+        // Ajouter du texte pour indiquer la source et la fosse
+        scrollPaneFosseJoueur.setContent(vboxFosseJoueur);
+
+        splitPane.getItems().addAll(scrollPaneMainJoueur, scrollPaneFosseJoueur);
+
+        // Ajouter le SplitPane à l'écran de jeu
+        ecranJeu.setCenter(splitPane);
         ecranJeu.setBottom(passerTour); // Positionner le bouton passer le tour en bas
 
         // Vous pouvez également ajouter des boutons ou d'autres éléments d'interaction
@@ -211,6 +304,12 @@ public class Jeu extends Application {
         System.out.println(joueurActifPseudo + " commence !");
         panelCentral.setBottom(null); // Cela supprimera le bouton "Commencer la partie"
         panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("file:img/background.png"),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+        panelCentral.setBackground(new javafx.scene.layout.Background(backgroundImage));
+        mettreAJourIndicateurTour(joueurActifPseudo);
+
     }
 
     // Dans Jeu.java
@@ -218,6 +317,8 @@ public class Jeu extends Application {
             List<Carte> fosseJoueur, List<Carte> vieFuture) {
         // Supprime les anciens éléments de la main du joueur et ajoute les nouveaux
         panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
+        mettreAJourIndicateurTour(joueurActifPseudo);
+
     }
 
     public static void main(String[] args) {

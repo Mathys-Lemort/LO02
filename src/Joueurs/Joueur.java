@@ -301,7 +301,7 @@ public class Joueur {
         this.defausse.add(carte);
         this.main.remove(carte);
         Affichage.afficherMessage(
-                this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + "de votre main");
+                this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de votre main");
     }
 
     public void passerTour() {
