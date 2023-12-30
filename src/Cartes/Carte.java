@@ -36,6 +36,10 @@ public abstract class Carte {
     }
 
     private boolean demanderJouerAutreCarteGraphique() {
+        // Si c'est le tour du bot, il ne jouera pas d'autre carte
+        if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return false;
+        }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Jouer une autre carte");
         alert.setHeaderText(null);
@@ -46,8 +50,14 @@ public abstract class Carte {
     }
 
     private boolean demanderJouerAutreCarteConsole() {
+        // Si c'est le tour du bot, il ne jouera pas d'autre carte
+        if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return false;
+        }
         Scanner scanner = Partie.getInstance().getScanner();
         int choix;
+
+        
         do {
             Affichage.afficherMessage("Voulez-vous jouer une autre carte ?");
             Affichage.afficherOption(1, "Oui");
@@ -70,6 +80,10 @@ public abstract class Carte {
     }
     
     protected int afficherDialogueGraphique(List<Carte> cartes) {
+        if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return (int) (Math.random() * cartes.size());
+
+        }
         List<String> choixCartes = new ArrayList<>();
         for (int i = 0; i < cartes.size(); i++) {
             choixCartes.add((i + 1) + ". " + cartes.get(i).getNom());
@@ -89,6 +103,10 @@ public abstract class Carte {
     }
     
     protected int demanderChoixConsole(List<Carte> cartes) {
+        if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return (int) (Math.random() * cartes.size());
+
+        }
         Affichage.afficherMessage("Choisissez une carte :");
         for (int i = 0; i < cartes.size(); i++) {
             Affichage.afficherOption(i + 1, cartes.get(i).getNom());

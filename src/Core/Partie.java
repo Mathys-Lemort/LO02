@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import Cartes.Carte;
 import Joueurs.Joueur;
+import Joueurs.JoueurBot;
 import Plateau.Plateau;
 import javafx.application.Platform;
 import javafx.scene.control.ButtonType;
@@ -86,32 +87,41 @@ public class Partie {
 
         // Boucle pour ajouter deux joueurs
         // Si les deux joueurs ne sont pas encore crée seulement
-        if (joueurs.size() < 2) {
-            for (int i = 1; i <= 2; i++) {
-                Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
-                String pseudo = scanner.nextLine();
+        Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
+        Affichage.afficherOption(1, "Oui");
+        Affichage.afficherOption(2, "Non");
+        int choix = scanner.nextInt();
+        scanner.nextLine();
+        if (choix == 1) {
+            joueurs.add(new Joueur("Joueur 1"));
+            joueurs.add(new JoueurBot("Bot"));
+        } else {
+            if (joueurs.size() < 2) {
+                for (int i = 1; i <= 2; i++) {
+                    Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
+                    String pseudo = scanner.nextLine();
 
-                // Vérifiez si un joueur avec le même pseudo existe déjà
-                boolean pseudoExiste = false;
-                for (Joueur joueurExist : this.joueurs) {
-                    if (joueurExist.getPseudo().equals(pseudo)) {
-                        pseudoExiste = true;
-                        break;
+                    // Vérifiez si un joueur avec le même pseudo existe déjà
+                    boolean pseudoExiste = false;
+                    for (Joueur joueurExist : this.joueurs) {
+                        if (joueurExist.getPseudo().equals(pseudo)) {
+                            pseudoExiste = true;
+                            break;
+                        }
                     }
-                }
 
-                if (pseudoExiste) {
-                    Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
-                    i--; // Répétez la saisie pour le même joueur
-                } else {
-                    Joueur joueur = new Joueur(pseudo);
-                    this.joueurs.add(joueur);
-                }
+                    if (pseudoExiste) {
+                        Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
+                        i--; // Répétez la saisie pour le même joueur
+                    } else {
+                        Joueur joueur = new Joueur(pseudo);
+                        this.joueurs.add(joueur);
+                    }
 
+                }
             }
-            this.designerMalchanceux();
         }
-
+        this.designerMalchanceux();
         this.distribuerMain();
         this.distribuerPileInitiale();
 
@@ -157,33 +167,39 @@ public class Partie {
         if (!estRejouer) {
             piocherCarteSiNecessaire(joueur);
         }
-        Affichage.afficherTitre("Tour de " + joueur.getPseudo());
-        joueur.afficherMain();
-
-        int choixAction = demanderChoixAction(joueur);
-        switch (choixAction) {
-            case 1:
-                jouerCartePourPoints(joueur);
-                break;
-            case 2:
-                jouerCartePourPouvoir(joueur);
-                break;
-            case 3:
-                placerCarteDansVieFuture(joueur);
-                break;
-            case 4:
-                // Vérifier si le joueur a des cartes dans sa pile, si ce n'est pas le cas il ne peut pas passer son tour
-                if (joueur.pileVide()) {
-                    Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car vous n'avez pas de cartes dans votre pile.");
-                    effectuerActionsTour(joueur, false);
-                }
-                passerTour(joueur);
-                break;
-            default:
-                Affichage.afficherMessage("Choix non valide.");
-                break;
+        
+        if (joueur instanceof JoueurBot) {
+            ((JoueurBot) joueur).jouerCoup();
+        } else {
+            Affichage.afficherTitre("Tour de " + joueur.getPseudo());
+            joueur.afficherMain();
+    
+            int choixAction = demanderChoixAction(joueur);
+            switch (choixAction) {
+                case 1:
+                    jouerCartePourPoints(joueur);
+                    break;
+                case 2:
+                    jouerCartePourPouvoir(joueur);
+                    break;
+                case 3:
+                    placerCarteDansVieFuture(joueur);
+                    break;
+                case 4:
+                    if (joueur.pileVide()) {
+                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car vous n'avez pas de cartes dans votre pile.");
+                        effectuerActionsTour(joueur, false);
+                    } else {
+                        passerTour(joueur);
+                    }
+                    break;
+                default:
+                    Affichage.afficherMessage("Choix non valide.");
+                    break;
+            }
         }
     }
+    
 
     private void jouerCartePourPoints(Joueur joueur) {
         if (joueur.getMain().isEmpty()) {

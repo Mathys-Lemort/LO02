@@ -131,6 +131,16 @@ public class Joueur {
     }
 
     public void demanderPrendreCarte(Joueur rival, Carte carte) {
+        // Si rival est un bot, il choisit aléatoirement entre les deux options
+        if (rival instanceof JoueurBot) {
+            int choix = (int) (Math.random() * 2) + 1;
+            if (choix == 1) {
+                rival.ajouterCarteDansVieFuture(carte);
+            } else {
+                rival.defausserCarteChoisit(carte);
+            }
+            return;
+        }
         String message = rival.getPseudo() + ", voulez-vous mettre la carte "
                 + carte.getNom() + " dans votre vie future ?";
         int choix = obtenirChoixUtilisateur(rival, message, "Choix de la carte à défausser");
