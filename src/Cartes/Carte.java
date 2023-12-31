@@ -27,6 +27,8 @@ public abstract class Carte {
         this.estMosaique = estMosaique;
     }
 
+ 
+
     protected boolean demanderJouerAutreCarte() {
         if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
             return demanderJouerAutreCarteGraphique();

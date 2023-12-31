@@ -1,11 +1,42 @@
 package Core;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import Cartes.Bassesse;
 import Cartes.Carte;
+import Cartes.CoupdOeil;
+import Cartes.Crise;
+import Cartes.Deni;
+import Cartes.DernierSouffle;
+import Cartes.Destinee;
+import Cartes.Duperie;
+import Cartes.Fournaise;
+import Cartes.Incarnation;
+import Cartes.Jubile;
+import Cartes.Lendemain;
+import Cartes.Longevite;
+import Cartes.Mimetisme;
+import Cartes.Panique;
+import Cartes.Recyclage;
+import Cartes.RevesBrises;
+import Cartes.Roulette;
+import Cartes.Sauvetage;
+import Cartes.Semis;
+import Cartes.Transmigration;
+import Cartes.Vengeance;
+import Cartes.Vol;
+import Cartes.Voyage;
 import Joueurs.Joueur;
 import Joueurs.JoueurBot;
 import Plateau.Plateau;
@@ -77,54 +108,122 @@ public class Partie {
     }
 
     // Méthodes pour gérer le déroulement de la partie
+    // public void initialiserPartie() {
+    //     Affichage.afficherTitre("Initialisation de la Partie");
+
+    //     // Boucle pour ajouter deux joueurs
+    //     // Si les deux joueurs ne sont pas encore crée seulement
+    //     // Si on n'est pas en mode graphique
+    //     if (!(this.getMode().equals(Mode.GRAPHIQUE))) {
+    //         // Proposer de charger une partie
+    //         Affichage.afficherMessage("Voulez-vous charger une partie?");
+    //         Affichage.afficherOption(1, "Oui");
+    //         Affichage.afficherOption(2, "Non");
+    //         int choix = scanner.nextInt();
+    //         scanner.nextLine();
+    //         if (choix == 1) {
+    //             chargerPartie();
+    //         }
+    //         else{
+    //         Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
+    //         Affichage.afficherOption(1, "Oui");
+    //         Affichage.afficherOption(2, "Non");
+    //         scanner.nextLine();
+    //         if (choix == 1) {
+    //             joueurs.add(new Joueur("Joueur 1"));
+    //             joueurs.add(new JoueurBot("Bot"));
+    //         } else {
+    //             if (joueurs.size() < 2) {
+    //                 for (int i = 1; i <= 2; i++) {
+    //                     Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
+    //                     String pseudo = scanner.nextLine();
+
+    //                     // Vérifiez si un joueur avec le même pseudo existe déjà
+    //                     boolean pseudoExiste = false;
+    //                     for (Joueur joueurExist : this.joueurs) {
+    //                         if (joueurExist.getPseudo().equals(pseudo)) {
+    //                             pseudoExiste = true;
+    //                             break;
+    //                         }
+    //                     }
+
+    //                     if (pseudoExiste) {
+    //                         Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
+    //                         i--; // Répétez la saisie pour le même joueur
+    //                     } else {
+    //                         Joueur joueur = new Joueur(pseudo);
+    //                         this.joueurs.add(joueur);
+    //                     }
+
+    //                 }
+    //             }
+    //         }
+    //         this.designerMalchanceux();
+    //     }
+
+    //     this.distribuerMain();
+    //     this.distribuerPileInitiale();
+    // }
+
+    // }
+
     public void initialiserPartie() {
         Affichage.afficherTitre("Initialisation de la Partie");
-
-        // Boucle pour ajouter deux joueurs
-        // Si les deux joueurs ne sont pas encore crée seulement
-        // Si on n'est pas en mode graphique
+    
         if (!(this.getMode().equals(Mode.GRAPHIQUE))) {
-            Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
-            Affichage.afficherOption(1, "Oui");
-            Affichage.afficherOption(2, "Non");
-            int choix = scanner.nextInt();
-            scanner.nextLine();
-            if (choix == 1) {
-                joueurs.add(new Joueur("Joueur 1"));
-                joueurs.add(new JoueurBot("Bot"));
-            } else {
-                if (joueurs.size() < 2) {
-                    for (int i = 1; i <= 2; i++) {
-                        Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
-                        String pseudo = scanner.nextLine();
-
-                        // Vérifiez si un joueur avec le même pseudo existe déjà
-                        boolean pseudoExiste = false;
-                        for (Joueur joueurExist : this.joueurs) {
-                            if (joueurExist.getPseudo().equals(pseudo)) {
-                                pseudoExiste = true;
-                                break;
-                            }
-                        }
-
-                        if (pseudoExiste) {
-                            Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
-                            i--; // Répétez la saisie pour le même joueur
-                        } else {
-                            Joueur joueur = new Joueur(pseudo);
-                            this.joueurs.add(joueur);
-                        }
-
-                    }
+            // Proposer de charger une partie si le fichier existe
+            File sauvegarde = new File("src/sauvegarde.txt");
+            if (sauvegarde.exists()) {
+                Affichage.afficherMessage("Voulez-vous charger une partie sauvegardée?");
+                Affichage.afficherOption(1, "Oui");
+                Affichage.afficherOption(2, "Non");
+                int choix = scanner.nextInt();
+                scanner.nextLine();
+                if (choix == 1) {
+                    chargerPartie();
+                    return; // Sortir de la méthode si la partie est chargée
                 }
             }
+            // Sinon, continuer avec la création des joueurs
+            creerJoueurs();
             this.designerMalchanceux();
         }
-
+    
         this.distribuerMain();
         this.distribuerPileInitiale();
-
     }
+    
+    private void creerJoueurs() {
+        Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
+        String choixBot = scanner.nextLine().trim();
+        if (choixBot.equalsIgnoreCase("O")) {
+            joueurs.add(new Joueur("Joueur 1"));
+            joueurs.add(new JoueurBot("Bot"));
+        } else {
+            for (int i = 1; i <= 2; i++) {
+                Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
+                String pseudo = scanner.nextLine();
+    
+                // Vérifiez si un joueur avec le même pseudo existe déjà
+                boolean pseudoExiste = false;
+                for (Joueur joueurExist : this.joueurs) {
+                    if (joueurExist.getPseudo().equals(pseudo)) {
+                        pseudoExiste = true;
+                        break;
+                    }
+                }
+    
+                if (pseudoExiste) {
+                    Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
+                    i--; // Répétez la saisie pour le même joueur
+                } else {
+                    Joueur joueur = new Joueur(pseudo);
+                    this.joueurs.add(joueur);
+                }
+            }
+        }
+    }
+    
 
     public void piocherCarte(Joueur joueur) {
         if (!joueur.pileVide()) {
@@ -148,10 +247,11 @@ public class Partie {
             Affichage.afficherOption(2, "Jouer une carte pour un pouvoir");
             Affichage.afficherOption(3, "Placer une carte dans votre Vie Future");
             Affichage.afficherOption(4, "Passer votre tour");
+            Affichage.afficherOption(5, "Sauvegarder et quitter la partie");
 
             try {
                 int choix = scanner.nextInt();
-                if (choix >= 1 && choix <= 4) {
+                if (choix >= 1 && choix <= 5) {
                     return choix;
                 }
                 Affichage.afficherMessage("Choix non valide. Veuillez choisir une option entre 1 et 4.");
@@ -192,6 +292,10 @@ public class Partie {
                     } else {
                         passerTour(joueur);
                     }
+                    break;
+                case 5:
+                    sauvegarderPartie();
+                    System.exit(0);
                     break;
                 default:
                     Affichage.afficherMessage("Choix non valide.");
@@ -388,8 +492,9 @@ public class Partie {
         joueur.ajouterCarteDansMain(plateau.getSource().remove(0));
         if (!(joueur instanceof Joueurs.JoueurBot)) {
 
-        Affichage.afficherMessage(
-                "Vous avez pioché la carte " + joueur.getMain().get(joueur.getMain().size() - 1).getNom());}
+            Affichage.afficherMessage(
+                    "Vous avez pioché la carte " + joueur.getMain().get(joueur.getMain().size() - 1).getNom());
+        }
     }
 
     public void piocherSourcePile(Joueur joueur) {
@@ -411,8 +516,9 @@ public class Partie {
     }
 
     public void lancerDes() {
-        // Le joueur qui commence est celui qui a lancé le plus petit nombre, il ne peut pas y avoir d'égalité
-        int resultatLanceJoueur1 =0, resultatLanceJoueur2 = 0;
+        // Le joueur qui commence est celui qui a lancé le plus petit nombre, il ne peut
+        // pas y avoir d'égalité
+        int resultatLanceJoueur1 = 0, resultatLanceJoueur2 = 0;
         while (resultatLanceJoueur1 == resultatLanceJoueur2) {
             resultatLanceJoueur1 = (int) (Math.random() * 6) + 1;
             resultatLanceJoueur2 = (int) (Math.random() * 6) + 1;
@@ -473,6 +579,201 @@ public class Partie {
             return getJoueur1();
         } else {
             return getJoueur2();
+        }
+
+    }
+
+    // Faire une fonction sauvegarderPartie et chargerPartie qui permettront de
+    // sauvegarder une partie lorsqu'on veut arrêter de jouer et de la charger
+    // lorsqu'on veut reprendre la partie ( en créant une nouvelle instance de
+    // partie avec toutes les données sauvegardées)
+    public void sauvegarderPartie() {
+        // print dans le terminal le nom des joueur 
+        System.out.println("Joueur1: " + getJoueur1().getPseudo());
+        System.out.println("Joueur2: " + getJoueur2().getPseudo());
+        System.out.println("JoueurActif: " + getJoueurActif().getPseudo());
+        System.out.println("ResultatLanceJoueur1: " + getResultatLanceJoueur1());
+        System.out.println("ResultatLanceJoueur2: " + getResultatLanceJoueur2());
+
+        try (FileWriter myWriter = new FileWriter("src/sauvegarde.txt")) {
+            myWriter.write("Joueur1: " + getJoueur1().getPseudo() + "\n");
+            myWriter.write("Joueur2: " + getJoueur2().getPseudo() + "\n");
+            myWriter.write("JoueurActif: " + getJoueurActif().getPseudo() + "\n");
+            myWriter.write("ResultatLanceJoueur1: " + getResultatLanceJoueur1() + "\n");
+            myWriter.write("ResultatLanceJoueur2: " + getResultatLanceJoueur2() + "\n");
+            myWriter.write("EtatPartie: " + getEtatPartie() + "\n");
+            myWriter.write("Mode: " + getMode() + "\n");
+            myWriter.write("Rejouer: " + getRejouer() + "\n");
+            myWriter.write("Source: " + cartesToString(getCartesSource()) + "\n");
+            myWriter.write("Joueur1Main: " + cartesToString(getJoueur1().getMain()) + "\n");
+            myWriter.write("Joueur1Pile: " + cartesToString(getJoueur1().getPile()) + "\n");
+            myWriter.write("Joueur1VieFuture: " + cartesToString(getJoueur1().getVieFuture()) + "\n");
+            myWriter.write("Joueur1Oeuvre: " + cartesToString(getJoueur1().getOeuvres()) + "\n");
+            myWriter.write("Joueur1Fosse: " + cartesToString(getJoueur1().getFosse()) + "\n");
+            myWriter.write("Joueur2Main: " + cartesToString(getJoueur2().getMain()) + "\n");
+            myWriter.write("Joueur2Pile: " + cartesToString(getJoueur2().getPile()) + "\n");
+            myWriter.write("Joueur2VieFuture: " + cartesToString(getJoueur2().getVieFuture()) + "\n");
+            myWriter.write("Joueur2Oeuvre: " + cartesToString(getJoueur2().getOeuvres()) + "\n");
+            myWriter.write("Joueur2Fosse: " + cartesToString(getJoueur2().getFosse()) + "\n");
+
+        } catch (IOException e) {
+            Affichage.afficherMessage("Une erreur est survenue lors de la sauvegarde de la partie.");
+            e.printStackTrace();
+        }
+    }
+
+    private String cartesToString(List<Carte> cartes) {
+        // Return seulement les nom des cartes séparés par un |
+        return cartes.stream()
+                     .map(Carte::getNom)
+                     .collect(Collectors.joining(" | "));
+      
+    }
+    
+    
+
+    public void chargerPartie() {
+        try (Scanner scanner = new Scanner(new File("src/sauvegarde.txt"))) {
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
+                String[] dataSplit = data.split(": ");
+                // Vérification que la ligne contient au moins 2 éléments après le split
+                if (dataSplit.length < 2) {
+                    System.out.println("Format de ligne incorrect : " + data);
+                    continue; // Ignore cette ligne et passe à la suivante
+                }
+                switch (dataSplit[0]) {
+                    case "Joueur1":
+                        setJoueur1Pseudo(dataSplit[1]);
+                        break;
+                    case "Joueur2":
+                        setJoueur2Pseudo(dataSplit[1]);
+                        break;
+                    case "JoueurActif":
+                        setJoueurActif(getJoueurPseudo(dataSplit[1]));
+                        break;
+                    case "ResultatLanceJoueur1":
+                        resultatLanceJoueur1 = Integer.parseInt(dataSplit[1]);
+                        break;
+                    case "ResultatLanceJoueur2":
+                        resultatLanceJoueur2 = Integer.parseInt(dataSplit[1]);
+                        break;
+                    case "EtatPartie":
+                        setEtatPartie(EtatPartie.valueOf(dataSplit[1]));
+                        break;
+                    case "Mode":
+                        setMode(Mode.valueOf(dataSplit[1]));
+                        break;
+                    case "Rejouer":
+                        setRejouer(Boolean.parseBoolean(dataSplit[1]));
+                        break;
+                    case "Source":
+                        chargerCartes(plateau.getSource(), dataSplit[1]);
+                        break;
+                    case "Joueur1Main":
+                        chargerCartes(getJoueur1().getMain(), dataSplit[1]);
+                        break;
+                    case "Joueur1Pile":
+                        chargerCartes(getJoueur1().getPile(), dataSplit[1]);
+                        break;
+                    case "Joueur1VieFuture":
+                        chargerCartes(getJoueur1().getVieFuture(), dataSplit[1]);
+                        break;
+                    case "Joueur1Oeuvre":
+                        chargerCartes(getJoueur1().getOeuvres(), dataSplit[1]);
+                        break;
+                    case "Joueur1Fosse":
+                        chargerCartes(getJoueur1().getFosse(), dataSplit[1]);
+                        break;
+                    case "Joueur2Main":
+                        chargerCartes(getJoueur2().getMain(), dataSplit[1]);
+                        break;
+                    case "Joueur2Pile":
+                        chargerCartes(getJoueur2().getPile(), dataSplit[1]);
+                        break;
+                    case "Joueur2VieFuture":
+                        chargerCartes(getJoueur2().getVieFuture(), dataSplit[1]);
+                        break;
+                    case "Joueur2Oeuvre":
+                        chargerCartes(getJoueur2().getOeuvres(), dataSplit[1]);
+                        break;
+                    case "Joueur2Fosse":
+                        chargerCartes(getJoueur2().getFosse(), dataSplit[1]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void chargerCartes(List<Carte> listeCartes, String dataCartes) {
+        String[] nomsCartes = dataCartes.split(" \\| ");
+        for (String nomCarte : nomsCartes) {
+            Carte carte = creerCarte(nomCarte);
+            if (carte != null) {
+                listeCartes.add(carte);
+            }
+        }
+        
+    }
+    
+
+
+    private Carte creerCarte(String carteInfo) {
+        String[] carteElements = carteInfo.split(" - Couleur: |, Points: |, Pouvoir: ");
+        String nom = carteElements[0].trim();
+        switch (nom) {
+            case "Bassesse":
+                return new Bassesse();
+            case "Coup d'Œil":
+                return new CoupdOeil();
+            case "Crise":
+                return new Crise();
+            case "Deni":
+                return new Deni();
+            case "Dernier Souffle":
+                return new DernierSouffle();
+            case "Destinee":
+                return new Destinee();
+            case "Duperie":
+                return new Duperie();
+            case "Fournaise":
+                return new Fournaise();
+            case "Incarnation":
+                return new Incarnation();
+            case "Jubile":
+                return new Jubile();
+            case "Lendemain":
+                return new Lendemain();
+            case "Longevite":
+                return new Longevite();
+            case "Mimetisme":
+                return new Mimetisme();
+            case "Panique":
+                return new Panique();
+            case "Recyclage":
+                return new Recyclage();
+            case "Reves Brises":
+                return new RevesBrises();
+            case "Roulette":
+                return new Roulette();
+            case "Sauvetage":
+                return new Sauvetage();
+            case "Semis":
+                return new Semis();
+            case "Transmigration":
+                return new Transmigration();
+            case "Vengeance":
+                return new Vengeance();
+            case "Vol":
+                return new Vol();
+            case "Voyage":
+                return new Voyage();
+            default:
+                return null; // ou lever une exception si le nom de la carte est inconnu
         }
     }
 

@@ -13,12 +13,19 @@ public class Affichage {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public static void afficherTitre(String titre) {
+         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return;
+        }
         System.out.println(ANSI_CYAN + "\n╔══════════════════════════════╗");
         System.out.println("║ " + centrerTexte(titre, 30) + " ║");
         System.out.println("╚══════════════════════════════╝\n" + ANSI_RESET);
     }
 
     public static void afficherMessage(String message) {
+        // Si le joueur est un bot, on n'affiche pas le message
+        if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return;
+        }
     System.out.println(ANSI_YELLOW + "  ➤ " + message + ANSI_RESET);
 
     if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
@@ -35,6 +42,9 @@ public class Affichage {
 
 
     public static void afficherOption(int num, String option) {
+         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            return;
+        }
         System.out.println(ANSI_GREEN + "  [" + num + "] " + option + ANSI_RESET);
         if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

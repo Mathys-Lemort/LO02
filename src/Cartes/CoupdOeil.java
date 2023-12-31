@@ -18,7 +18,10 @@ public class CoupdOeil extends Carte {
             }
             return;
         } else {
+            // Si c'est un bot, on affiche pas sa main
+            if (!(adversaire instanceof Joueurs.JoueurBot)) {
         adversaire.afficherMain();
+            }
         }
 
         if (demanderJouerAutreCarte()) {
