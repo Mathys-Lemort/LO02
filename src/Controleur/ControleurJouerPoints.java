@@ -3,6 +3,7 @@ package Controleur;
 import vue.Jeu;
 import Cartes.Carte;
 import Joueurs.Joueur;
+import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -30,7 +31,7 @@ public class ControleurJouerPoints implements EventHandler<ActionEvent> {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
         this.carte = carte;
-        
+
     }
 
     /**
@@ -40,35 +41,45 @@ public class ControleurJouerPoints implements EventHandler<ActionEvent> {
      * @param actionEvent l'événement action
      */
 
-    @Override
-    public void handle(ActionEvent actionEvent) {
-        System.out.println(carte.getNom());
-        modelePartie.jouerCartePoints(carte);
+     @Override
+     public void handle(ActionEvent actionEvent) {
+         modelePartie.jouerCartePoints(carte);
+     
+         Joueur joueurSuivant = modelePartie.getJoueurRival();
+         traiterJoueurSuivant(joueurSuivant);
+     }
+     
+     private void traiterJoueurSuivant(Joueur joueur) {
+         verifierEtReincarnerSiNecessaire(joueur);
+         modelePartie.piocherCarte(joueur);
+        //  Afficher la pile et la main du joueur
         
-        if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
-            Joueur joueur = modelePartie.getJoueur2();
-            // Vérifier si le joueur a des cartes en main et dans sa pile
-            if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
-                // Le joueur se réincarne
-                joueur.reincarnation();
-            }
-            modelePartie.piocherCarte(joueur);
-            
-            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(),
-                    joueur.getVieFuture());
-            modelePartie.setJoueurActif(joueur);
-        } else {
-            Joueur joueur = modelePartie.getJoueur1();
-            if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
-                // Le joueur se réincarne
-                joueur.reincarnation();
-            }
-            
-            modelePartie.piocherCarte(joueur);
-            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(),
-                    joueur.getVieFuture());
-            modelePartie.setJoueurActif(joueur);
-        }
-    }
+     
+         if (joueur instanceof JoueurBot) {
+             gererBot((JoueurBot) joueur);
+         } else {
+             miseAJourInterfaceJoueur(joueur);
+         }
+     }
+     
+     private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
+         if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+             joueur.reincarnation();
+         }
+     }
+     
+     private void gererBot(JoueurBot bot) {
+         bot.jouerCoup();
+         Joueur joueurActuel = modelePartie.getJoueurActif();
+         miseAJourInterfaceJoueur(joueurActuel);
+     }
+     
+     private void miseAJourInterfaceJoueur(Joueur joueur) {
+        verifierEtReincarnerSiNecessaire(joueur);
+        modelePartie.piocherCarte(joueur);
+        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
+        modelePartie.setJoueurActif(joueur);
+     }
+     
 
 }

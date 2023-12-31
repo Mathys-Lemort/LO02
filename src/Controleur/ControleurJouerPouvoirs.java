@@ -3,84 +3,65 @@ package Controleur;
 import vue.Jeu;
 import Cartes.Carte;
 import Joueurs.Joueur;
+import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-/**
- * Contrôleur à activer lorsque l'on clique sur le bouton rejouer ou Lancer une
- * partie
- */
 public class ControleurJouerPouvoirs implements EventHandler<ActionEvent> {
-    /**
-     * modèle du jeu
-     */
-    /**
-     * vue du jeu
-     **/
     private Jeu vueJeu;
     private Core.Partie modelePartie;
     private Carte carte;
 
-    /**
-     * 
-     * @param p vue du jeu
-     * @param m modèle du jeu
-     */
     public ControleurJouerPouvoirs(Jeu vueJeu, Core.Partie modelePartie, Carte carte) {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
         this.carte = carte;
-        
     }
-
-    /**
-     * L'action consiste à recommencer une partie. Il faut vérifier qu'il n'y a pas
-     * une partie en cours
-     * 
-     * @param actionEvent l'événement action
-     */
 
     @Override
-public void handle(ActionEvent actionEvent) {
-    Joueur joueurActif = modelePartie.getJoueurActif();
-    Joueur adversaire = modelePartie.getJoueurRival();
+    public void handle(ActionEvent actionEvent) {
+        Joueur joueurActif = modelePartie.getJoueurActif();
+        Joueur adversaire = modelePartie.getJoueurRival();
 
-    // Exécute l'action de la carte
-    // Suppriemr la carte de la main du joueur
-    joueurActif.getMain().remove(carte);
-    vueJeu.rafraichirVueJoueur(joueurActif.getPseudo(), joueurActif.getMain(), joueurActif.getPile(), joueurActif.getFosse(), joueurActif.getVieFuture());
+        joueurActif.getMain().remove(carte);
+        vueJeu.rafraichirVueJoueur(joueurActif.getPseudo(), joueurActif.getMain(), joueurActif.getPile(), joueurActif.getFosse(), joueurActif.getVieFuture(), joueurActif.getOeuvres());
 
-    joueurActif.demanderPrendreCarte(adversaire, carte);
-    carte.action(joueurActif, adversaire);
+        joueurActif.demanderPrendreCarte(adversaire, carte);
+        carte.action(joueurActif, adversaire);
 
-    if(modelePartie.getRejouer()) {
-        // Mettre à jour l'affichage
-        modelePartie.setRejouer(false);
-        vueJeu.rafraichirVueJoueur(joueurActif.getPseudo(), joueurActif.getMain(), joueurActif.getPile(), joueurActif.getFosse(), joueurActif.getVieFuture());
-        return;
+        if (!modelePartie.getRejouer()) {
+            Joueur joueurSuivant = modelePartie.getJoueurRival();
+            traiterJoueurSuivant(joueurSuivant);
+        }
     }
-    if (modelePartie.getJoueurActif() == modelePartie.getJoueur1()) {
-        Joueur joueur = modelePartie.getJoueur2();
+
+    private void traiterJoueurSuivant(Joueur joueur) {
+        verifierEtReincarnerSiNecessaire(joueur);
+        modelePartie.piocherCarte(joueur);
+
+        if (joueur instanceof JoueurBot) {
+            gererBot((JoueurBot) joueur);
+        } else {
+            miseAJourInterfaceJoueur(joueur);
+        }
+    }
+
+    private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
         if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
-            // Le joueur se réincarne
             joueur.reincarnation();
         }
+    }
+
+    private void gererBot(JoueurBot bot) {
+        bot.jouerCoup();
+        Joueur joueurActuel = modelePartie.getJoueurActif();
+        miseAJourInterfaceJoueur(joueurActuel);
+    }
+
+    private void miseAJourInterfaceJoueur(Joueur joueur) {
+        verifierEtReincarnerSiNecessaire(joueur);
         modelePartie.piocherCarte(joueur);
-        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
+        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
         modelePartie.setJoueurActif(joueur);
-    } else {
-        Joueur joueur = modelePartie.getJoueur1();
-        if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
-            // Le joueur se réincarne
-            joueur.reincarnation();
-        }
-        modelePartie.piocherCarte(joueur);
-        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
-        modelePartie.setJoueurActif(joueur);
-    }      
-
-
-
-}
-
+    }
 }

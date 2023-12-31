@@ -63,11 +63,7 @@ public class Plateau {
     }
 
 
-    public void afficherSource() {
-        for (Carte carte : this.source) {
-            System.out.println(carte);
-        }
-    }
+   
 
     public void initialiserSource() {
     Map<Class<? extends Carte>, Integer> cartesAInitialiser = new HashMap<>();
@@ -121,7 +117,6 @@ public class Plateau {
             Plateau plateau = new Plateau();
             plateau.initialiserSource();
             // Afficher le nombre de carte dans la source
-            System.out.println(plateau.source.size());
             // Afficher le nombre de chaque couleur des cartes de la source ("rouge: 5", "bleu: 3", etc.)
             Map<String, Integer> couleurCartes = new HashMap<>();
             for (Carte carte : plateau.source) {

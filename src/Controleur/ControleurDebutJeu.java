@@ -2,6 +2,7 @@ package Controleur;
 
 import vue.Jeu;
 import Joueurs.Joueur;
+import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -42,7 +43,18 @@ public class ControleurDebutJeu implements EventHandler<ActionEvent> {
         modelePartie.initialiserPartie();
         Joueur joueur = modelePartie.getJoueurActif();
         modelePartie.piocherCarte(joueur);
-        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture());
+
+        // Si le joueur est un bot, on joue son coup
+        if (joueur instanceof Joueurs.JoueurBot) {
+            ((JoueurBot) joueur).jouerCoup();
+            Joueur joueurSuivant = modelePartie.getJoueurRival();
+            modelePartie.piocherCarte(joueurSuivant);
+        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
+        } else {
+            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
+
+        }
+
     }
 
 }

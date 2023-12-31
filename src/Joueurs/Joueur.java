@@ -8,7 +8,9 @@ import java.util.Scanner;
 import Cartes.Carte;
 import Core.Affichage;
 import Core.Partie;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 
 //Faire une enum des positions de l'échelle karmique
 
@@ -77,8 +79,6 @@ public class Joueur {
         pointsRouge += this.anneauxKarmiques;
         pointsVert += this.anneauxKarmiques;
         pointsBleu += this.anneauxKarmiques;
-        Affichage.afficherMessage(this.getPseudo() + ", vous avez " + pointsRouge + " points rouges, " + pointsVert
-                + " points verts et " + pointsBleu + " points bleus");
         return Math.max(pointsRouge, Math.max(pointsVert, pointsBleu));
     }
 
@@ -87,38 +87,58 @@ public class Joueur {
     }
 
     public void reincarnation() {
+        String message;
+
         // Vérifier si le joueur a assez de points pour passer à l'étape suivante
         if (this.getPoints() >= this.positionEchelleKarmique.getPointsPourAvancer()) {
             // Passer à l'étape suivante
             this.positionEchelleKarmique = EchelleKarmique.values()[this.positionEchelleKarmique.ordinal() + 1];
-            Affichage.afficherMessage("Vous passez maintenant à l'étape " + this.positionEchelleKarmique.name()
-                    + " de l'échelle karmique");
-
+            message = this.getPseudo() + ", vous passez maintenant à l'étape " + this.positionEchelleKarmique.name()
+                    + " de l'échelle karmique";
         } else {
             // Rajouter un anneau karmique
             this.anneauxKarmiques++;
-            Affichage.afficherMessage(this.getPseudo()
-                    + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique");
+            message = this.getPseudo()
+                    + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique";
         }
-        // Si il n'a pas atteint la transceandance, il est réincarné
-        if (this.positionEchelleKarmique != EchelleKarmique.TRANSCEANDANCE) {
-            this.defausse.addAll(this.Oeuvres);
-            this.Oeuvres.clear();
-            this.main.addAll(this.vieFuture);
-            this.vieFuture.clear();
-            this.pile.clear();
-            while ((this.main.size() + this.pile.size()) < 6) {
-                Partie.getInstance().piocherSourcePile(this);
-            }
-            Affichage.afficherMessage(this.getPseudo() + ", vous avez été réincarné");
+
+        // Afficher le message selon le mode de jeu
+        if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Réincarnation");
+            alert.setHeaderText("Réincarnation");
+
+            Label label = new Label(message);
+            label.setWrapText(true); // Autorise le texte à revenir à la ligne
+            alert.getDialogPane().setContent(label);
+
+            alert.showAndWait();
         } else {
-            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
-            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
-            Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
-
-            Partie.getInstance().terminerPartie();
+            Affichage.afficherMessage(message);
         }
 
+        // Gérer la réincarnation et la transceandance
+        if (this.positionEchelleKarmique != EchelleKarmique.TRANSCEANDANCE) {
+            preparerPourReincarnation();
+        } else {
+            celebrerTransceandance();
+        }
+    }
+
+    private void preparerPourReincarnation() {
+        this.defausse.addAll(this.Oeuvres);
+        this.Oeuvres.clear();
+        this.main.addAll(this.vieFuture);
+        this.vieFuture.clear();
+        this.pile.clear();
+        while ((this.main.size() + this.pile.size()) < 6) {
+            Partie.getInstance().piocherSourcePile(this);
+        }
+    }
+
+    private void celebrerTransceandance() {
+        Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
+        Partie.getInstance().terminerPartie();
     }
 
     public void jouerCartePourPoints(Carte carte) {
@@ -282,7 +302,7 @@ public class Joueur {
             message += (i + 1) + " - " + this.vieFuture.get(i).toString() + "\n";
         }
         Affichage.afficherMessage(message);
-        
+
     }
 
     public void afficherCartesOeuvres() {

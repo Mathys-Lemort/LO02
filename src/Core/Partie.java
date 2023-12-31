@@ -38,17 +38,12 @@ public class Partie {
         this.plateau.initialiserSource();
         this.rejouer = false;
 
-        
-
-            
-        
-
     }
 
     public boolean getRejouer() {
         return rejouer;
     }
-    
+
     public void setRejouer(boolean rejouer) {
         this.rejouer = rejouer;
     }
@@ -87,48 +82,52 @@ public class Partie {
 
         // Boucle pour ajouter deux joueurs
         // Si les deux joueurs ne sont pas encore crée seulement
-        Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
-        Affichage.afficherOption(1, "Oui");
-        Affichage.afficherOption(2, "Non");
-        int choix = scanner.nextInt();
-        scanner.nextLine();
-        if (choix == 1) {
-            joueurs.add(new Joueur("Joueur 1"));
-            joueurs.add(new JoueurBot("Bot"));
-        } else {
-            if (joueurs.size() < 2) {
-                for (int i = 1; i <= 2; i++) {
-                    Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
-                    String pseudo = scanner.nextLine();
+        // Si on n'est pas en mode graphique
+        if (!(this.getMode().equals(Mode.GRAPHIQUE))) {
+            Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
+            Affichage.afficherOption(1, "Oui");
+            Affichage.afficherOption(2, "Non");
+            int choix = scanner.nextInt();
+            scanner.nextLine();
+            if (choix == 1) {
+                joueurs.add(new Joueur("Joueur 1"));
+                joueurs.add(new JoueurBot("Bot"));
+            } else {
+                if (joueurs.size() < 2) {
+                    for (int i = 1; i <= 2; i++) {
+                        Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
+                        String pseudo = scanner.nextLine();
 
-                    // Vérifiez si un joueur avec le même pseudo existe déjà
-                    boolean pseudoExiste = false;
-                    for (Joueur joueurExist : this.joueurs) {
-                        if (joueurExist.getPseudo().equals(pseudo)) {
-                            pseudoExiste = true;
-                            break;
+                        // Vérifiez si un joueur avec le même pseudo existe déjà
+                        boolean pseudoExiste = false;
+                        for (Joueur joueurExist : this.joueurs) {
+                            if (joueurExist.getPseudo().equals(pseudo)) {
+                                pseudoExiste = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (pseudoExiste) {
-                        Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
-                        i--; // Répétez la saisie pour le même joueur
-                    } else {
-                        Joueur joueur = new Joueur(pseudo);
-                        this.joueurs.add(joueur);
-                    }
+                        if (pseudoExiste) {
+                            Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
+                            i--; // Répétez la saisie pour le même joueur
+                        } else {
+                            Joueur joueur = new Joueur(pseudo);
+                            this.joueurs.add(joueur);
+                        }
 
+                    }
                 }
             }
+            this.designerMalchanceux();
         }
-        this.designerMalchanceux();
+
         this.distribuerMain();
         this.distribuerPileInitiale();
 
     }
 
-    public void piocherCarte(Joueur joueur){
-        if (!joueur.pileVide()){
+    public void piocherCarte(Joueur joueur) {
+        if (!joueur.pileVide()) {
             joueur.ajouterCarte();
         }
 
@@ -167,13 +166,13 @@ public class Partie {
         if (!estRejouer) {
             piocherCarteSiNecessaire(joueur);
         }
-        
+
         if (joueur instanceof JoueurBot) {
             ((JoueurBot) joueur).jouerCoup();
         } else {
             Affichage.afficherTitre("Tour de " + joueur.getPseudo());
             joueur.afficherMain();
-    
+
             int choixAction = demanderChoixAction(joueur);
             switch (choixAction) {
                 case 1:
@@ -187,7 +186,8 @@ public class Partie {
                     break;
                 case 4:
                     if (joueur.pileVide()) {
-                        Affichage.afficherMessage("Vous ne pouvez pas passer votre tour car vous n'avez pas de cartes dans votre pile.");
+                        Affichage.afficherMessage(
+                                "Vous ne pouvez pas passer votre tour car vous n'avez pas de cartes dans votre pile.");
                         effectuerActionsTour(joueur, false);
                     } else {
                         passerTour(joueur);
@@ -199,7 +199,6 @@ public class Partie {
             }
         }
     }
-    
 
     private void jouerCartePourPoints(Joueur joueur) {
         if (joueur.getMain().isEmpty()) {
@@ -433,7 +432,14 @@ public class Partie {
     }
 
     public void setJoueur2Pseudo(String pseudo) {
-        getJoueur2().setPseudo(pseudo);
+        // SI le string est "Bot" alors on crée un bot
+        if (pseudo.equals("Bot")) {
+            getJoueur2().setPseudo(pseudo);
+            joueurs.set(1, new JoueurBot(pseudo));
+        } else {
+            getJoueur2().setPseudo(pseudo);
+        }
+
     }
 
     public void setJoueurActif(Joueur joueur) {
@@ -441,12 +447,10 @@ public class Partie {
     }
 
     public void jouerCartePoints(Carte carte) {
-        System.out.println(joueurActif);
         joueurActif.jouerCartePourPoints(carte);
     }
 
     public void jouerCarteVieFuture(Carte carte) {
-        System.out.println(joueurActif);
         joueurActif.jouerCartePourFutur(carte);
     }
 
@@ -457,6 +461,5 @@ public class Partie {
             return getJoueur2();
         }
     }
-
 
 }

@@ -1,6 +1,7 @@
 package vue;
 
 import java.util.List;
+import java.util.Optional;
 
 import Cartes.Carte;
 import Controleur.*;
@@ -8,7 +9,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -47,6 +52,7 @@ public class Jeu extends Application {
     private Partie partie;
     private Button debutJeu;
     private Button passerTour;
+    private Stage primaryStage;
 
     @Override
     public void init() {
@@ -73,22 +79,57 @@ public class Jeu extends Application {
         joueur2TextField.textProperty().addListener((obs, oldText, newText) -> verifierPseudos());
     }
 
+    // @Override
+    // public void start(Stage primaryStage) {
+    //     afficherEcranAccueil();
+    //     Scene scene = new Scene(panelCentral, WINDOW_WIDTH, WINDOW_HEIGHT);
+    //     // Faire un lien vers le fichier css qui est dans vue/style.css sachant que le
+    //     // fichier jeu est dans vue/Jeu.java
+    //     scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    //     primaryStage.setTitle("Karmaka");
+    //     primaryStage.setScene(scene);
+    //     primaryStage.show();
+    // }
+    
     @Override
-    public void start(Stage primaryStage) {
-        afficherEcranAccueil();
-        Scene scene = new Scene(panelCentral, WINDOW_WIDTH, WINDOW_HEIGHT);
-        // Faire un lien vers le fichier css qui est dans vue/style.css sachant que le
-        // fichier jeu est dans vue/Jeu.java
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        primaryStage.setTitle("Karmaka");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+public void start(Stage primaryStage) {
+    this.primaryStage = primaryStage; // Conserver une référence au primaryStage
+    demanderModeJeu(); // Appel de la nouvelle méthode
+}
 
-    public void afficherEcranAccueil() {
-        panelCentral.setCenter(creerEcranAccueil());
-    }
+private void demanderModeJeu() {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Choix du mode de jeu");
+    alert.setHeaderText(null);
+    alert.setContentText("Voulez-vous jouer contre un Bot?");
 
+    ButtonType buttonTypeYes = new ButtonType("Oui");
+    ButtonType buttonTypeNo = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == buttonTypeYes){
+        afficherEcranAccueil(true); // true indique qu'on joue contre un Bot
+    } else {
+        afficherEcranAccueil(false); // false indique qu'on joue contre un joueur
+    }
+}
+
+public void afficherEcranAccueil(boolean contreBot) {
+    if (contreBot) {
+        joueur2TextField.setText("Bot");
+        joueur2TextField.setDisable(true);
+    } else {
+        joueur2TextField.setDisable(false);
+    }
+    panelCentral.setCenter(creerEcranAccueil());
+    Scene scene = new Scene(panelCentral, WINDOW_WIDTH, WINDOW_HEIGHT);
+    scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    primaryStage.setTitle("Karmaka");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+}
     private BorderPane creerEcranAccueil() {
         BorderPane fenetre = new BorderPane();
         fenetre.setStyle("-fx-background-image: url('file:img/karmaka.jpg');" +
@@ -185,6 +226,30 @@ public class Jeu extends Application {
         return cardBox;
     }
 
+    private VBox createOeuvreCard(Carte carte) {
+        VBox cardBox = new VBox();
+
+        // Créer un ImageView pour afficher l'image de la carte
+        ImageView cardImageView = new ImageView(new Image("file:img/" + carte.getNom() + ".png"));
+
+        // Définir la taille de l'ImageView pour correspondre à la taille de l'image
+        cardImageView.setFitWidth(150);
+        cardImageView.setFitHeight(200);
+
+        // Ajouter l'ImageView à la VBox
+        cardBox.getChildren().add(cardImageView);
+        cardBox.getStyleClass().add("card-box");
+
+        // Ajouter le nom de la carte en dessous de l'image
+        Label cardNameLabel = new Label(carte.getNom());
+        cardNameLabel.getStyleClass().add("white-label"); // Ajout de la classe CSS
+        cardBox.getChildren().add(cardNameLabel);
+
+        return cardBox;
+    }
+
+
+
     private VBox createMainCard(Carte carte) {
         VBox cardBox = new VBox();
 
@@ -228,95 +293,114 @@ public class Jeu extends Application {
     }
 
     private BorderPane creerEcranJeu(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
-            List<Carte> fosseJoueur, List<Carte> vieFuture) {
-        BorderPane ecranJeu = new BorderPane();
-        ecranJeu.getStyleClass().add("border-pane");
+        List<Carte> fosseJoueur, List<Carte> vieFuture, List<Carte> oeuvres) {
+    BorderPane ecranJeu = new BorderPane();
+    ecranJeu.getStyleClass().add("border-pane");
 
-        mettreAJourIndicateurTour(joueurActifPseudo);
-        // Mettre l'image img/background.jpg en arrière-plan de l'écran de jeu
-        
-        
-        // Créer un SplitPane pour diviser l'écran en deux parties
-        SplitPane splitPane = new SplitPane();
-        // DOnner 70% de l'espace à la main du joueur et 30% à la fosse
-        splitPane.setDividerPositions(0.7);
+    mettreAJourIndicateurTour(joueurActifPseudo);
 
-        // Partie gauche du SplitPane : la main du joueur
-        ScrollPane scrollPaneMainJoueur = new ScrollPane();
-        scrollPaneMainJoueur.setFitToWidth(true);
+    SplitPane splitPanePrincipal = new SplitPane();
+    splitPanePrincipal.setDividerPositions(0.7);
 
-        VBox vboxMainJoueur = new VBox(5); // Container for the player's hand
-        Label labelMainJoueur = new Label("Main du joueur");
-        labelMainJoueur.getStyleClass().add("titre_cartes");
-        vboxMainJoueur.getChildren().add(labelMainJoueur);
+    // Création du ScrollPane pour la main du joueur
+    ScrollPane scrollPaneMainJoueur = creerScrollPaneMain(mainJoueur);
 
-        for (Carte carte : mainJoueur) {
-            VBox carteBox = createMainCard(carte);
-            vboxMainJoueur.getChildren().add(carteBox);
+    // Création du SplitPane vertical pour la fosse et les oeuvres
+    SplitPane splitPaneDroite = new SplitPane();
+    splitPaneDroite.setOrientation(javafx.geometry.Orientation.VERTICAL);
+    ScrollPane scrollPaneFosseJoueur = creerScrollPaneFosse(fosseJoueur);
+    ScrollPane scrollPaneOeuvresJoueur = creerScrollPaneOeuvres(oeuvres);
+
+    splitPaneDroite.getItems().addAll(scrollPaneFosseJoueur, scrollPaneOeuvresJoueur);
+
+    splitPanePrincipal.getItems().addAll(scrollPaneMainJoueur, splitPaneDroite);
+
+    ecranJeu.setCenter(splitPanePrincipal);
+    ecranJeu.setBottom(passerTour);
+
+    return ecranJeu;
+}
+
+
+private ScrollPane creerScrollPaneMain(List<Carte> mainJoueur) {
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setFitToWidth(true);
+    VBox vbox = new VBox(5);
+    Label label = new Label("Main du joueur");
+    label.setWrapText(true);       
+    label.getStyleClass().add("titre_cartes");
+    vbox.getChildren().add(label);
+
+    for (Carte carte : mainJoueur) {
+        // Ajouter le 
+        VBox carteBox = createMainCard(carte);
+            vbox.getChildren().add(carteBox);
             Label pouvoir = new Label("Pouvoir : " + carte.getPouvoir());
             pouvoir.getStyleClass().add("white-label");
-            vboxMainJoueur.getChildren().add(pouvoir);
+            vbox.getChildren().add(pouvoir);
             pouvoir.setWrapText(true);        
             Label points = new Label("Points : " + carte.getPoints());
             points.getStyleClass().add("white-label");
-            vboxMainJoueur.getChildren().add(points);            
-        }
-
-        // Ajouter la VBox contenant la main du joueur au ScrollPane
-        scrollPaneMainJoueur.setContent(vboxMainJoueur);
-
-        // Partie droite du SplitPane : la fosse du joueur
-        ScrollPane scrollPaneFosseJoueur = new ScrollPane();
-        scrollPaneFosseJoueur.setFitToWidth(true);
-
-        VBox vboxFosseJoueur = new VBox(5); // Container for the discard pile
-        System.out.println(fosseJoueur);
-        Label labelFosseJoueur = new Label("Fosse du joueur");
-        labelFosseJoueur.getStyleClass().add("titre_cartes");
-        vboxFosseJoueur.getChildren().add(labelFosseJoueur);
-        for (Carte carte : fosseJoueur) {
-            VBox carteBox = createFosseCard(carte);
-            vboxFosseJoueur.getChildren().add(carteBox);
-        }
-
-        scrollPaneMainJoueur.getStyleClass().add("scroll-pane-card");
-        scrollPaneFosseJoueur.getStyleClass().add("scroll-pane-card");
-        splitPane.getStyleClass().add("split-pane-game");
-
-        // Ajouter les conteneurs aux parties gauche et droite du SplitPane
-        // Ajouter du texte pour indiquer la source et la fosse
-        scrollPaneFosseJoueur.setContent(vboxFosseJoueur);
-
-        splitPane.getItems().addAll(scrollPaneMainJoueur, scrollPaneFosseJoueur);
-
-        // Ajouter le SplitPane à l'écran de jeu
-        ecranJeu.setCenter(splitPane);
-        ecranJeu.setBottom(passerTour); // Positionner le bouton passer le tour en bas
-
-        // Vous pouvez également ajouter des boutons ou d'autres éléments d'interaction
-        // ici
-
-        return ecranJeu;
+            vbox.getChildren().add(points); 
     }
+    scrollPane.setContent(vbox);
+    return scrollPane;
+}
+
+private ScrollPane creerScrollPaneFosse(List<Carte> fosseJoueur) {
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setFitToWidth(true);
+    VBox vbox = new VBox(5);
+    Label label = new Label("Fosse du joueur");
+    label.setWrapText(true);       
+    label.getStyleClass().add("titre_cartes");
+    vbox.getChildren().add(label);
+
+    for (Carte carte : fosseJoueur) {
+        vbox.getChildren().add(createFosseCard(carte));
+    }
+    scrollPane.setContent(vbox);
+    return scrollPane;
+}
+
+private ScrollPane creerScrollPaneOeuvres(List<Carte> oeuvres) {
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setFitToWidth(true);
+    VBox vbox = new VBox(5);
+    Label label = new Label("Oeuvres du joueur");
+    label.setWrapText(true);       
+
+    label.getStyleClass().add("titre_cartes");
+    vbox.getChildren().add(label);
+
+    for (Carte carte : oeuvres) {
+        vbox.getChildren().add(createOeuvreCard(carte));
+    }
+    scrollPane.setContent(vbox);
+    return scrollPane;
+}
 
     public void afficherEcranJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
-            List<Carte> fosseJoueur, List<Carte> vieFuture) {
-        System.out.println(joueurActifPseudo + " commence !");
+            List<Carte> fosseJoueur, List<Carte> vieFuture, List<Carte> oeuvres) {
         panelCentral.setBottom(null); // Cela supprimera le bouton "Commencer la partie"
-        panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("file:img/background.png"),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
-        panelCentral.setBackground(new javafx.scene.layout.Background(backgroundImage));
+        panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture, oeuvres));
+        // BackgroundImage backgroundImage = new BackgroundImage(new Image("file:img/background.png"),
+        //         BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+        //         new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+        // panelCentral.setBackground(new javafx.scene.layout.Background(backgroundImage));
+
+        panelCentral.setStyle("-fx-background-image: url('file:img/background.png');" +
+                "-fx-background-size: cover;");
         mettreAJourIndicateurTour(joueurActifPseudo);
+
 
     }
 
     // Dans Jeu.java
     public void rafraichirVueJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
-            List<Carte> fosseJoueur, List<Carte> vieFuture) {
+            List<Carte> fosseJoueur, List<Carte> vieFuture, List<Carte> oeuvres) {
         // Supprime les anciens éléments de la main du joueur et ajoute les nouveaux
-        panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture));
+        panelCentral.setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture, oeuvres));
         mettreAJourIndicateurTour(joueurActifPseudo);
 
     }

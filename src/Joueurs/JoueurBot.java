@@ -10,7 +10,11 @@ public class JoueurBot extends Joueur {
     }
 
     public void jouerCoup() {
-        System.out.println(this.getPseudo() + " (bot) joue son coup.");
+        // Vérifier dans un premier temps si bot a des cartes dans sa main et dans sa pile si non il ne peut pas jouer et doit se reincarner
+        if (this.getMain().isEmpty() && this.getPile().isEmpty()) {
+            this.reincarnation();
+
+        }
 
         // Choix basique de l'action
         if (!this.getMain().isEmpty()) {
@@ -33,6 +37,7 @@ public class JoueurBot extends Joueur {
         } else {
             passerTour();
         }
+       
     }
 
     private Carte choisirCarteAvecMaxPoints() {

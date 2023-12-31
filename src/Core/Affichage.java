@@ -26,15 +26,9 @@ public class Affichage {
         alert.setTitle("Information");
         alert.setHeaderText(null);
 
-        // Créer un panneau de texte qui prend en charge le défilement pour les longs messages
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(new Label(message));
-        scrollPane.setPrefHeight(180); // Hauteur préférée
-        scrollPane.setPrefWidth(360); // Largeur préférée
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Barre de défilement si nécessaire
-
-        alert.getDialogPane().setContent(scrollPane);
-
+        Label label = new Label(message);
+        label.setWrapText(true);       
+        alert.getDialogPane().setContent(label);
         alert.showAndWait();
     }
 }
