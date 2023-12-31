@@ -184,12 +184,23 @@ public void afficherEcranAccueil(boolean contreBot) {
                         ".\n" + joueurCommence + " commence !");
         VBox resultatContainer = new VBox(resultatLabel);
         resultatContainer.setAlignment(Pos.CENTER);
+        resultatLabel.getStyleClass().add("white-label"); // Ajout de la classe CSS
+
 
         // Afficher les résultats dans la vue centrale du BorderPane
         this.debutJeu.setOnAction(new ControleurDebutJeu(this, partie));
+                // Mettre le bouton "Commencer la partie" au milieu en dessous des résultats
+        HBox hboxDebutJeu = new HBox(debutJeu);
+        hboxDebutJeu.setAlignment(Pos.CENTER);
+        resultatContainer.getChildren().add(hboxDebutJeu);
+        VBox.setMargin(hboxDebutJeu, new Insets(100, 0, 100, 0));
+
 
         panelCentral.setCenter(resultatContainer);
-        panelCentral.setBottom(debutJeu);
+
+
+        panelCentral.setStyle("-fx-background-image: url('file:img/de.png');" +
+                "-fx-background-size: cover;");
     }
 
     private void mettreAJourIndicateurTour(String joueurActifPseudo) {
