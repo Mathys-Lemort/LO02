@@ -12,7 +12,10 @@ public class Panique extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         if (adversaire.getPile().isEmpty()) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("La Pile de " + adversaire.getPseudo() + " est vide, aucune action possible.");
+            }
             return;
         }
 
@@ -27,7 +30,10 @@ public class Panique extends Carte {
             Partie.getInstance().rejouer(joueur);
             }
         } else {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
+            }
         }
     }
 }

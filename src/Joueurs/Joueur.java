@@ -186,6 +186,10 @@ public class Joueur {
     }
 
     private int afficherDialogueGraphique(Joueur joueur, String message, String titre) {
+        // Si le joueur est un bot, il choisit aléatoirement entre les deux options
+        if (joueur instanceof JoueurBot) {
+            return (int) (Math.random() * 2) + 1;
+        }
         ChoiceDialog<String> dialog = new ChoiceDialog<>("- Oui", "- Oui", "- Non");
         dialog.setTitle(titre);
         dialog.setHeaderText(joueur.getPseudo() + ", Attention !");
@@ -323,6 +327,7 @@ public class Joueur {
         Carte carte = this.Oeuvres.get(choix - 1);
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
+        
         Affichage.afficherMessage(
                 this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de vos oeuvres");
     }
@@ -330,8 +335,11 @@ public class Joueur {
     public void defausserCarteChoisit(Carte carte) {
         this.defausse.add(carte);
         this.main.remove(carte);
+                if (!(this instanceof JoueurBot)) {
+
         Affichage.afficherMessage(
                 this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de votre main");
+                }
     }
 
     public void passerTour() {
@@ -375,7 +383,10 @@ public class Joueur {
     }
 
     public void defausserCartePile() {
+                if (!(this instanceof JoueurBot)) {
+
         Affichage.afficherMessage("Vous avez défaussé la carte " + this.pile.get(0).getNom() + " de la pile");
+                }
         this.defausse.add(this.pile.get(0));
         this.pile.remove(0);
     }

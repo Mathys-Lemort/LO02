@@ -13,17 +13,22 @@ public class Bassesse extends Carte {
         int tailleMainAdversaire = adversaire.getMain().size();
 
         if (tailleMainAdversaire == 0) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Votre adversaire n'a pas de carte en main, aucune action possible.");
+            }
             return;
         }
 
         int nbCartesADefaussées = Math.min(tailleMainAdversaire, 2);
         adversaire.defausserCarte(nbCartesADefaussées);
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
 
         String message = (nbCartesADefaussées == 1) 
                         ? "Votre adversaire a défaussé 1 carte au hasard." 
                         : "Votre adversaire a défaussé 2 cartes au hasard.";
         Affichage.afficherMessage(message);
+        }
     }
 
 

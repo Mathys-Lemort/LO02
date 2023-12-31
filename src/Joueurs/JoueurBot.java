@@ -1,43 +1,55 @@
 package Joueurs;
 
+import java.util.Random;
+
 import Cartes.Carte;
 import Core.Partie;
 
 public class JoueurBot extends Joueur {
+    private Random random = new Random();
 
     public JoueurBot(String id) {
         super(id);
     }
 
     public void jouerCoup() {
-        // Vérifier dans un premier temps si bot a des cartes dans sa main et dans sa pile si non il ne peut pas jouer et doit se reincarner
         if (this.getMain().isEmpty() && this.getPile().isEmpty()) {
             this.reincarnation();
-
+            return;
         }
 
-        // Choix basique de l'action
         if (!this.getMain().isEmpty()) {
-            Carte carteAvecMaxPoints = choisirCarteAvecMaxPoints();
-            if (carteAvecMaxPoints != null) {
-                jouerCartePourPoints(carteAvecMaxPoints);
+            // Stratégie dynamique basée sur la situation
+            Carte carteChoisie = choisirStrategiquement();
+            if (carteChoisie != null) {
+                jouerCarteStrategiquement(carteChoisie);
             } else {
-                Carte carteAvecPouvoir = choisirCarteAvecPouvoir();
-                if (carteAvecPouvoir != null) {
-                    jouerCartePourPouvoir(carteAvecPouvoir, Partie.getInstance().getJoueurRival());
-                } else {
-                    Carte cartePourVieFuture = choisirCartePourVieFuture();
-                    if (cartePourVieFuture != null) {
-                        jouerCartePourFutur(cartePourVieFuture);
-                    } else {
-                        passerTour();
-                    }
-                }
+                passerTour();
             }
         } else {
             passerTour();
         }
-       
+    }
+
+    private Carte choisirStrategiquement() {
+        // Exemple de stratégie: choisir aléatoirement entre jouer pour les points, les pouvoirs ou la vie future
+        int choix = random.nextInt(3);
+        switch (choix) {
+            case 0: return choisirCarteAvecMaxPoints();
+            case 1: return choisirCarteAvecPouvoir();
+            case 2: return choisirCartePourVieFuture();
+            default: return null;
+        }
+    }
+
+    private void jouerCarteStrategiquement(Carte carte) {
+        if (carte.getPoints() >= 3) {
+            jouerCartePourPoints(carte);
+        } else if (carte.getPouvoir() != null && !carte.getPouvoir().isEmpty()) {
+            jouerCartePourPouvoir(carte, Partie.getInstance().getJoueurRival());
+        } else {
+            jouerCartePourFutur(carte);
+        }
     }
 
     private Carte choisirCarteAvecMaxPoints() {

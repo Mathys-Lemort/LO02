@@ -11,12 +11,18 @@ public class Vengeance extends Carte{
     public void action(Joueur joueur, Joueur adversaire) {
         Carte carte = adversaire.getOeuvreExposee();
         if (carte == null) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas d'Oeuvre Exposée à défausser.");
+            }
             return;
         }
 
         adversaire.defausserOeuvreChoisit(carte);
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
+
         Affichage.afficherMessage("Vous avez défaussé l'Oeuvre Exposée de " + adversaire.getPseudo() + " : " + carte.getNom() + ".");
+        }
     }
 
     

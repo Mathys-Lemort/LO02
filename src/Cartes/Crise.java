@@ -13,7 +13,10 @@ public class Crise extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         if (adversaire.getOeuvres().isEmpty()) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Votre adversaire n'a pas d'œuvre, tant pis pour vous !");
+            }
             return;
         }
 
@@ -21,7 +24,10 @@ public class Crise extends Carte {
         if (choix != -1) {
             Carte carte = adversaire.getOeuvres().get(choix);
             adversaire.defausserOeuvreChoisit(carte);
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage(adversaire.getPseudo() + " a défaussé l'œuvre " + carte.getNom() + ".");
+            }
         }
     }
 

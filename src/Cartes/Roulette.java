@@ -27,8 +27,10 @@ public class Roulette extends Carte {
             joueur.defausserCarteChoisit(joueur.getMain().get(choix));
             carteDefaussee++;
         }
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
 
         Affichage.afficherMessage("Vous avez défaussé " + carteDefaussee + " carte(s).");
+        }
         for (int i = 0; i <= carteDefaussee; i++) {
             Partie.getInstance().piocherSourceMain(joueur);
         }

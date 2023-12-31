@@ -12,7 +12,10 @@ public class CoupdOeil extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         if (adversaire.getMain().isEmpty()) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas de cartes en main.");
+            }
             return;
         } else {
         adversaire.afficherMain();
@@ -27,7 +30,10 @@ public class CoupdOeil extends Carte {
             Partie.getInstance().rejouer(joueur);
             }
         } else {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
+            }
         }
     
     }

@@ -15,12 +15,16 @@ public class Semis extends Carte {
         for (int i = 0; i < 2; i++) {
             Partie.getInstance().piocherSourceMain(joueur);
         }
-        Affichage.afficherMessage("Vous avez pioché 2 cartes à la Source.");
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
+            Affichage.afficherMessage("Vous avez pioché 2 cartes à la Source.");
+        }
 
         // Placer jusqu'à 2 cartes de la main dans la Vie Future
         for (int i = 0; i < 2; i++) {
             if (joueur.getMain().isEmpty()) {
+                if (!(joueur instanceof Joueurs.JoueurBot)) {
                 Affichage.afficherMessage("Vous n'avez plus de cartes en main pour placer dans votre Vie Future.");
+                }
                 break;
             }
 
@@ -32,7 +36,10 @@ public class Semis extends Carte {
             Carte carte = joueur.getMain().get(choix);
             joueur.ajouterCarteDansVieFuture(carte);
             joueur.getMain().remove(carte);
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Vous avez placé la carte " + carte.getNom() + " dans votre Vie Future.");
+            }
         }
     }
 }

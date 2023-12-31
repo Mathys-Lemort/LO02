@@ -53,10 +53,13 @@ public class ControleurJouerPouvoirs implements EventHandler<ActionEvent> {
     }
 
     private void gererBot(JoueurBot bot) {
-        bot.jouerCoup();
         Joueur joueurActuel = modelePartie.getJoueurActif();
         miseAJourInterfaceJoueur(joueurActuel);
-    }
+        modelePartie.setJoueurActif(bot);
+        bot.jouerCoup();
+        modelePartie.setJoueurActif(joueurActuel);
+        miseAJourInterfaceJoueur(joueurActuel);
+     }
 
     private void miseAJourInterfaceJoueur(Joueur joueur) {
         verifierEtReincarnerSiNecessaire(joueur);

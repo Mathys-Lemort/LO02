@@ -15,17 +15,25 @@ public class Fournaise extends Carte {
         List<Carte> vieFutureAdversaire = adversaire.getVieFuture();
 
         if (vieFutureAdversaire.size() < 2) {
+            if (!(joueur instanceof Joueurs.JoueurBot)) {
+
             Affichage.afficherMessage("Votre adversaire n'a pas assez de cartes dans sa Vie Future.");
+            }
             return;
         }
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
 
         Affichage.afficherMessage("Les 2 premières cartes de la Vie Future de " + adversaire.getPseudo() + " sont :");
+        }
         for (int i = 0; i < 2; i++) {
             Affichage.afficherMessage((i + 1) + ". " + vieFutureAdversaire.get(i).getNom());
         }
 
         adversaire.defausserCarteVieFutureChiffre(2);
+        if (!(joueur instanceof Joueurs.JoueurBot)) {
+
         Affichage.afficherMessage("Vous avez défaussé les 2 premières cartes de la Vie Future de " + adversaire.getPseudo() + ".");
+        }
     }
 
     

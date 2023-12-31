@@ -14,7 +14,10 @@ public class Jubile extends Carte {
         for (int i = 0; i < 2; i++) {
             List<Carte> main = joueur.getMain();
             if (main.isEmpty()) {
+                if (!(joueur instanceof Joueurs.JoueurBot)) {
+
                 Affichage.afficherMessage("Vous n'avez plus de cartes en main.");
+                }
                 break;
             }
 
@@ -23,7 +26,10 @@ public class Jubile extends Carte {
                 Carte carteChoisie = main.get(choix);
                 joueur.ajouterCarteDansOeuvres(carteChoisie);
                 joueur.suppCarteMain(carteChoisie);
+                if (!(joueur instanceof Joueurs.JoueurBot)) {
+
                 Affichage.afficherMessage("Vous avez placé la carte " + carteChoisie.getNom() + " sur vos œuvres.");
+                }
             }
         }
     }

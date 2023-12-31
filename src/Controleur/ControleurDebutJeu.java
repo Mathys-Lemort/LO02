@@ -28,7 +28,7 @@ public class ControleurDebutJeu implements EventHandler<ActionEvent> {
     public ControleurDebutJeu(Jeu vueJeu, Core.Partie modelePartie) {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
-        
+
     }
 
     /**
@@ -46,12 +46,19 @@ public class ControleurDebutJeu implements EventHandler<ActionEvent> {
 
         // Si le joueur est un bot, on joue son coup
         if (joueur instanceof Joueurs.JoueurBot) {
-            ((JoueurBot) joueur).jouerCoup();
+            modelePartie.setJoueurActif(joueur);
             Joueur joueurSuivant = modelePartie.getJoueurRival();
+            vueJeu.afficherEcranJoueur(joueurSuivant.getPseudo(), joueurSuivant.getMain(), joueurSuivant.getPile(),
+                    joueurSuivant.getFosse(), joueurSuivant.getVieFuture(), joueurSuivant.getOeuvres());
+
+            ((JoueurBot) joueur).jouerCoup();
+            modelePartie.setJoueurActif(joueurSuivant);
             modelePartie.piocherCarte(joueurSuivant);
-        vueJeu.afficherEcranJoueur(joueurSuivant.getPseudo(), joueurSuivant.getMain(), joueurSuivant.getPile(), joueurSuivant.getFosse(), joueurSuivant.getVieFuture(), joueurSuivant.getOeuvres());
+            vueJeu.afficherEcranJoueur(joueurSuivant.getPseudo(), joueurSuivant.getMain(), joueurSuivant.getPile(),
+                    joueurSuivant.getFosse(), joueurSuivant.getVieFuture(), joueurSuivant.getOeuvres());
         } else {
-            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
+            vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(),
+                    joueur.getVieFuture(), joueur.getOeuvres());
 
         }
 
