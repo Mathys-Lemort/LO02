@@ -409,10 +409,22 @@ public class Partie {
     }
 
     public void lancerDes() {
-        resultatLanceJoueur1 = (int) (Math.random() * 6) + 1;
-        resultatLanceJoueur2 = (int) (Math.random() * 6) + 1;
-        joueurCommence = resultatLanceJoueur1 > resultatLanceJoueur2 ? getJoueur1().getPseudo()
-                : getJoueur2().getPseudo();
+        // Le joueur qui commence est celui qui a lancé le plus petit nombre, il ne peut pas y avoir d'égalité
+        int resultatLanceJoueur1 =0, resultatLanceJoueur2 = 0;
+        while (resultatLanceJoueur1 == resultatLanceJoueur2) {
+            resultatLanceJoueur1 = (int) (Math.random() * 6) + 1;
+            resultatLanceJoueur2 = (int) (Math.random() * 6) + 1;
+        }
+        this.resultatLanceJoueur1 = resultatLanceJoueur1;
+        this.resultatLanceJoueur2 = resultatLanceJoueur2;
+        // C'est le plus petit nombre qui commence
+        if (resultatLanceJoueur1 < resultatLanceJoueur2) {
+            joueurActif = getJoueur1();
+            joueurCommence = getJoueur1().getPseudo();
+        } else {
+            joueurActif = getJoueur2();
+            joueurCommence = getJoueur2().getPseudo();
+        }
     }
 
     public int getResultatLanceJoueur1() {

@@ -49,7 +49,7 @@ public class ControleurDebutJeu implements EventHandler<ActionEvent> {
             ((JoueurBot) joueur).jouerCoup();
             Joueur joueurSuivant = modelePartie.getJoueurRival();
             modelePartie.piocherCarte(joueurSuivant);
-        vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
+        vueJeu.afficherEcranJoueur(joueurSuivant.getPseudo(), joueurSuivant.getMain(), joueurSuivant.getPile(), joueurSuivant.getFosse(), joueurSuivant.getVieFuture(), joueurSuivant.getOeuvres());
         } else {
             vueJeu.afficherEcranJoueur(joueur.getPseudo(), joueur.getMain(), joueur.getPile(), joueur.getFosse(), joueur.getVieFuture(), joueur.getOeuvres());
 
