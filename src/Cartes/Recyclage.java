@@ -15,9 +15,8 @@ public class Recyclage extends Carte {
         ArrayList<Carte> cartesFosse = joueur.getCartesFosse(3);
         if (cartesFosse.isEmpty()) {
             // Si le joueur actuel n'est pas une instance de bot (donc un joueur humain), on affiche un message
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-                Affichage.afficherMessage("Il n'y a pas de cartes dans votre fosse pour ajouter à votre Vie Future.");
-            }
+                            Affichage.afficherMessage("Il n'y a pas de cartes dans votre fosse pour ajouter à votre Vie Future.");
+            
             return;
         }
 
@@ -26,9 +25,8 @@ public class Recyclage extends Carte {
             Carte carte = cartesFosse.get(choix);
             joueur.ajouterCarteDansVieFuture(carte);
             joueur.getFosse().remove(carte);
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-                Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Vie Future.");
-            }
+                            Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Vie Future.");
+            
         }
     }
 }

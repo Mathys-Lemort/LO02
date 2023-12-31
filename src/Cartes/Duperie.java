@@ -13,10 +13,9 @@ public class Duperie extends Carte {
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         if (adversaire.getMain().isEmpty()) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas de cartes en main.");
-            }
+            
             return;
         }
 
@@ -28,10 +27,9 @@ public class Duperie extends Carte {
             Carte carteChoisie = cartesAPresenter.get(choix);
             joueur.ajouterCarteDansMain(carteChoisie);
             adversaire.suppCarteMain(carteChoisie);
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Vous avez pris la carte " + carteChoisie.getNom() + " de la main de " + adversaire.getPseudo());
-            }
+            
         }
     }
 

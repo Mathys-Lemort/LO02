@@ -14,22 +14,20 @@ public class Incarnation extends Carte {
     public void action(Joueur joueur, Joueur adversaire) {
         List<Carte> oeuvres = joueur.getOeuvres();
         if (oeuvres.isEmpty()) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Vous n'avez pas d'œuvres à copier.");
-            }
+            
             return;
         }
 
         int choix = obtenirChoixCarte(oeuvres);
         if (choix != -1) {
             Carte carteChoisie = oeuvres.get(choix);
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage(
                     "Vous avez choisi la carte " + carteChoisie.getNom() + " dont le pouvoir est : " + carteChoisie.getPouvoir());
             carteChoisie.action(joueur, adversaire);
-            }
+            
         }
     }
 

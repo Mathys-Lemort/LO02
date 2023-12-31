@@ -11,10 +11,9 @@ public class Transmigration extends Carte{
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
         if (joueur.getVieFuture().isEmpty()) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage(joueur.getPseudo() + " n'a pas de cartes dans sa Vie Future.");
-            }
+            
             return;
         }
 
@@ -22,15 +21,13 @@ public class Transmigration extends Carte{
         if (carte != null) {
             joueur.ajouterCarteDansMain(carte);
             joueur.getVieFuture().remove(carte);
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
-            }
+            
         } else {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Erreur lors de la récupération d'une carte de la Vie Future.");
-            }
+            
         }
     }
 

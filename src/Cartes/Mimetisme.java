@@ -12,19 +12,17 @@ public class Mimetisme extends Carte{
         Carte oeuvreExposee = adversaire.getOeuvreExposee();
 
         if (oeuvreExposee == null) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Vous ne pouvez pas copier le pouvoir de l'œuvre exposée de " + adversaire.getPseudo() + " car il n'en a pas.");
-            }
+            
             return;
         }
 
         String nomOeuvre = oeuvreExposee.getNom();
         String pouvoirOeuvre = oeuvreExposee.getPouvoir();
-        if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+        
         Affichage.afficherMessage("Vous avez copié le pouvoir de l'œuvre exposée de " + adversaire.getPseudo() + ", \"" + nomOeuvre + "\" : " + pouvoirOeuvre);
-        }
+        
         oeuvreExposee.action(joueur, adversaire);
     }
 }

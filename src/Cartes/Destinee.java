@@ -22,10 +22,9 @@ public class Destinee extends Carte {
             if (choix != -1) {
                 Carte carteChoisie = cartesSource.remove(choix);
                 joueur.ajouterCarteDansVieFuture(carteChoisie);
-                if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+                
                 Affichage.afficherMessage("Vous avez ajouté " + carteChoisie.getNom() + " à votre Vie Future.");
-                }
+                
             } else {
                 break; // Aucune carte choisie
             }

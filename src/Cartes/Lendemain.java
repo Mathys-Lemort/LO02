@@ -24,10 +24,9 @@ public class Lendemain extends Carte {
             Partie.getInstance().rejouer(joueur);
             }
         } else {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
-            }
+            
         }
     }
 }

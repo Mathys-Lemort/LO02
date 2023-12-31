@@ -223,7 +223,8 @@ public class Jeu extends Application {
     }
 
     private void mettreAJourIndicateurTour(String joueurActifPseudo) {
-        Label labelTour = new Label("Tour de : " + joueurActifPseudo);
+        // Rajouter la position sur l'échelle karmique du joueur actif
+        Label labelTour = new Label("Tour de : " + joueurActifPseudo + " - " + partie.getJoueurActif().getPositionEchelleKarmique());
         // Lui donner un identifiant
         labelTour.setId("label-tour");
 

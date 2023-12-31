@@ -14,10 +14,9 @@ public class Sauvetage extends Carte {
     public void action(Joueur joueur, Joueur adversaire) {
         ArrayList<Carte> cartesFosse = joueur.getCartesFosse(3);
         if (cartesFosse.isEmpty()) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
             Affichage.afficherMessage("Il n'y a pas de cartes dans votre fosse pour ajouter à votre Main.");
-            }
+            
             return;
         }
 
@@ -29,9 +28,8 @@ public class Sauvetage extends Carte {
         Carte carteChoisie = cartesFosse.get(choix);
         joueur.ajouterCarteDansMain(carteChoisie);
         joueur.getFosse().remove(carteChoisie);
-        if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+        
         Affichage.afficherMessage("Vous avez ajouté la carte " + carteChoisie.getNom() + " à votre Main.");
-    }}
+    }
 
 }

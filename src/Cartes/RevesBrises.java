@@ -16,21 +16,19 @@ public class RevesBrises extends Carte {
         List<Carte> vieFutureAdversaire = adversaire.getVieFuture();
 
         if (vieFutureAdversaire.isEmpty()) {
-            if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+            
                 Affichage.afficherMessage(adversaire.getPseudo() + " n'a pas de cartes dans sa Vie Future.");
-            }
+            
             return;
         }
 
         Carte carteAjoutee = vieFutureAdversaire.get(0);
         joueur.ajouterCarteDansVieFuture(carteAjoutee);
         vieFutureAdversaire.remove(0);
-        if (!(joueur instanceof Joueurs.JoueurBot)) {
-
+        
             Affichage.afficherMessage("Vous avez ajouté la carte " + carteAjoutee.getNom() + " de la Vie Future de "
                     + adversaire.getPseudo() + " à votre Vie Future.");
-        }
+        
     }
 
 }

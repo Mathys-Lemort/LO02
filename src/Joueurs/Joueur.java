@@ -9,6 +9,7 @@ import Cartes.Carte;
 import Core.Affichage;
 import Core.Partie;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 
@@ -194,6 +195,12 @@ public class Joueur {
         dialog.setTitle(titre);
         dialog.setHeaderText(joueur.getPseudo() + ", Attention !");
         dialog.setContentText(message);
+        // masquer et desactiver le bouton "non" 
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setVisible(false);
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setManaged(false);
+        // Desactiver la croix pour fermer la fenetre
+        dialog.getDialogPane().getScene().getWindow().setOnCloseRequest(event -> event.consume());
+
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
