@@ -1,19 +1,21 @@
-Joueur1: dsqiub
+Joueur1: Hitler
 Joueur2: Bot
-JoueurActif: dsqiub
-ResultatLanceJoueur1: 1
-ResultatLanceJoueur2: 3
+JoueurActif: Hitler
+ResultatLanceJoueur1: 2
+ResultatLanceJoueur2: 4
 EtatPartie: INITIALISATION
 Mode: GRAPHIQUE
 Rejouer: false
-Source: Destinee | Sauvetage | Incarnation | Mimetisme | Dernier Souffle | Deni | Semis | Crise | Destinee | Roulette | Recyclage | Lendemain | Fournaise | Transmigration | Mimetisme | Reves Brises | Panique | Incarnation | Duperie | Duperie | Dernier Souffle | Longevite | Vol | Deni | Roulette | Vengeance | Semis | Reves Brises | Longevite | Panique | Roulette | Transmigration | Sauvetage | Coup d'Œil | Crise | Fournaise | Coup d'Œil | Semis | Voyage | Fournaise | Jubile | Recyclage | Jubile | Vol | Incarnation | Crise | Sauvetage | Panique | Longevite | Transmigration | Reves Brises | Incarnation | Deni | Bassesse | Bassesse | Lendemain | Dernier Souffle | Voyage | Incarnation | Coup d'Œil | Recyclage | Destinee | Vengeance | Lendemain | Fournaise | Semis | Jubile | Incarnation | Fournaise | Duperie | Deni | Recyclage | Panique | Dernier Souffle | Voyage | Coup d'Œil | Reves Brises | Roulette | Vol | Lendemain | Crise | Crise | Coup d'Œil | Destinee | Longevite | Dernier Souffle | Recyclage | Voyage | Duperie | Reves Brises | Transmigration | Dernier Souffle | Reves Brises | Semis | Deni | Longevite | Mimetisme | Lendemain | Transmigration | Transmigration | Destinee | Vol | Sauvetage | Incarnation | Incarnation | Panique | Sauvetage | Deni | Incarnation | Jubile | Bassesse | Crise | Mimetisme | Roulette | Vengeance | Vengeance | Panique | Roulette | Destinee | Longevite | Fournaise | Bassesse | Lendemain | Incarnation | Coup d'Œil | Sauvetage | Semis | Recyclage | Semis | Panique | Coup d'Œil | Crise | Mimetisme | Voyage | Reves Brises | Reves Brises | Coup d'Œil | Sauvetage | Incarnation | Reves Brises | Incarnation | Duperie | Lendemain | Destinee | Longevite | Dernier Souffle | Fournaise | Vengeance | Vengeance | Jubile | Mimetisme | Incarnation | Lendemain | Incarnation | Incarnation | Deni | Destinee | Bassesse | Crise | Roulette | Destinee | Fournaise | Dernier Souffle | Recyclage | Deni | Recyclage | Vol | Roulette | Transmigration | Jubile | Bassesse | Duperie | Vol | Sauvetage | Longevite | Panique | Roulette | Transmigration | Crise | Longevite | Sauvetage | Semis | Voyage | Deni | Fournaise | Semis | Transmigration | Lendemain | Panique | Coup d'Œil | Dernier Souffle | Recyclage | Vol | Duperie | Semis | Incarnation | Voyage | Panique | Semis | Deni | Fournaise | Bassesse | Incarnation | Coup d'Œil | Roulette | Transmigration | Longevite | Deni | Recyclage | Lendemain | Fournaise | Destinee | Vol | Dernier Souffle | Vengeance | Lendemain | Destinee | Fournaise | Bassesse | Lendemain | Recyclage | Reves Brises | Sauvetage | Panique | Roulette | Crise | Destinee | Duperie | Coup d'Œil | Sauvetage | Reves Brises | Roulette | Mimetisme | Dernier Souffle | Dernier Souffle | Transmigration | Jubile | Recyclage | Incarnation | Incarnation | Sauvetage | Panique | Incarnation | Transmigration | Vengeance | Deni | Mimetisme | Voyage | Crise | Reves Brises | Longevite | Longevite | Coup d'Œil | Semis | Crise | Jubile | Recyclage | Coup d'Œil | Deni | Destinee | Sauvetage | Mimetisme | Roulette | Dernier Souffle | Lendemain | Transmigration | Duperie | Transmigration | Fournaise | Recyclage | Reves Brises | Incarnation | Voyage | Reves Brises | Incarnation | Incarnation | Incarnation | Mimetisme | Vol | Vengeance | Fournaise | Semis | Duperie | Vol | Longevite | Longevite | Coup d'Œil | Jubile | Crise | Crise | Crise | Fournaise | Panique | Dernier Souffle | Roulette | Voyage | Lendemain | Lendemain | Destinee | Panique | Semis | Semis | Panique | Sauvetage | Bassesse | Recyclage | Vengeance | Dernier Souffle
-Joueur1Main: Reves Brises | Deni
+Source: Sauvetage | Recyclage | Semis | Lendemain | Recyclage | Roulette | Incarnation | Duperie | Incarnation | Fournaise | Sauvetage | Reves Brises | Jubile | Panique | Transmigration | Dernier Souffle | Deni | Panique | Voyage | Roulette | Destinee | Longevite | Dernier Souffle | Bassesse | Bassesse | Semis | Crise | Reves Brises | Deni | Coup d'Œil | Crise | Incarnation | Mimetisme | Vengeance | Reves Brises | Fournaise | Coup d'Œil | Roulette | Dernier Souffle | Fournaise | Jubile | Coup d'Œil | Lendemain | Transmigration | Panique | Destinee | Lendemain | Vol | Transmigration | Sauvetage | Deni | Crise
+Joueur1Main: Incarnation | Incarnation | Vol | Recyclage | Voyage
 Joueur1Pile: 
 Joueur1VieFuture: 
-Joueur1Oeuvre: Deni | Incarnation | Transmigration | Bassesse
-Joueur1Fosse: Coup d'Œil | Sauvetage
-Joueur2Main: Longevite | Roulette
-Joueur2Pile: 
-Joueur2VieFuture: Vol | Semis
-Joueur2Oeuvre: Jubile
+Joueur1Oeuvre: Longevite
+Joueur1Fosse: Destinee
+Joueur2Main: Duperie | Vengeance | Semis | Longevite
+Joueur2Pile: Mimetisme
+Joueur2VieFuture: Semis | Sauvetage
+Joueur2Oeuvre: 
 Joueur2Fosse: 
+Joueur1Position: BOUSIER
+Joueur2Position: BOUSIER

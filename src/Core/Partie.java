@@ -194,11 +194,18 @@ public class Partie {
     }
     
     private void creerJoueurs() {
-        Affichage.afficherMessage("Voulez-vous jouer contre un Bot? (O/N)");
-        String choixBot = scanner.nextLine().trim();
-        if (choixBot.equalsIgnoreCase("O")) {
-            joueurs.add(new Joueur("Joueur 1"));
+        Affichage.afficherMessage("Voulez-vous jouer contre un Bot?");
+        Affichage.afficherOption(1, "Oui");
+        Affichage.afficherOption(2, "Non");
+        int choix = scanner.nextInt();
+        scanner.nextLine();
+        if (choix == 1) {
             joueurs.add(new JoueurBot("Bot"));
+            Affichage.afficherMessage("Entrez votre pseudo:");
+            String pseudo = scanner.nextLine();
+            Joueur joueur = new Joueur(pseudo);
+            this.joueurs.add(joueur);
+            
         } else {
             for (int i = 1; i <= 2; i++) {
                 Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
@@ -615,6 +622,9 @@ public class Partie {
             myWriter.write("Joueur2VieFuture: " + cartesToString(getJoueur2().getVieFuture()) + "\n");
             myWriter.write("Joueur2Oeuvre: " + cartesToString(getJoueur2().getOeuvres()) + "\n");
             myWriter.write("Joueur2Fosse: " + cartesToString(getJoueur2().getFosse()) + "\n");
+            // LA position sur l'échelle karmique de joueur 1 et 2
+            myWriter.write("Joueur1Position: " + getJoueur1().getPositionEchelleKarmique() + "\n");
+            myWriter.write("Joueur2Position: " + getJoueur2().getPositionEchelleKarmique() + "\n");
 
         } catch (IOException e) {
             Affichage.afficherMessage("Une erreur est survenue lors de la sauvegarde de la partie.");
@@ -699,6 +709,12 @@ public class Partie {
                         break;
                     case "Joueur2Fosse":
                         chargerCartes(getJoueur2().getFosse(), dataSplit[1]);
+                        break;
+                    case "Joueur1Position":
+                        getJoueur1().setPositionEchelleKarmique(dataSplit[1]);
+                        break;
+                    case "Joueur2Position":
+                        getJoueur2().setPositionEchelleKarmique(dataSplit[1]);
                         break;
                     default:
                         break;

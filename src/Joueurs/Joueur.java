@@ -60,6 +60,11 @@ public class Joueur {
         this.id = pseudo;
     }
 
+
+    public void setPositionEchelleKarmique(String position) {
+        this.positionEchelleKarmique = EchelleKarmique.valueOf(position);
+    }
+
     public int getPoints() {
         int pointsRouge = 0;
         int pointsVert = 0;
@@ -153,6 +158,11 @@ public class Joueur {
 
     public void demanderPrendreCarte(Joueur rival, Carte carte) {
         // Si rival est un bot, il choisit aléatoirement entre les deux options
+        // CHanger le joueur actif en rival
+        // Si on est en mode console 
+        if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
+            Partie.getInstance().setJoueurActif(rival);
+        } 
         if (rival instanceof JoueurBot) {
             int choix = (int) (Math.random() * 2) + 1;
             if (choix == 1) {
@@ -210,7 +220,7 @@ public class Joueur {
     }
 
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
-        this.main.remove(carte);
+        this.main.remove(carte);        
         demanderPrendreCarte(rival, carte);
         carte.action(this, rival);
     }
