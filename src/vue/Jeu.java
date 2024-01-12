@@ -1,5 +1,6 @@
 package vue;
 
+import java.io.File;
 import java.util.*;
 
 import Cartes.Carte;
@@ -109,6 +110,11 @@ public class Jeu extends Application {
     // Si l'utilisateur sélectionne "Oui", la méthode crée un objet ControleurChargementPartie et appelle sa méthode handle().
     // Le résultat de la boîte de dialogue est passé en tant que paramètre à la méthode handle().
     private void demanderChargementPartie() {
+        if (!new File("src/sauvegarde.txt").exists()) {
+            demanderModeJeu();
+            return;
+        }
+        
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Charger une partie");
         alert.setHeaderText("Voulez-vous charger une partie sauvegardée ?");
