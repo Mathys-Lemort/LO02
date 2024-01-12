@@ -8,11 +8,7 @@ import Cartes.*;
 import Joueurs.*;
 import Plateau.Plateau;
 
-/**
- * La classe Partie représente une partie du jeu.
- * Elle gère les joueurs, le plateau, l'état de la partie, le mode de jeu, etc.
- * Elle est implémentée en tant que singleton pour garantir l'unicité de l'instance de la partie.
- */
+
 public class Partie {
     private static Partie instance;
     private List<Joueur> joueurs;
