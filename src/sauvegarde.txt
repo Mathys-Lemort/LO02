@@ -1,20 +1,18 @@
-Joueur1: ofhi
+Joueur1: sdkqiob
 Joueur2: Bot
-JoueurActif: ofhi
-ResultatLanceJoueur1: 4
-ResultatLanceJoueur2: 5
+JoueurActif: sdkqiob
 EtatPartie: INITIALISATION
 Rejouer: false
-Source: Recyclage | Lendemain | Sauvetage | Reves Brises | Roulette | Recyclage | Jubile | Incarnation | Bassesse | Destinee | Deni | Duperie | Deni | Transmigration | Reves Brises | Lendemain | Mimetisme | Crise | Lendemain | Fournaise | Crise | Coup d'Œil | Fournaise | Longevite | Longevite | Fournaise | Dernier Souffle | Recyclage | Incarnation | Semis | Voyage | Roulette | Coup d'Œil | Duperie | Dernier Souffle | Deni | Vol | Longevite | Transmigration | Reves Brises | Vol
-Joueur1Main: Incarnation | Panique
-Joueur1Pile: Jubile | Incarnation | Bassesse | Roulette
-Joueur1VieFuture: Destinee
-Joueur1Oeuvre: 
-Joueur1Fosse: Semis | Incarnation | Sauvetage | Crise | Transmigration | Sauvetage | Panique | Voyage | Panique
-Joueur2Main: Semis | Coup d'Œil | Dernier Souffle
-Joueur2Pile: Mimetisme | Destinee
-Joueur2VieFuture: Recyclage | Lendemain
+Source: Voyage | Mimetisme | Roulette | Crise | Semis | Semis | Longevite | Jubile | Coup d'Œil | Fournaise | Coup d'Œil | Roulette | Transmigration | Deni | Vengeance | Vengeance | Sauvetage | Crise | Reves Brises | Panique | Panique | Destinee | Lendemain | Lendemain | Bassesse | Vol | Panique | Recyclage | Dernier Souffle | Deni | Sauvetage | Fournaise | Voyage | Sauvetage | Recyclage | Coup d'Œil | Dernier Souffle | Destinee | Longevite | Semis | Recyclage | Mimetisme | Duperie | Crise | Lendemain | Transmigration | Incarnation | Roulette | Reves Brises | Incarnation | Jubile | Transmigration
+Joueur1Main: Duperie | Incarnation | Destinee | Fournaise | Deni
+Joueur1Pile: 
+Joueur1VieFuture: Incarnation
+Joueur1Oeuvre: Reves Brises
+Joueur1Fosse: 
+Joueur2Main: Longevite | Bassesse | Incarnation | Dernier Souffle
+Joueur2Pile: Vol
+Joueur2VieFuture: 
 Joueur2Oeuvre: 
-Joueur2Fosse: Vengeance | Vengeance
-Joueur1Position: SERPENT
-Joueur2Position: SERPENT
+Joueur2Fosse: 
+Joueur1Position: BOUSIER
+Joueur2Position: BOUSIER

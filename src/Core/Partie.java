@@ -1,7 +1,6 @@
 package Core;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.io.*;
 import java.util.*;
 import Cartes.*;
@@ -124,7 +123,7 @@ public class Partie {
 
         if (!modeGraphique()) {
             if (demandeChargementSauvegarde()) {
-                chargerPartie();
+                Sauvegarde.chargerPartie(this);
                 return;
             }
             creerJoueurs();
@@ -183,36 +182,46 @@ public class Partie {
         int choix = scanner.nextInt();
         scanner.nextLine();
         if (choix == 1) {
-            joueurs.add(new JoueurBot("Bot"));
-            Affichage.afficherMessage("Entrez votre pseudo:");
-            String pseudo = scanner.nextLine();
-            Joueur joueur = new Joueur(pseudo);
-            this.joueurs.add(joueur);
-
+            creerJoueurBot();
+            creerJoueurHumain();
         } else {
             for (int i = 1; i <= 2; i++) {
-                Affichage.afficherMessage("Entrez le pseudo du joueur " + i + ":");
-                String pseudo = scanner.nextLine();
-
-                boolean pseudoExiste = false;
-                for (Joueur joueurExist : this.joueurs) {
-                    if (joueurExist.getPseudo().equals(pseudo)) {
-                        pseudoExiste = true;
-                        break;
-                    }
-                }
-
-                if (pseudoExiste) {
-                    Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
-                    i--;
-                } else {
-                    Joueur joueur = new Joueur(pseudo);
-                    this.joueurs.add(joueur);
-                }
+                creerJoueurHumain();
             }
         }
     }
-    
+
+    /**
+     * Crée un joueur bot avec le pseudo "Bot" et l'ajoute à la liste des joueurs de la partie.
+     */
+    private void creerJoueurBot() {
+        joueurs.add(new JoueurBot("Bot"));
+    }
+
+    /**
+     * Demande au joueur humain d'entrer son pseudo et l'ajoute à la liste des joueurs de la partie.
+     * Vérifie si le pseudo existe déjà et affiche un message d'erreur le cas échéant.
+     */
+    private void creerJoueurHumain() {
+        Affichage.afficherMessage("Entrez votre pseudo:");
+        String pseudo = scanner.nextLine();
+
+        boolean pseudoExiste = false;
+        for (Joueur joueurExist : this.joueurs) {
+            if (joueurExist.getPseudo().equals(pseudo)) {
+                pseudoExiste = true;
+                break;
+            }
+        }
+
+        if (pseudoExiste) {
+            Affichage.afficherMessage("Ce pseudo existe déjà. Veuillez choisir un autre.");
+            creerJoueurHumain(); // Retry creating a human player
+        } else {
+            Joueur joueur = new Joueur(pseudo);
+            this.joueurs.add(joueur);
+        }
+    }
     /**
      * Permet au joueur de piocher une carte de sa pile de cartes.
      * Si la pile du joueur n'est pas vide, une carte est ajoutée à sa main.
@@ -320,7 +329,7 @@ public class Partie {
                     }
                     break;
                 case 5:
-                    sauvegarderPartie();
+                    Sauvegarde.sauvegarderPartie(this);
                     System.exit(0);
                     break;
                 default:
@@ -435,23 +444,46 @@ public class Partie {
      * Otherwise, it calls the effectuerActionsTour() method for the active player.
      */
     public void tourSuivant() {
+        determinerJoueurActif();
+        verifierReincarnation();
+        executerActionsTour();
+    }
+
+    /**
+     * Détermine le joueur actif.
+     * Si le joueur actif est null ou n'est pas dans la liste des joueurs, la méthode designerMalchanceux() est appelée.
+     * Sinon, le joueur actif est mis à jour pour le joueur suivant dans la liste.
+     */
+    private void determinerJoueurActif() {
         if (joueurActif == null || !joueurs.contains(joueurActif)) {
             designerMalchanceux();
         } else {
             int currentIndex = joueurs.indexOf(joueurActif);
             joueurActif = joueurs.get((currentIndex + 1) % joueurs.size());
         }
+    }
 
+    /**
+     * Vérifie si le joueur actif doit être réincarné.
+     * Si le joueur actif n'a plus de cartes dans sa main et dans sa pile, la méthode reincarnation() est appelée.
+     */
+    private void verifierReincarnation() {
         if (joueurActif.mainVide() && joueurActif.pileVide()) {
             Affichage.afficherTitre("Réincarnation de " + joueurActif.getPseudo());
             Affichage.afficherMessage("Vous n'avez plus de cartes dans votre main ni dans votre pile.");
 
             joueurActif.reincarnation();
         }
+    }
 
-        else {
-            effectuerActionsTour(joueurActif, false);
-        }
+    /**
+     * Exécute les actions du tour du joueur actif.
+     * 
+     * Si le joueur actif est un JoueurBot, il joue automatiquement un coup.
+     * Sinon, la méthode effectuerActionsTour() est appelée pour le joueur actif.
+     */
+    private void executerActionsTour() {
+        effectuerActionsTour(joueurActif, false);
     }
 
     /**
@@ -491,11 +523,13 @@ public class Partie {
     }
 
     /**
-     * Distribue les cartes aux joueurs.
+     * Distribue un nombre spécifié de cartes à chaque joueur à partir de la source du plateau.
+     * 
+     * @param nombreDeCartes Le nombre de cartes à distribuer à chaque joueur.
      */
-    public void distribuerMain() {
+    private void distribuerCartes(int nombreDeCartes) {
         for (Joueur joueur : joueurs) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < nombreDeCartes; i++) {
                 Carte carte = plateau.getSource().remove(0);
                 joueur.ajouterCarteDansMain(carte);
             }
@@ -503,16 +537,18 @@ public class Partie {
     }
 
     /**
+     * Distribue les cartes aux joueurs.
+     */
+    public void distribuerMain() {
+        distribuerCartes(4);
+    }
+
+    /**
      * Distribue une pile initiale de cartes aux joueurs.
      * Chaque joueur reçoit deux cartes de la source du plateau.
      */
     public void distribuerPileInitiale() {
-        for (Joueur joueur : joueurs) {
-            for (int i = 0; i < 2; i++) {
-                Carte carte = plateau.getSource().remove(0);
-                joueur.ajouterCarteDansPile(carte);
-            }
-        }
+        distribuerCartes(2);
     }
 
     /**
@@ -646,6 +682,17 @@ public class Partie {
         return joueurs.get(1);
     }
 
+    /** 
+      *Renvoi le plateau de la partie.
+        *
+        * @return le plateau de la partie
+        */
+
+
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
     /**
      * Lance les dés pour déterminer le joueur actif et le joueur qui commence.
      * Les dés sont lancés pour les deux joueurs jusqu'à ce que les résultats des lancers soient différents.
@@ -764,219 +811,5 @@ public class Partie {
 
     }
 
-    /**
-     * Cette méthode permet de sauvegarder les informations de la partie dans un fichier.
-     * Les informations sauvegardées incluent les pseudonymes des joueurs, le joueur actif,
-     * les résultats des lancers de dés, l'état de la partie, la possibilité de rejouer,
-     * les cartes sources, les mains, les piles, les vies futures, les oeuvres et les fosses
-     * des joueurs, ainsi que les positions des joueurs sur l'échelle karmique.
-     * Les informations sont écrites dans le fichier "src/sauvegarde.txt".
-     * En cas d'erreur lors de la sauvegarde, une exception IOException est levée et une
-     * message d'erreur est affiché.
-     */
-    public void sauvegarderPartie() {
-        try (FileWriter myWriter = new FileWriter("src/sauvegarde.txt")) {
-            myWriter.write("Joueur1: " + getJoueur1().getPseudo() + "\n");
-            myWriter.write("Joueur2: " + getJoueur2().getPseudo() + "\n");
-            myWriter.write("JoueurActif: " + getJoueurActif().getPseudo() + "\n");
-            myWriter.write("ResultatLanceJoueur1: " + getResultatLanceJoueur1() + "\n");
-            myWriter.write("ResultatLanceJoueur2: " + getResultatLanceJoueur2() + "\n");
-            myWriter.write("EtatPartie: " + getEtatPartie() + "\n");
-            myWriter.write("Rejouer: " + getRejouer() + "\n");
-            myWriter.write("Source: " + cartesToString(getCartesSource()) + "\n");
-            myWriter.write("Joueur1Main: " + cartesToString(getJoueur1().getMain()) + "\n");
-            myWriter.write("Joueur1Pile: " + cartesToString(getJoueur1().getPile()) + "\n");
-            myWriter.write("Joueur1VieFuture: " + cartesToString(getJoueur1().getVieFuture()) + "\n");
-            myWriter.write("Joueur1Oeuvre: " + cartesToString(getJoueur1().getOeuvres()) + "\n");
-            myWriter.write("Joueur1Fosse: " + cartesToString(getJoueur1().getFosse()) + "\n");
-            myWriter.write("Joueur2Main: " + cartesToString(getJoueur2().getMain()) + "\n");
-            myWriter.write("Joueur2Pile: " + cartesToString(getJoueur2().getPile()) + "\n");
-            myWriter.write("Joueur2VieFuture: " + cartesToString(getJoueur2().getVieFuture()) + "\n");
-            myWriter.write("Joueur2Oeuvre: " + cartesToString(getJoueur2().getOeuvres()) + "\n");
-            myWriter.write("Joueur2Fosse: " + cartesToString(getJoueur2().getFosse()) + "\n");
-            myWriter.write("Joueur1Position: " + getJoueur1().getPositionEchelleKarmique() + "\n");
-            myWriter.write("Joueur2Position: " + getJoueur2().getPositionEchelleKarmique() + "\n");
-
-        } catch (IOException e) {
-            Affichage.afficherMessage("Une erreur est survenue lors de la sauvegarde de la partie.");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Convertit une liste de cartes en une chaîne de caractères.
-     * 
-     * @param cartes la liste de cartes à convertir
-     * @return une chaîne de caractères représentant les noms des cartes, séparés par des barres verticales
-     */
-    private String cartesToString(List<Carte> cartes) {
-        return cartes.stream()
-                .map(Carte::getNom)
-                .collect(Collectors.joining(" | "));
-    }
-
-    /**
-     * Charge les données d'une partie à partir d'un fichier de sauvegarde.
-     * Les données sont lues ligne par ligne et les informations sont extraites et utilisées pour restaurer l'état de la partie.
-     * Les informations sont stockées dans les différents attributs de l'objet Partie.
-     * Si une ligne du fichier de sauvegarde est mal formatée, un message d'erreur est affiché et la ligne est ignorée.
-     * 
-     * @throws FileNotFoundException si le fichier de sauvegarde n'est pas trouvé.
-     */
-    public void chargerPartie() {
-        try (Scanner scanner = new Scanner(new File("src/sauvegarde.txt"))) {
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                String[] dataSplit = data.split(": ");
-                if (dataSplit.length < 2) {
-                    System.out.println("Format de ligne incorrect : " + data);
-                    continue;
-                }
-                switch (dataSplit[0]) {
-                    case "Joueur1":
-                        setJoueur1Pseudo(dataSplit[1]);
-                        break;
-                    case "Joueur2":
-                        setJoueur2Pseudo(dataSplit[1]);
-                        break;
-                    case "JoueurActif":
-                        setJoueurActif(getJoueurPseudo(dataSplit[1]));
-                        break;
-                    case "ResultatLanceJoueur1":
-                        resultatLanceJoueur1 = Integer.parseInt(dataSplit[1]);
-                        break;
-                    case "ResultatLanceJoueur2":
-                        resultatLanceJoueur2 = Integer.parseInt(dataSplit[1]);
-                        break;
-                    case "EtatPartie":
-                        setEtatPartie(EtatPartie.valueOf(dataSplit[1]));
-                        break;
-                    case "Rejouer":
-                        setRejouer(Boolean.parseBoolean(dataSplit[1]));
-                        break;
-                    case "Source":
-                        chargerCartes(plateau.getSource(), dataSplit[1]);
-                        break;
-                    case "Joueur1Main":
-                        chargerCartes(getJoueur1().getMain(), dataSplit[1]);
-                        break;
-                    case "Joueur1Pile":
-                        chargerCartes(getJoueur1().getPile(), dataSplit[1]);
-                        break;
-                    case "Joueur1VieFuture":
-                        chargerCartes(getJoueur1().getVieFuture(), dataSplit[1]);
-                        break;
-                    case "Joueur1Oeuvre":
-                        chargerCartes(getJoueur1().getOeuvres(), dataSplit[1]);
-                        break;
-                    case "Joueur1Fosse":
-                        chargerCartes(getJoueur1().getFosse(), dataSplit[1]);
-                        break;
-                    case "Joueur2Main":
-                        chargerCartes(getJoueur2().getMain(), dataSplit[1]);
-                        break;
-                    case "Joueur2Pile":
-                        chargerCartes(getJoueur2().getPile(), dataSplit[1]);
-                        break;
-                    case "Joueur2VieFuture":
-                        chargerCartes(getJoueur2().getVieFuture(), dataSplit[1]);
-                        break;
-                    case "Joueur2Oeuvre":
-                        chargerCartes(getJoueur2().getOeuvres(), dataSplit[1]);
-                        break;
-                    case "Joueur2Fosse":
-                        chargerCartes(getJoueur2().getFosse(), dataSplit[1]);
-                        break;
-                    case "Joueur1Position":
-                        getJoueur1().setPositionEchelleKarmique(dataSplit[1]);
-                        break;
-                    case "Joueur2Position":
-                        getJoueur2().setPositionEchelleKarmique(dataSplit[1]);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Charge les cartes à partir d'une chaîne de caractères et les ajoute à la liste de cartes donnée.
-     * 
-     * @param listeCartes la liste de cartes à laquelle les cartes doivent être ajoutées
-     * @param dataCartes la chaîne de caractères contenant les noms des cartes à charger
-     */
-    private void chargerCartes(List<Carte> listeCartes, String dataCartes) {
-        String[] nomsCartes = dataCartes.split(" \\| ");
-        for (String nomCarte : nomsCartes) {
-            Carte carte = creerCarte(nomCarte);
-            if (carte != null) {
-                listeCartes.add(carte);
-            }
-        }
-    }
-
-    /**
-     * Crée une carte à partir d'une chaîne de caractères.
-     * 
-     * @param carteInfo la chaîne de caractères contenant les informations de la carte
-     * @return la carte créée
-     */
-    private Carte creerCarte(String carteInfo) {
-        String[] carteElements = carteInfo.split(" - Couleur: |, Points: |, Pouvoir: ");
-        String nom = carteElements[0].trim();
-        switch (nom) {
-            case "Bassesse":
-                return new Bassesse();
-            case "Coup d'Œil":
-                return new CoupdOeil();
-            case "Crise":
-                return new Crise();
-            case "Deni":
-                return new Deni();
-            case "Dernier Souffle":
-                return new DernierSouffle();
-            case "Destinee":
-                return new Destinee();
-            case "Duperie":
-                return new Duperie();
-            case "Fournaise":
-                return new Fournaise();
-            case "Incarnation":
-                return new Incarnation();
-            case "Jubile":
-                return new Jubile();
-            case "Lendemain":
-                return new Lendemain();
-            case "Longevite":
-                return new Longevite();
-            case "Mimetisme":
-                return new Mimetisme();
-            case "Panique":
-                return new Panique();
-            case "Recyclage":
-                return new Recyclage();
-            case "Reves Brises":
-                return new RevesBrises();
-            case "Roulette":
-                return new Roulette();
-            case "Sauvetage":
-                return new Sauvetage();
-            case "Semis":
-                return new Semis();
-            case "Transmigration":
-                return new Transmigration();
-            case "Vengeance":
-                return new Vengeance();
-            case "Vol":
-                return new Vol();
-            case "Voyage":
-                return new Voyage();
-            default:
-                return null;
-        }
-    }
-
+    
 }

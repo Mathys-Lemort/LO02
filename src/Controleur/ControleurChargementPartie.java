@@ -4,6 +4,8 @@ import Core.Partie;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import vue.Jeu;
+import Core.Sauvegarde;
+
 
 public class ControleurChargementPartie implements EventHandler<ActionEvent> {
     private Jeu jeu;
@@ -19,15 +21,10 @@ public class ControleurChargementPartie implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         if (chargerPartie) {
-            partie.chargerPartie();
+            Sauvegarde.chargerPartie(partie);
             jeu.afficherEcranJoueur(partie.getJoueurActif().getPseudo(), partie.getJoueurActif().getMain(),
                     partie.getJoueurActif().getPile(), partie.getJoueurActif().getFosse(),
                     partie.getJoueurActif().getVieFuture(), partie.getJoueurActif().getOeuvres());
-            System.out.println("Chargement de la partie");
-            System.out.println("Joueur actif : " + partie.getJoueurActif().getPseudo());
-            System.out.println("Joueur rival : " + partie.getJoueurRival().getPseudo());
-            System.out.println("Cartes du joueur actif : ");
-            partie.getJoueurActif().getMain().forEach(carte -> System.out.println(carte.getNom()));
         } else {
             jeu.demanderModeJeu();
         }

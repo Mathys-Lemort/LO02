@@ -7,6 +7,8 @@ import Joueurs.JoueurBot;
 import vue.Jeu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import Core.Sauvegarde;
+
 
 public class ControleurSauvegarderQuitter implements EventHandler<ActionEvent> {
     private Jeu vueJeu;
@@ -24,7 +26,7 @@ public class ControleurSauvegarderQuitter implements EventHandler<ActionEvent> {
             Affichage.afficherMessage("Vous ne pouvez pas sauvegarder et quitter pendant le tour d'un bot.");
             return;
         }
-        modelePartie.sauvegarderPartie();
+        Sauvegarde.sauvegarderPartie(modelePartie);
         vueJeu.fermerFenetre();
     }
 }
