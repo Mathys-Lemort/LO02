@@ -1,134 +1,113 @@
 package Plateau;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.*;
+import Cartes.*;
 
-import Cartes.Bassesse;
-import Cartes.Carte;
-import Cartes.CoupdOeil;
-import Cartes.Crise;
-import Cartes.Deni;
-import Cartes.DernierSouffle;
-import Cartes.Destinee;
-import Cartes.Duperie;
-import Cartes.Fournaise;
-import Cartes.Incarnation;
-import Cartes.Jubile;
-import Cartes.Lendemain;
-import Cartes.Longevite;
-import Cartes.Mimetisme;
-import Cartes.Panique;
-import Cartes.Recyclage;
-import Cartes.RevesBrises;
-import Cartes.Roulette;
-import Cartes.Sauvetage;
-import Cartes.Semis;
-import Cartes.Transmigration;
-import Cartes.Vengeance;
-import Cartes.Vol;
-import Cartes.Voyage;
-
+/**
+ * Classe représentant un plateau de jeu avec des cartes.
+ * Elle gère deux ensembles de cartes : source et fosse.
+ */
 public class Plateau {
-    private List<Carte> source;
-    private List<Carte> fosse;
+    private List<Carte> source = new ArrayList<>();
+    private List<Carte> fosse = new ArrayList<>();
 
-    public Plateau(List<Carte> source, List<Carte> fosse) {
-        this.source = source;
-        this.fosse = fosse;
-    }
-
+    /**
+     * Constructeur par défaut.
+     * Initialise un plateau vide.
+     */
     public Plateau() {
-        this.source = new java.util.ArrayList<Carte>();
-        this.fosse = new java.util.ArrayList<Carte>();
     }
 
-    public List<Carte> getSource() {
-        return this.source;
+    /**
+     * Constructeur avec des listes de cartes pour source et fosse.
+     * 
+     * @param source La liste initiale de cartes dans la source.
+     * @param fosse La liste initiale de cartes dans la fosse.
+     */
+    public Plateau(List<Carte> source, List<Carte> fosse) {
+        this.source = new ArrayList<>(source);
+        this.fosse = new ArrayList<>(fosse);
     }
 
-    public List<Carte> getFosse() {
-        return this.fosse;
-    }
+    /**
+     * Retourne la liste des cartes dans la source.
+     * 
+     * @return La liste des cartes dans la source.
+     */
+    public List<Carte> getSource() { return source; }
 
-    public void setSource(List<Carte> source) {
-        this.source = source;
-    }
+    /**
+     * Définit la liste des cartes dans la source.
+     * 
+     * @param source La nouvelle liste des cartes pour la source.
+     */
+    public void setSource(List<Carte> source) { this.source = new ArrayList<>(source); }
 
-    public void setFosse(List<Carte> fosse) {
-        this.fosse = fosse;
-    }
+    /**
+     * Retourne la liste des cartes dans la fosse.
+     * 
+     * @return La liste des cartes dans la fosse.
+     */
+    public List<Carte> getFosse() { return fosse; }
 
+    /**
+     * Définit la liste des cartes dans la fosse.
+     * 
+     * @param fosse La nouvelle liste des cartes pour la fosse.
+     */
+    public void setFosse(List<Carte> fosse) { this.fosse = new ArrayList<>(fosse); }
 
-   
-
+    /**
+     * Initialise la source avec un ensemble prédéfini de cartes.
+     * Les cartes sont ajoutées en fonction de leur classe et du nombre spécifié.
+     */
     public void initialiserSource() {
-    Map<Class<? extends Carte>, Integer> cartesAInitialiser = new HashMap<>();
-    cartesAInitialiser.put(Duperie.class, 2);
-    cartesAInitialiser.put(Destinee.class, 3);
-    cartesAInitialiser.put(Transmigration.class, 3);
-    cartesAInitialiser.put(CoupdOeil.class, 3);
-    cartesAInitialiser.put(RevesBrises.class, 3);
-    cartesAInitialiser.put(Deni.class, 3);
-    cartesAInitialiser.put(Vol.class, 2);
-    cartesAInitialiser.put(Lendemain.class, 3);
-    cartesAInitialiser.put(Recyclage.class, 3);
-    cartesAInitialiser.put(Sauvetage.class, 3);
-    cartesAInitialiser.put(Longevite.class, 3);
-    cartesAInitialiser.put(Semis.class, 3);
-    cartesAInitialiser.put(Voyage.class, 2);
-    cartesAInitialiser.put(Jubile.class, 2);
-    cartesAInitialiser.put(Panique.class, 3);
-    cartesAInitialiser.put(DernierSouffle.class, 3);
-    cartesAInitialiser.put(Crise.class, 3);
-    cartesAInitialiser.put(Roulette.class, 3);
-    cartesAInitialiser.put(Fournaise.class, 3);
-    cartesAInitialiser.put(Vengeance.class, 2);
-    cartesAInitialiser.put(Bassesse.class, 2);
-    cartesAInitialiser.put(Incarnation.class, 5);
-    cartesAInitialiser.put(Mimetisme.class, 2);
-
-    for (Map.Entry<Class<? extends Carte>, Integer> entry : cartesAInitialiser.entrySet()) {
-        Class<? extends Carte> carteClass = entry.getKey();
-        Integer nombre = entry.getValue();
-        for (int i = 0; i < nombre; i++) {
-            try {
-                this.source.add(carteClass.getDeclaredConstructor().newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
+        Map<Class<? extends Carte>, Integer> cartesAInitialiser = getCartesAInitialiser();
+        cartesAInitialiser.forEach((carteClass, nombre) -> {
+            for (int i = 0; i < nombre; i++) {
+                ajouterCarte(carteClass);
             }
+        });
+        Collections.shuffle(source);
+    }
+
+    /**
+     * Crée une carte de chaque type spécifié et l'ajoute à la source.
+     */
+    private void ajouterCarte(Class<? extends Carte> carteClass) {
+        try {
+            source.add(carteClass.getDeclaredConstructor().newInstance());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    Collections.shuffle(this.source);
-    }
-
+    /**
+     * Retourne une représentation sous forme de chaîne de caractères du plateau.
+     * 
+     * @return La représentation sous forme de chaîne de caractères du plateau.
+     */
+    @Override
     public String toString() {
-        return "Plateau{" + "source='" + this.source + "'" + ", fosse='" + this.fosse + "'" + "}";
+        return "Plateau{" + "source=" + source + ", fosse=" + fosse + "}";
     }
 
-     
-     public static void main(String[] args) {
-            Plateau plateau = new Plateau();
-            plateau.initialiserSource();
-            Map<String, Integer> couleurCartes = new HashMap<>();
-            for (Carte carte : plateau.source) {
-                String couleur = carte.getCouleur();
-                if (couleurCartes.containsKey(couleur)) {
-                    couleurCartes.put(couleur, couleurCartes.get(couleur) + 1);
-                } else {
-                    couleurCartes.put(couleur, 1);
-                }
-            }
-            for (Map.Entry<String, Integer> entry : couleurCartes.entrySet()) {
-                String couleur = entry.getKey();
-                Integer nombre = entry.getValue();
-                System.out.println(couleur + ": " + nombre);
-            }
-            
-        }
+    /**
+     * Point d'entrée principal pour tester le plateau.
+     * 
+     * @param args Arguments passés depuis la ligne de commande.
+     */
+    public static void main(String[] args) {
+        Plateau plateau = new Plateau();
+        plateau.initialiserSource();
+        Map<String, Integer> couleurCartes = new HashMap<>();
+
+        plateau.getSource().stream().map(Carte::getCouleur).forEach(
+            couleur -> couleurCartes.merge(couleur, 1, Integer::sum)
+        );
+
+        couleurCartes.forEach((couleur, nombre) ->
+            System.out.println(couleur + ": " + nombre)
+        );
+    }
 }
-
-
-

@@ -1,10 +1,6 @@
 package Joueurs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-
+import java.util.*;
 import Cartes.Carte;
 import Core.Affichage;
 import Core.Partie;
@@ -13,8 +9,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 
+/**
+ * Classe représentant un joueur dans le jeu. Elle gère les différentes collections de cartes
+ * comme la main, la pile, la défausse, les œuvres et la vie future. Elle gère également la position
+ * du joueur sur l'échelle karmique et le nombre d'anneaux karmiques.
+ */
 
 public class Joueur {
+    // Attributs de la classe Joueur
     private String id;
     private List<Carte> main;
     private List<Carte> pile;
@@ -23,7 +25,9 @@ public class Joueur {
     private List<Carte> vieFuture;
     private EchelleKarmique positionEchelleKarmique;
     private int anneauxKarmiques;
-
+    /**
+     * Enumération pour les différentes positions sur l'échelle karmique.
+     */
     public enum EchelleKarmique {
         BOUSIER(0),
         SERPENT(4),
@@ -36,12 +40,18 @@ public class Joueur {
         EchelleKarmique(int points) {
             this.pointsPourAvancer = points;
         }
-
+        /**
+         * Obtient le nombre de points nécessaires pour avancer sur l'échelle.
+         * @return Le nombre de points requis pour l'avancement.
+         */
         public int getPointsPourAvancer() {
             return this.pointsPourAvancer;
         }
     }
-
+     /**
+     * Constructeur pour créer un joueur.
+     * @param id Identifiant unique du joueur.
+     */
     public Joueur(String id) {
         this.id = id;
         this.main = new ArrayList<>();
@@ -53,7 +63,10 @@ public class Joueur {
         this.positionEchelleKarmique = EchelleKarmique.BOUSIER;
 
     }
-
+    /**
+     * Définit le pseudo du joueur.
+     * @param pseudo Le nouveau pseudo du joueur.
+     */
     public void setPseudo(String pseudo) {
         this.id = pseudo;
     }
