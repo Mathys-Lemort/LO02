@@ -3,16 +3,16 @@ Joueur2: Bot
 JoueurActif: sdkqiob
 EtatPartie: INITIALISATION
 Rejouer: false
-Source: Voyage | Mimetisme | Roulette | Crise | Semis | Semis | Longevite | Jubile | Coup d'Œil | Fournaise | Coup d'Œil | Roulette | Transmigration | Deni | Vengeance | Vengeance | Sauvetage | Crise | Reves Brises | Panique | Panique | Destinee | Lendemain | Lendemain | Bassesse | Vol | Panique | Recyclage | Dernier Souffle | Deni | Sauvetage | Fournaise | Voyage | Sauvetage | Recyclage | Coup d'Œil | Dernier Souffle | Destinee | Longevite | Semis | Recyclage | Mimetisme | Duperie | Crise | Lendemain | Transmigration | Incarnation | Roulette | Reves Brises | Incarnation | Jubile | Transmigration
-Joueur1Main: Duperie | Incarnation | Destinee | Fournaise | Deni
+Source: Longevite | Longevite | Longevite | Mimetisme | Mimetisme | Panique | Panique | Panique | Vengeance | Vengeance | Incarnation | Incarnation | Incarnation | Incarnation | Incarnation | Vol | Vol | Recyclage | Recyclage | Recyclage | Voyage | Voyage | Duperie | Duperie | Sauvetage | Sauvetage | Sauvetage | Coup d'Œil | Coup d'Œil | Coup d'Œil | Crise | Crise | Crise | Fournaise | Fournaise | Fournaise | Destinee | Destinee | Destinee | Transmigration | Transmigration | Transmigration | Semis | Semis | Semis | Dernier Souffle | Dernier Souffle | Dernier Souffle | Lendemain | Lendemain | Lendemain | Jubile | Jubile | Roulette | Roulette | Roulette | Reves Brises | Reves Brises | Reves Brises | Bassesse | Bassesse | Deni | Deni | Deni | Voyage | Mimetisme | Roulette | Crise | Semis | Semis | Longevite | Jubile | Coup d'Œil | Fournaise | Coup d'Œil | Roulette | Transmigration | Deni | Vengeance | Vengeance | Sauvetage | Crise | Reves Brises | Panique | Panique | Destinee | Lendemain | Lendemain | Bassesse | Vol | Panique | Recyclage | Dernier Souffle | Deni | Sauvetage | Fournaise | Voyage | Sauvetage | Recyclage | Coup d'Œil | Dernier Souffle | Destinee | Longevite | Semis | Recyclage | Mimetisme | Duperie | Crise | Lendemain | Transmigration | Incarnation | Roulette | Reves Brises | Incarnation | Jubile | Transmigration
+Joueur1Main: Incarnation | Deni
 Joueur1Pile: 
 Joueur1VieFuture: Incarnation
-Joueur1Oeuvre: Reves Brises
-Joueur1Fosse: 
-Joueur2Main: Longevite | Bassesse | Incarnation | Dernier Souffle
-Joueur2Pile: Vol
+Joueur1Oeuvre: Reves Brises | Duperie | Destinee
+Joueur1Fosse: Dernier Souffle | Fournaise
+Joueur2Main: Longevite | Incarnation | Vol
+Joueur2Pile: 
 Joueur2VieFuture: 
-Joueur2Oeuvre: 
+Joueur2Oeuvre: Bassesse
 Joueur2Fosse: 
 Joueur1Position: BOUSIER
 Joueur2Position: BOUSIER
