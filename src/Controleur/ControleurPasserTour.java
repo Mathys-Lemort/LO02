@@ -1,6 +1,7 @@
 package Controleur;
 
 import Core.Affichage;
+import Core.EtatPartie;
 import Core.Partie;
 import Joueurs.Joueur;
 import Joueurs.JoueurBot;
@@ -75,10 +76,14 @@ public class ControleurPasserTour implements EventHandler<ActionEvent> {
      * @param joueur le joueur à vérifier et réincarner.
      */
     private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
-        if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
-            joueur.reincarnation();
+            if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
+                joueur.reincarnation();
+                if (modelePartie.getEtatPartie().equals(EtatPartie.TERMINE)) {
+                    vueJeu.afficherEcranAccueil(true);
+                }
+
+            }
         }
-    }
 
     /**
      * Méthode qui gère les actions du joueur bot.

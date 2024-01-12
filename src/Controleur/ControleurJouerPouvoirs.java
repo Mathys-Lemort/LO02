@@ -2,6 +2,7 @@ package Controleur;
 
 import vue.Jeu;
 import Cartes.Carte;
+import Core.EtatPartie;
 import Joueurs.Joueur;
 import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
@@ -46,6 +47,10 @@ public class ControleurJouerPouvoirs implements EventHandler<ActionEvent> {
 
         if (!modelePartie.getRejouer()) {
             Joueur joueurSuivant = modelePartie.getJoueurRival();
+            if (!verifierEtReincarnerSiNecessaire(modelePartie.getJoueurActif())) {
+                vueJeu.afficherEcranAccueil(true);
+                return;
+            }
             traiterJoueurSuivant(joueurSuivant);
         }
     }
@@ -69,10 +74,17 @@ public class ControleurJouerPouvoirs implements EventHandler<ActionEvent> {
      * Méthode privée qui vérifie si le joueur doit être réincarné et le réincarne si nécessaire.
      * @param joueur Le joueur à vérifier et réincarner.
      */
-    private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
+    private Boolean verifierEtReincarnerSiNecessaire(Joueur joueur) {
         if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
             joueur.reincarnation();
+            System.out.println("Réincarnation de " + joueur.getPseudo());
+            if (modelePartie.getEtatPartie().equals(EtatPartie.TERMINE)) {
+                return false;
+            }
+
         }
+        return true;
+
     }
 
     /**

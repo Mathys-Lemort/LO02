@@ -146,6 +146,7 @@ public class Joueur {
             preparerPourReincarnation();
         } else {
             celebrerTransceandance();
+            Partie.getInstance().terminerPartie();
         }
     }
     /**
@@ -167,7 +168,6 @@ public class Joueur {
 
     private void celebrerTransceandance() {
         Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
-        Partie.getInstance().terminerPartie();
     }
     /**
      * Joue une carte pour des points.

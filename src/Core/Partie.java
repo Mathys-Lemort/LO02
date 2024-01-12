@@ -1,12 +1,11 @@
 package Core;
 
-import java.util.List;
 import java.io.*;
 import java.util.*;
 import Cartes.*;
 import Joueurs.*;
 import Plateau.Plateau;
-
+import javafx.scene.control.ChoiceDialog;
 
 public class Partie {
     private static Partie instance;
@@ -113,8 +112,10 @@ public class Partie {
 
     /**
      * Initialise la partie en affichant le titre "Initialisation de la Partie".
-     * Si le mode graphique n'est pas activé, vérifie si une sauvegarde doit être chargée.
-     * Si une sauvegarde doit être chargée, la partie est chargée et la fonction se termine.
+     * Si le mode graphique n'est pas activé, vérifie si une sauvegarde doit être
+     * chargée.
+     * Si une sauvegarde doit être chargée, la partie est chargée et la fonction se
+     * termine.
      * Sinon, les joueurs sont créés et le joueur malchanceux est désigné.
      * Enfin, les cartes sont distribuées aux joueurs.
      */
@@ -143,9 +144,11 @@ public class Partie {
     }
 
     /**
-     * Vérifie si une sauvegarde existe et demande à l'utilisateur s'il souhaite charger une partie sauvegardée.
+     * Vérifie si une sauvegarde existe et demande à l'utilisateur s'il souhaite
+     * charger une partie sauvegardée.
      * 
-     * @return true si l'utilisateur souhaite charger une partie sauvegardée, sinon false.
+     * @return true si l'utilisateur souhaite charger une partie sauvegardée, sinon
+     *         false.
      */
     private boolean demandeChargementSauvegarde() {
         File sauvegarde = new File("src/sauvegarde.txt");
@@ -160,7 +163,8 @@ public class Partie {
 
     /**
      * Distribue les cartes aux joueurs.
-     * Cette fonction distribue les cartes en appelant les méthodes distribuerMain() et distribuerPileInitiale().
+     * Cette fonction distribue les cartes en appelant les méthodes distribuerMain()
+     * et distribuerPileInitiale().
      */
     private void distribuerCartesAuxJoueurs() {
         this.distribuerMain();
@@ -192,15 +196,18 @@ public class Partie {
     }
 
     /**
-     * Crée un joueur bot avec le pseudo "Bot" et l'ajoute à la liste des joueurs de la partie.
+     * Crée un joueur bot avec le pseudo "Bot" et l'ajoute à la liste des joueurs de
+     * la partie.
      */
     private void creerJoueurBot() {
         joueurs.add(new JoueurBot("Bot"));
     }
 
     /**
-     * Demande au joueur humain d'entrer son pseudo et l'ajoute à la liste des joueurs de la partie.
-     * Vérifie si le pseudo existe déjà et affiche un message d'erreur le cas échéant.
+     * Demande au joueur humain d'entrer son pseudo et l'ajoute à la liste des
+     * joueurs de la partie.
+     * Vérifie si le pseudo existe déjà et affiche un message d'erreur le cas
+     * échéant.
      */
     private void creerJoueurHumain() {
         Affichage.afficherMessage("Entrez votre pseudo:");
@@ -222,6 +229,7 @@ public class Partie {
             this.joueurs.add(joueur);
         }
     }
+
     /**
      * Permet au joueur de piocher une carte de sa pile de cartes.
      * Si la pile du joueur n'est pas vide, une carte est ajoutée à sa main.
@@ -235,14 +243,14 @@ public class Partie {
 
     }
 
-    
     /**
-        * Pioche une carte si nécessaire pour le joueur donné.
-        * Affiche le titre du joueur et lui ajoute une carte s'il a encore des cartes dans sa pile.
-        * Affiche un message indiquant que le joueur a pioché une carte.
-        *
-        * @param joueur le joueur pour lequel piocher une carte
-        */
+     * Pioche une carte si nécessaire pour le joueur donné.
+     * Affiche le titre du joueur et lui ajoute une carte s'il a encore des cartes
+     * dans sa pile.
+     * Affiche un message indiquant que le joueur a pioché une carte.
+     *
+     * @param joueur le joueur pour lequel piocher une carte
+     */
     private void piocherCarteSiNecessaire(Joueur joueur) {
         Affichage.afficherTitre(joueur.getPseudo() + ", c'est à votre tour.");
         if (!joueur.pileVide()) {
@@ -252,10 +260,13 @@ public class Partie {
     }
 
     /**
-     * Cette fonction demande au joueur de choisir une action à effectuer pendant son tour.
-     * Elle affiche un menu d'options et attend que le joueur saisisse un choix valide.
+     * Cette fonction demande au joueur de choisir une action à effectuer pendant
+     * son tour.
+     * Elle affiche un menu d'options et attend que le joueur saisisse un choix
+     * valide.
      * Si le choix est valide, la fonction retourne le choix du joueur.
-     * Si le choix n'est pas valide, un message d'erreur est affiché et le joueur est invité à choisir à nouveau.
+     * Si le choix n'est pas valide, un message d'erreur est affiché et le joueur
+     * est invité à choisir à nouveau.
      *
      * @param joueur Le joueur en cours
      * @return Le choix d'action du joueur
@@ -284,13 +295,15 @@ public class Partie {
 
     /**
      * Effectue les actions d'un tour pour un joueur donné.
-     * Si le joueur n'est pas en train de rejouer, il pioche une carte si nécessaire.
+     * Si le joueur n'est pas en train de rejouer, il pioche une carte si
+     * nécessaire.
      * Si le joueur est un JoueurBot, il joue automatiquement un coup.
      * Sinon, le joueur est invité à choisir une action parmi les suivantes :
      * 1. Jouer une carte pour obtenir des points.
      * 2. Jouer une carte pour utiliser son pouvoir.
      * 3. Placer une carte dans la pile de vie future.
-     * 4. Passer son tour (si la pile de cartes est vide, le joueur ne peut pas passer son tour).
+     * 4. Passer son tour (si la pile de cartes est vide, le joueur ne peut pas
+     * passer son tour).
      * 5. Sauvegarder la partie et quitter le jeu.
      * Si le choix du joueur est invalide, un message d'erreur est affiché.
      *
@@ -341,9 +354,12 @@ public class Partie {
 
     /**
      * Joue une carte de la main du joueur pour obtenir des points.
-     * Si la main du joueur est vide, affiche un message indiquant qu'il n'y a pas de cartes à jouer.
-     * Demande au joueur de choisir une carte à jouer parmi celles disponibles dans sa main.
-     * Joue la carte choisie et affiche un message indiquant la carte jouée et le nombre de points obtenus.
+     * Si la main du joueur est vide, affiche un message indiquant qu'il n'y a pas
+     * de cartes à jouer.
+     * Demande au joueur de choisir une carte à jouer parmi celles disponibles dans
+     * sa main.
+     * Joue la carte choisie et affiche un message indiquant la carte jouée et le
+     * nombre de points obtenus.
      *
      * @param joueur le joueur qui joue la carte
      */
@@ -366,7 +382,8 @@ public class Partie {
     /**
      * Joue une carte pour activer son pouvoir.
      * Si le joueur n'a pas de cartes dans sa main, affiche un message et retourne.
-     * Demande au joueur de choisir une carte dans sa main et la joue pour activer son pouvoir.
+     * Demande au joueur de choisir une carte dans sa main et la joue pour activer
+     * son pouvoir.
      * 
      * @param joueur le joueur qui joue la carte
      */
@@ -388,7 +405,8 @@ public class Partie {
      * Place une carte de la main du joueur dans sa Vie Future.
      * Si la main du joueur est vide, affiche un message d'erreur.
      * Demande au joueur de choisir une carte à placer dans sa Vie Future.
-     * Affiche un message indiquant la carte choisie et la place dans la Vie Future du joueur.
+     * Affiche un message indiquant la carte choisie et la place dans la Vie Future
+     * du joueur.
      *
      * @param joueur le joueur dont la carte sera placée dans la Vie Future
      */
@@ -407,7 +425,6 @@ public class Partie {
         Affichage.afficherMessage("Vous avez placé " + carteChoisie.getNom() + " dans votre Vie Future.");
     }
 
-    
     /**
      * Passe le tour du joueur spécifié.
      *
@@ -438,9 +455,11 @@ public class Partie {
 
     /**
      * Advances to the next turn in the game.
-     * If the active player is null or not in the list of players, it calls the designerMalchanceux() method.
+     * If the active player is null or not in the list of players, it calls the
+     * designerMalchanceux() method.
      * Otherwise, it updates the active player to the next player in the list.
-     * If the active player has an empty hand and an empty pile, it displays a message and calls the reincarnation() method.
+     * If the active player has an empty hand and an empty pile, it displays a
+     * message and calls the reincarnation() method.
      * Otherwise, it calls the effectuerActionsTour() method for the active player.
      */
     public void tourSuivant() {
@@ -451,7 +470,8 @@ public class Partie {
 
     /**
      * Détermine le joueur actif.
-     * Si le joueur actif est null ou n'est pas dans la liste des joueurs, la méthode designerMalchanceux() est appelée.
+     * Si le joueur actif est null ou n'est pas dans la liste des joueurs, la
+     * méthode designerMalchanceux() est appelée.
      * Sinon, le joueur actif est mis à jour pour le joueur suivant dans la liste.
      */
     private void determinerJoueurActif() {
@@ -465,7 +485,8 @@ public class Partie {
 
     /**
      * Vérifie si le joueur actif doit être réincarné.
-     * Si le joueur actif n'a plus de cartes dans sa main et dans sa pile, la méthode reincarnation() est appelée.
+     * Si le joueur actif n'a plus de cartes dans sa main et dans sa pile, la
+     * méthode reincarnation() est appelée.
      */
     private void verifierReincarnation() {
         if (joueurActif.mainVide() && joueurActif.pileVide()) {
@@ -485,22 +506,52 @@ public class Partie {
     private void executerActionsTour() {
         effectuerActionsTour(joueurActif, false);
     }
-
+    
     /**
-     * Termine la partie en mettant à jour l'état de la partie et en affichant un message de fin.
+     * Termine la partie en mettant à jour l'état de la partie et en affichant un
+     * message de fin.
      * Le joueur actif est déclaré comme le gagnant de la partie.
      */
     public void terminerPartie() {
         this.setEtatPartie(EtatPartie.TERMINE);
-        Affichage.afficherTitre("Fin de la partie");
-        Affichage.afficherMessage("Le joueur " + joueurActif.getPseudo() + " a gagné la partie!");
+        if (modeGraphique()) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Oui", "Oui", "Non");
+            dialog.setTitle("Fin de la partie");
+            dialog.setHeaderText("Voulez-vous rejouer?");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                String selectedOption = result.get();
+                if (selectedOption.equals("Oui")) {
+                    // Vider les joueurs et le plateau
+                    joueurs.clear();
+                    return;
+                } else {
+                    Affichage.afficherMessage("Merci d'avoir joué!");
+                    System.exit(0);
+                }
+            }
+        } else {
+            Affichage.afficherMessage("Voulez-vous rejouer?");
+            Affichage.afficherOption(1, "Oui");
+            Affichage.afficherOption(2, "Non");
+            int choix = this.getScanner().nextInt();
+            this.getScanner().nextLine();
+            if (choix == 1) {
+                // Ici on va rappeler la méthode commencerPartie()
+            } else {
+                Affichage.afficherMessage("Merci d'avoir joué!");
+                System.exit(0);
+            }
+        }
     }
 
     /**
      * Démarre une partie.
      * 
-     * Cette méthode initialise la partie, met l'état de la partie à "EN_COURS" et effectue les tours jusqu'à ce que l'état de la partie change.
-     * Une fois la partie terminée, elle demande à l'utilisateur s'il souhaite rejouer.
+     * Cette méthode initialise la partie, met l'état de la partie à "EN_COURS" et
+     * effectue les tours jusqu'à ce que l'état de la partie change.
+     * Une fois la partie terminée, elle demande à l'utilisateur s'il souhaite
+     * rejouer.
      * Si l'utilisateur répond "O", la méthode recommence une nouvelle partie.
      * Sinon, elle affiche un message de remerciement.
      */
@@ -512,18 +563,11 @@ public class Partie {
         while (this.etatPartie == EtatPartie.EN_COURS) {
             tourSuivant();
         }
-
-        Affichage.afficherMessage("Voulez-vous rejouer? (O/N)");
-        String choix = scanner.nextLine();
-        if (choix.equals("O")) {
-            commencerPartie();
-        } else {
-            Affichage.afficherMessage("Merci d'avoir joué!");
-        }
     }
 
     /**
-     * Distribue un nombre spécifié de cartes à chaque joueur à partir de la source du plateau.
+     * Distribue un nombre spécifié de cartes à chaque joueur à partir de la source
+     * du plateau.
      * 
      * @param nombreDeCartes Le nombre de cartes à distribuer à chaque joueur.
      */
@@ -532,6 +576,15 @@ public class Partie {
             for (int i = 0; i < nombreDeCartes; i++) {
                 Carte carte = plateau.getSource().remove(0);
                 joueur.ajouterCarteDansMain(carte);
+            }
+        }
+    }
+
+    private void distribuerCartesPile(int nombreDeCartes) {
+        for (Joueur joueur : joueurs) {
+            for (int i = 0; i < nombreDeCartes; i++) {
+                Carte carte = plateau.getSource().remove(0);
+                joueur.ajouterCarteDansPile(carte);
             }
         }
     }
@@ -548,13 +601,16 @@ public class Partie {
      * Chaque joueur reçoit deux cartes de la source du plateau.
      */
     public void distribuerPileInitiale() {
-        distribuerCartes(2);
+        distribuerCartesPile(2);
     }
 
     /**
-     * Cette méthode permet de désigner le joueur malchanceux qui commencera la partie.
-     * Les joueurs lancent chacun un dé et celui qui obtient le plus petit nombre commence la partie.
-     * En cas d'égalité, les joueurs relancent les dés jusqu'à ce qu'il y ait un gagnant.
+     * Cette méthode permet de désigner le joueur malchanceux qui commencera la
+     * partie.
+     * Les joueurs lancent chacun un dé et celui qui obtient le plus petit nombre
+     * commence la partie.
+     * En cas d'égalité, les joueurs relancent les dés jusqu'à ce qu'il y ait un
+     * gagnant.
      */
     public void designerMalchanceux() {
         int lancéJoueur1, lancéJoueur2;
@@ -612,9 +668,11 @@ public class Partie {
     }
 
     /**
-     * Renvoie une liste contenant les trois premières cartes de la source du plateau.
+     * Renvoie une liste contenant les trois premières cartes de la source du
+     * plateau.
      * 
-     * @return une liste contenant les trois premières cartes de la source du plateau
+     * @return une liste contenant les trois premières cartes de la source du
+     *         plateau
      */
     public ArrayList<Carte> afficher3PremieresCartesSource() {
         ArrayList<Carte> cartes = new ArrayList<Carte>();
@@ -657,11 +715,12 @@ public class Partie {
     }
 
     /**
-        * Renvoie le joueur 1.
-        * Si aucun joueur n'est présent dans la liste des joueurs, un nouveau joueur avec le nom "Joueur 1" est créé et ajouté à la liste.
-        * 
-        * @return le joueur 1
-        */
+     * Renvoie le joueur 1.
+     * Si aucun joueur n'est présent dans la liste des joueurs, un nouveau joueur
+     * avec le nom "Joueur 1" est créé et ajouté à la liste.
+     * 
+     * @return le joueur 1
+     */
     public Joueur getJoueur1() {
         if (joueurs.size() < 1) {
             joueurs.add(new Joueur("Joueur 1"));
@@ -670,11 +729,12 @@ public class Partie {
     }
 
     /**
-        * Renvoie le deuxième joueur de la partie.
-        * Si le nombre de joueurs est inférieur à 2, un nouveau joueur est ajouté à la liste des joueurs.
-        * 
-        * @return le deuxième joueur de la partie
-        */
+     * Renvoie le deuxième joueur de la partie.
+     * Si le nombre de joueurs est inférieur à 2, un nouveau joueur est ajouté à la
+     * liste des joueurs.
+     * 
+     * @return le deuxième joueur de la partie
+     */
     public Joueur getJoueur2() {
         if (joueurs.size() < 2) {
             joueurs.add(new Joueur("Joueur 2"));
@@ -682,12 +742,11 @@ public class Partie {
         return joueurs.get(1);
     }
 
-    /** 
-      *Renvoi le plateau de la partie.
-        *
-        * @return le plateau de la partie
-        */
-
+    /**
+     * Renvoi le plateau de la partie.
+     *
+     * @return le plateau de la partie
+     */
 
     public Plateau getPlateau() {
         return plateau;
@@ -695,10 +754,13 @@ public class Partie {
 
     /**
      * Lance les dés pour déterminer le joueur actif et le joueur qui commence.
-     * Les dés sont lancés pour les deux joueurs jusqu'à ce que les résultats des lancers soient différents.
-     * Le résultat de chaque lancer est stocké dans les variables resultatLanceJoueur1 et resultatLanceJoueur2.
+     * Les dés sont lancés pour les deux joueurs jusqu'à ce que les résultats des
+     * lancers soient différents.
+     * Le résultat de chaque lancer est stocké dans les variables
+     * resultatLanceJoueur1 et resultatLanceJoueur2.
      * Le joueur actif est déterminé en fonction du résultat du lancer.
-     * Le joueur qui commence est également déterminé en fonction du résultat du lancer.
+     * Le joueur qui commence est également déterminé en fonction du résultat du
+     * lancer.
      */
     public void lancerDes() {
         int resultatLanceJoueur1 = 0, resultatLanceJoueur2 = 0;
@@ -775,6 +837,9 @@ public class Partie {
      * @param joueur Le joueur actif à définir.
      */
     public void setJoueurActif(Joueur joueur) {
+        // Vérifier si l'état du jeu est a terminé alors reinitialiser tous les éléments
+        // du jeux
+
         joueurActif = joueur;
     }
 
@@ -811,5 +876,4 @@ public class Partie {
 
     }
 
-    
 }

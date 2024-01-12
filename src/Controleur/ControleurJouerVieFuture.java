@@ -2,6 +2,7 @@ package Controleur;
 
 import vue.Jeu;
 import Cartes.Carte;
+import Core.EtatPartie;
 import Joueurs.Joueur;
 import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
@@ -38,6 +39,10 @@ public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         modelePartie.jouerCarteVieFuture(carte);
 
+        if (!verifierEtReincarnerSiNecessaire(modelePartie.getJoueurActif())) {
+            vueJeu.afficherEcranAccueil(true);
+            return;
+        }
         Joueur joueurSuivant = modelePartie.getJoueurRival();
         traiterJoueurSuivant(joueurSuivant);
     }
@@ -63,10 +68,17 @@ public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
      *
      * @param joueur Le joueur à vérifier.
      */
-    private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
+    private Boolean verifierEtReincarnerSiNecessaire(Joueur joueur) {
         if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
             joueur.reincarnation();
+            System.out.println("Réincarnation de " + joueur.getPseudo());
+            if (modelePartie.getEtatPartie().equals(EtatPartie.TERMINE)) {
+                return false;
+            }
+
         }
+        return true;
+
     }
 
     /**
