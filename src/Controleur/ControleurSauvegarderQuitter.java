@@ -7,6 +7,8 @@ import Joueurs.JoueurBot;
 import vue.Jeu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import Core.Sauvegarde;
+
 
 /**
  * Cette classe implémente l'interface EventHandler<ActionEvent> et représente le contrôleur pour l'action de sauvegarder et quitter le jeu.
@@ -38,7 +40,7 @@ public class ControleurSauvegarderQuitter implements EventHandler<ActionEvent> {
             Affichage.afficherMessage("Vous ne pouvez pas sauvegarder et quitter pendant le tour d'un bot.");
             return;
         }
-        modelePartie.sauvegarderPartie();
+        Sauvegarde.sauvegarderPartie(modelePartie);
         vueJeu.fermerFenetre();
     }
 }

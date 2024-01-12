@@ -6,15 +6,14 @@ import Cartes.Carte;
 import Controleur.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.*;
+import javafx.geometry.*;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-import javafx.scene.text.*;
-import javafx.stage.*;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import Core.Partie;
 
@@ -39,6 +38,7 @@ public class Jeu extends Application {
     @Override
     public void init() {
         partie = Partie.getInstance();
+        partie.setMode(Partie.Mode.GRAPHIQUE);
         panelCentral = new BorderPane();
         boutonJouer = new Button("Jouer à Karmaka");
         boutonJouer.setFont(Font.font(FONT_STYLE, FONT_SIZE));
