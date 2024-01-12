@@ -545,7 +545,6 @@ public class Joueur {
      * Recupere les cartes de la vie future du joueur.
      * @return La liste des cartes de la vie future du joueur.
      */
-     */
     public Carte getCarteVieFuture(int index) {
         return this.vieFuture.get(index);
     }

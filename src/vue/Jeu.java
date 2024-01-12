@@ -4,7 +4,17 @@ import java.util.*;
 
 import Cartes.Carte;
 import Controleur.*;
-import javafx.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
+import javafx.stage.*;
 
 import Core.Partie;
 
