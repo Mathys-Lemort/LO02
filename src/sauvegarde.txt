@@ -1,21 +1,20 @@
-Joueur1: sdfbqouf
+Joueur1: ofhi
 Joueur2: Bot
-JoueurActif: sdfbqouf
-ResultatLanceJoueur1: 2
-ResultatLanceJoueur2: 4
+JoueurActif: ofhi
+ResultatLanceJoueur1: 4
+ResultatLanceJoueur2: 5
 EtatPartie: INITIALISATION
-Mode: GRAPHIQUE
 Rejouer: false
-Source: Jubile | Recyclage | Transmigration | Voyage | Vol | Incarnation | Mimetisme | Crise | Deni | Vengeance | Coup d'Œil | Sauvetage | Dernier Souffle | Coup d'Œil | Reves Brises | Destinee | Semis | Panique | Crise | Mimetisme | Lendemain | Recyclage | Vol | Fournaise | Vengeance | Panique | Reves Brises | Longevite | Destinee | Fournaise | Voyage | Incarnation | Deni | Roulette | Lendemain | Sauvetage | Jubile | Transmigration | Longevite | Bassesse | Sauvetage | Recyclage | Dernier Souffle | Crise | Incarnation | Fournaise | Roulette | Incarnation | Duperie | Roulette | Semis | Panique
-Joueur1Main: Coup d'Œil | Duperie | Semis | Incarnation | Lendemain
-Joueur1Pile: 
-Joueur1VieFuture: 
-Joueur1Oeuvre: Longevite
-Joueur1Fosse: Reves Brises
-Joueur2Main: Bassesse | Destinee | Deni | Dernier Souffle
-Joueur2Pile: Transmigration
-Joueur2VieFuture: 
+Source: Recyclage | Lendemain | Sauvetage | Reves Brises | Roulette | Recyclage | Jubile | Incarnation | Bassesse | Destinee | Deni | Duperie | Deni | Transmigration | Reves Brises | Lendemain | Mimetisme | Crise | Lendemain | Fournaise | Crise | Coup d'Œil | Fournaise | Longevite | Longevite | Fournaise | Dernier Souffle | Recyclage | Incarnation | Semis | Voyage | Roulette | Coup d'Œil | Duperie | Dernier Souffle | Deni | Vol | Longevite | Transmigration | Reves Brises | Vol
+Joueur1Main: Incarnation | Panique
+Joueur1Pile: Jubile | Incarnation | Bassesse | Roulette
+Joueur1VieFuture: Destinee
+Joueur1Oeuvre: 
+Joueur1Fosse: Semis | Incarnation | Sauvetage | Crise | Transmigration | Sauvetage | Panique | Voyage | Panique
+Joueur2Main: Semis | Coup d'Œil | Dernier Souffle
+Joueur2Pile: Mimetisme | Destinee
+Joueur2VieFuture: Recyclage | Lendemain
 Joueur2Oeuvre: 
-Joueur2Fosse: 
-Joueur1Position: BOUSIER
-Joueur2Position: BOUSIER
+Joueur2Fosse: Vengeance | Vengeance
+Joueur1Position: SERPENT
+Joueur2Position: SERPENT

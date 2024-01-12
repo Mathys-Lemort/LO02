@@ -1,48 +1,18 @@
 package Core;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
-import Cartes.Bassesse;
-import Cartes.Carte;
-import Cartes.CoupdOeil;
-import Cartes.Crise;
-import Cartes.Deni;
-import Cartes.DernierSouffle;
-import Cartes.Destinee;
-import Cartes.Duperie;
-import Cartes.Fournaise;
-import Cartes.Incarnation;
-import Cartes.Jubile;
-import Cartes.Lendemain;
-import Cartes.Longevite;
-import Cartes.Mimetisme;
-import Cartes.Panique;
-import Cartes.Recyclage;
-import Cartes.RevesBrises;
-import Cartes.Roulette;
-import Cartes.Sauvetage;
-import Cartes.Semis;
-import Cartes.Transmigration;
-import Cartes.Vengeance;
-import Cartes.Vol;
-import Cartes.Voyage;
+import Cartes.*;
 import Joueurs.Joueur;
 import Joueurs.JoueurBot;
 import Plateau.Plateau;
-import javafx.application.Platform;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 
 public class Partie {
     private static Partie instance;
@@ -110,26 +80,38 @@ public class Partie {
     public void initialiserPartie() {
         Affichage.afficherTitre("Initialisation de la Partie");
     
-        if (!(this.getMode().equals(Mode.GRAPHIQUE))) {
-            File sauvegarde = new File("src/sauvegarde.txt");
-            if (sauvegarde.exists()) {
-                Affichage.afficherMessage("Voulez-vous charger une partie sauvegardée?");
-                Affichage.afficherOption(1, "Oui");
-                Affichage.afficherOption(2, "Non");
-                int choix = scanner.nextInt();
-                scanner.nextLine();
-                if (choix == 1) {
-                    chargerPartie();
-                    return; 
-                }
+        if (!modeGraphique()) {
+            if (demandeChargementSauvegarde()) {
+                chargerPartie();
+                return;
             }
             creerJoueurs();
-            this.designerMalchanceux();
+            designerMalchanceux();
         }
     
+        distribuerCartesAuxJoueurs();
+    }
+    
+    private boolean modeGraphique() {
+        return this.getMode().equals(Mode.GRAPHIQUE);
+    }
+    
+    private boolean demandeChargementSauvegarde() {
+        File sauvegarde = new File("src/sauvegarde.txt");
+        if (sauvegarde.exists()) {
+            Affichage.afficherMessage("Voulez-vous charger une partie sauvegardée?");
+            Affichage.afficherOption(1, "Oui");
+            Affichage.afficherOption(2, "Non");
+            return scanner.nextInt() == 1; 
+        }
+        return false;
+    }
+    
+    private void distribuerCartesAuxJoueurs() {
         this.distribuerMain();
         this.distribuerPileInitiale();
     }
+    
     
     private void creerJoueurs() {
         Affichage.afficherMessage("Voulez-vous jouer contre un Bot?");
@@ -530,7 +512,6 @@ public class Partie {
             myWriter.write("ResultatLanceJoueur1: " + getResultatLanceJoueur1() + "\n");
             myWriter.write("ResultatLanceJoueur2: " + getResultatLanceJoueur2() + "\n");
             myWriter.write("EtatPartie: " + getEtatPartie() + "\n");
-            myWriter.write("Mode: " + getMode() + "\n");
             myWriter.write("Rejouer: " + getRejouer() + "\n");
             myWriter.write("Source: " + cartesToString(getCartesSource()) + "\n");
             myWriter.write("Joueur1Main: " + cartesToString(getJoueur1().getMain()) + "\n");
@@ -588,10 +569,7 @@ public class Partie {
                         break;
                     case "EtatPartie":
                         setEtatPartie(EtatPartie.valueOf(dataSplit[1]));
-                        break;
-                    case "Mode":
-                        setMode(Mode.valueOf(dataSplit[1]));
-                        break;
+                        break;                        
                     case "Rejouer":
                         setRejouer(Boolean.parseBoolean(dataSplit[1]));
                         break;

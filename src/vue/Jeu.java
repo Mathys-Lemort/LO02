@@ -59,6 +59,7 @@ public class Jeu extends Application {
     @Override
     public void init() {
         partie = Partie.getInstance();
+        partie.setMode(Partie.Mode.GRAPHIQUE);
         panelCentral = new BorderPane();
         boutonJouer = new Button("Jouer à Karmaka");
         boutonJouer.setFont(Font.font(FONT_STYLE, FONT_SIZE));
