@@ -1,5 +1,6 @@
 package Cartes;
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -42,5 +43,7 @@ public class Bassesse extends Carte {
                         ? "Votre adversaire a défaussé 1 carte au hasard." 
                         : "Votre adversaire a défaussé 2 cartes au hasard.";
         Affichage.afficherMessage(message);
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

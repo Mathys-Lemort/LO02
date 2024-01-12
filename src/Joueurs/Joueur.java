@@ -173,9 +173,13 @@ public class Joueur {
      * Joue une carte pour des points.
      * @param carte La carte à jouer.
      */
+    
     public void jouerCartePourPoints(Carte carte) {
         this.Oeuvres.add(carte);
         this.main.remove(carte);
+        if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
+            Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+        }
     }
     /**
      * Obtient le pseudo du joueur.
@@ -190,9 +194,6 @@ public class Joueur {
      * @param carte La carte à jouer.
      */
     public void demanderPrendreCarte(Joueur rival, Carte carte) {
-        if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
-            Partie.getInstance().setJoueurActif(rival);
-        } 
         if (rival instanceof JoueurBot) {
             int choix = (int) (Math.random() * 2) + 1;
             if (choix == 1) {
@@ -213,6 +214,7 @@ public class Joueur {
         } else {
             Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro valide.");
         }
+        
     }
     /**
      * Demande au joueur de choisir une carte à jouer pour son pouvoir.
@@ -272,6 +274,9 @@ public class Joueur {
     public void jouerCartePourFutur(Carte carte) {
         this.vieFuture.add(carte);
         this.main.remove(carte);
+        if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
+            Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+        }
     }
     /**
      * Défausse une carte de la main du joueur.

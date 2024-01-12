@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 import java.util.ArrayList;
@@ -39,5 +40,7 @@ public class Recyclage extends Carte {
             joueur.getFosse().remove(carte);
             Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Vie Future.");
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

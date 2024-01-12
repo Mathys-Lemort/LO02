@@ -48,6 +48,8 @@ public class Semis extends Carte {
             joueur.getMain().remove(carte);
             
             Affichage.afficherMessage("Vous avez placé la carte " + carte.getNom() + " dans votre Vie Future.");
+            Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
         }
     }
 }

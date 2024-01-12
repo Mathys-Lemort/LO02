@@ -49,5 +49,7 @@ public class Roulette extends Carte {
         for (int i = 0; i <= carteDefaussee; i++) {
             Partie.getInstance().piocherSourceMain(joueur);
         }
+        Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

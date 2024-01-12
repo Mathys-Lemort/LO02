@@ -52,6 +52,7 @@ public abstract class Carte {
 
     private boolean demanderJouerAutreCarteConsole() {
         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
+            Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
             return false;
         }
         Scanner scanner = Partie.getInstance().getScanner();

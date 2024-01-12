@@ -1,5 +1,6 @@
 package Cartes;
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -34,5 +35,7 @@ public class Vol extends Carte {
         adversaire.defausserOeuvreChoisit(carte);
         
         Affichage.afficherMessage("Vous avez ajouté l'Oeuvre Exposée de " + adversaire.getPseudo() + ", \"" + carte.getNom() + "\", à votre Main.");
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

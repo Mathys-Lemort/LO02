@@ -3,6 +3,7 @@ package Cartes;
 import java.util.List;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -21,8 +22,10 @@ public class RevesBrises extends Carte {
 
     /**
      * Méthode qui effectue l'action de la carte "Reves Brises".
-     * Place la première carte de la Vie Future d'un rival sur la Vie Future du joueur actuel.
-     * @param joueur le joueur actuel
+     * Place la première carte de la Vie Future d'un rival sur la Vie Future du
+     * joueur actuel.
+     * 
+     * @param joueur     le joueur actuel
      * @param adversaire le joueur adverse
      */
     @Override
@@ -37,9 +40,11 @@ public class RevesBrises extends Carte {
         Carte carteAjoutee = vieFutureAdversaire.get(0);
         joueur.ajouterCarteDansVieFuture(carteAjoutee);
         vieFutureAdversaire.remove(0);
-        
+
         Affichage.afficherMessage("Vous avez ajouté la carte " + carteAjoutee.getNom() + " de la Vie Future de "
                 + adversaire.getPseudo() + " à votre Vie Future.");
+        Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 
 }

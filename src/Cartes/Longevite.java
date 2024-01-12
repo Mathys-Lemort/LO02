@@ -43,5 +43,7 @@ public class Longevite extends Carte {
                 Affichage.afficherMessage("- " + cartePiochee.getNom());
             }
         }
+        Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

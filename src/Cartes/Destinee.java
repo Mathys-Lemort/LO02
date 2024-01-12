@@ -47,5 +47,7 @@ public class Destinee extends Carte {
                 break;
             }
         }
+        Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

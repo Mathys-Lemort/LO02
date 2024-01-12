@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 import java.util.List;
@@ -40,5 +41,7 @@ public class Incarnation extends Carte {
                     "Vous avez choisi la carte " + carteChoisie.getNom() + " dont le pouvoir est : " + carteChoisie.getPouvoir());
             carteChoisie.action(joueur, adversaire);
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

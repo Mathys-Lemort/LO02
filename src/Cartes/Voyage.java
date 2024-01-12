@@ -42,6 +42,8 @@ public class Voyage extends Carte {
         } else {
             
             Affichage.afficherMessage("Vous avez choisi de ne pas jouer de carte.");
+            Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
             
         }
     }

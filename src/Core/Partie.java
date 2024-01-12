@@ -125,6 +125,7 @@ public class Partie {
         if (!modeGraphique()) {
             if (demandeChargementSauvegarde()) {
                 Sauvegarde.chargerPartie(this);
+                joueurActif = getJoueurRival();
                 return;
             }
             creerJoueurs();
@@ -505,8 +506,12 @@ public class Partie {
      */
     private void executerActionsTour() {
         effectuerActionsTour(joueurActif, false);
+        // Si il a sa pile et main vide le réincarner
+        if (joueurActif.mainVide() && joueurActif.pileVide()) {
+            joueurActif.reincarnation();
+        }
     }
-    
+
     /**
      * Termine la partie en mettant à jour l'état de la partie et en affichant un
      * message de fin.
@@ -537,7 +542,12 @@ public class Partie {
             int choix = this.getScanner().nextInt();
             this.getScanner().nextLine();
             if (choix == 1) {
-                // Ici on va rappeler la méthode commencerPartie()
+                // Vider les joueurs et le plateau
+                joueurs.clear();
+                initialiserPartie();
+                // Set l'état de la partie à EN_COURS
+                this.setEtatPartie(EtatPartie.EN_COURS);
+                
             } else {
                 Affichage.afficherMessage("Merci d'avoir joué!");
                 System.exit(0);
@@ -850,6 +860,7 @@ public class Partie {
      */
     public void jouerCartePoints(Carte carte) {
         joueurActif.jouerCartePourPoints(carte);
+        
     }
 
     /**

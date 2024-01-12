@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -38,5 +39,7 @@ public class Crise extends Carte {
             adversaire.defausserOeuvreChoisit(carte);
             Affichage.afficherMessage(adversaire.getPseudo() + " a défaussé l'œuvre " + carte.getNom() + ".");
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

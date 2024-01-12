@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -39,5 +40,7 @@ public class Deni extends Carte {
             Affichage.afficherMessage("Vous avez défaussé la carte " + carte.getNom() + " et copiez son pouvoir.");
             carte.action(joueur, adversaire);
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

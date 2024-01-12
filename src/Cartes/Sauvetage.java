@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 import java.util.ArrayList;
@@ -50,5 +51,7 @@ public class Sauvetage extends Carte {
         joueur.getFosse().remove(carteChoisie);
         
         Affichage.afficherMessage("Vous avez ajouté la carte " + carteChoisie.getNom() + " à votre Main.");
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

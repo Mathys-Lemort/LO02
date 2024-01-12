@@ -1,5 +1,6 @@
 package Cartes;
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -42,10 +43,13 @@ public class Transmigration extends Carte{
             
             Affichage.afficherMessage("Vous avez ajouté la carte " + carte.getNom() + " à votre Main.");
             
+            
         } else {
             
             Affichage.afficherMessage("Erreur lors de la récupération d'une carte de la Vie Future.");
             
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

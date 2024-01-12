@@ -1,5 +1,6 @@
 package Cartes;
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -36,5 +37,7 @@ public class Mimetisme extends Carte{
         Affichage.afficherMessage("Vous avez copié le pouvoir de l'œuvre exposée de " + adversaire.getPseudo() + ", \"" + nomOeuvre + "\" : " + pouvoirOeuvre);
         
         oeuvreExposee.action(joueur, adversaire);
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

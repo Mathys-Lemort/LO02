@@ -4,6 +4,7 @@ import Joueurs.Joueur;
 import java.util.List;
 
 import Core.Affichage;
+import Core.Partie;
 
 /**
  * La classe Fournaise représente une carte spécifique du jeu.
@@ -45,5 +46,7 @@ public class Fournaise extends Carte {
         adversaire.defausserCarteVieFutureChiffre(2);
         
         Affichage.afficherMessage("Vous avez défaussé les 2 premières cartes de la Vie Future de " + adversaire.getPseudo() + ".");
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

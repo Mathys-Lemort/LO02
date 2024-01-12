@@ -2,6 +2,7 @@ package Cartes;
 import java.util.List;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 /**
@@ -42,5 +43,7 @@ public class Jubile extends Carte {
                 Affichage.afficherMessage("Vous avez placé la carte " + carteChoisie.getNom() + " sur vos œuvres.");
             }
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }

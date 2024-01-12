@@ -1,6 +1,7 @@
 package Cartes;
 
 import Core.Affichage;
+import Core.Partie;
 import Joueurs.Joueur;
 
 import java.util.ArrayList;
@@ -44,5 +45,7 @@ public class Duperie extends Carte {
             adversaire.suppCarteMain(carteChoisie);
             Affichage.afficherMessage("Vous avez pris la carte " + carteChoisie.getNom() + " de la main de " + adversaire.getPseudo());
         }
+                    Partie.getInstance().setJoueurActif(Partie.getInstance().getJoueurRival());
+
     }
 }
