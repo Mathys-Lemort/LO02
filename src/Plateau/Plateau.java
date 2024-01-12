@@ -62,25 +62,44 @@ public class Plateau {
      * Les cartes sont ajoutées en fonction de leur classe et du nombre spécifié.
      */
     public void initialiserSource() {
-        Map<Class<? extends Carte>, Integer> cartesAInitialiser = getCartesAInitialiser();
-        cartesAInitialiser.forEach((carteClass, nombre) -> {
+        Map<Class<? extends Carte>, Integer> cartesAInitialiser = new HashMap<>();
+        cartesAInitialiser.put(Duperie.class, 2);
+        cartesAInitialiser.put(Destinee.class, 3);
+        cartesAInitialiser.put(Transmigration.class, 3);
+        cartesAInitialiser.put(CoupdOeil.class, 3);
+        cartesAInitialiser.put(RevesBrises.class, 3);
+        cartesAInitialiser.put(Deni.class, 3);
+        cartesAInitialiser.put(Vol.class, 2);
+        cartesAInitialiser.put(Lendemain.class, 3);
+        cartesAInitialiser.put(Recyclage.class, 3);
+        cartesAInitialiser.put(Sauvetage.class, 3);
+        cartesAInitialiser.put(Longevite.class, 3);
+        cartesAInitialiser.put(Semis.class, 3);
+        cartesAInitialiser.put(Voyage.class, 2);
+        cartesAInitialiser.put(Jubile.class, 2);
+        cartesAInitialiser.put(Panique.class, 3);
+        cartesAInitialiser.put(DernierSouffle.class, 3);
+        cartesAInitialiser.put(Crise.class, 3);
+        cartesAInitialiser.put(Roulette.class, 3);
+        cartesAInitialiser.put(Fournaise.class, 3);
+        cartesAInitialiser.put(Vengeance.class, 2);
+        cartesAInitialiser.put(Bassesse.class, 2);
+        cartesAInitialiser.put(Incarnation.class, 5);
+        cartesAInitialiser.put(Mimetisme.class, 2);
+    
+        for (Map.Entry<Class<? extends Carte>, Integer> entry : cartesAInitialiser.entrySet()) {
+            Class<? extends Carte> carteClass = entry.getKey();
+            Integer nombre = entry.getValue();
             for (int i = 0; i < nombre; i++) {
-                ajouterCarte(carteClass);
+                try {
+                    this.source.add(carteClass.getDeclaredConstructor().newInstance());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        });
-        Collections.shuffle(source);
-    }
-
-    /**
-     * Crée une carte de chaque type spécifié et l'ajoute à la source.
-     */
-    private void ajouterCarte(Class<? extends Carte> carteClass) {
-        try {
-            source.add(carteClass.getDeclaredConstructor().newInstance());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
+
 
     /**
      * Retourne une représentation sous forme de chaîne de caractères du plateau.
