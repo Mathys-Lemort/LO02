@@ -70,12 +70,18 @@ public class Joueur {
     public void setPseudo(String pseudo) {
         this.id = pseudo;
     }
-
+    /**
+     * Définit le nombre d'anneaux karmiques du joueur.
+     * @param anneauxKarmiques Le nouveau nombre d'anneaux karmiques du joueur.
+     */
 
     public void setPositionEchelleKarmique(String position) {
         this.positionEchelleKarmique = EchelleKarmique.valueOf(position);
     }
-
+    /**
+     * Obtient les points du joueur.
+     * @return Le nombre de points du joueur.
+     */
     public int getPoints() {
         int pointsRouge = 0;
         int pointsVert = 0;
@@ -98,10 +104,16 @@ public class Joueur {
         pointsBleu += this.anneauxKarmiques;
         return Math.max(pointsRouge, Math.max(pointsVert, pointsBleu));
     }
-
+    /**
+     * Obtient la position du joueur sur l'échelle karmique.
+     * @return La position du joueur sur l'échelle karmique.
+     */
     public String getPositionEchelleKarmique() {
         return this.positionEchelleKarmique.name();
     }
+    /**
+     * Réincarne le joueur en fonction de sa position sur l'échelle karmique.
+     */
 
     public void reincarnation() {
         String message;
@@ -136,7 +148,9 @@ public class Joueur {
             celebrerTransceandance();
         }
     }
-
+    /**
+     * Prépare le joueur pour la réincarnation.
+     */
     private void preparerPourReincarnation() {
         this.defausse.addAll(this.Oeuvres);
         this.Oeuvres.clear();
@@ -147,21 +161,34 @@ public class Joueur {
             Partie.getInstance().piocherSourcePile(this);
         }
     }
+    /**
+     * Célèbre la transceandance du joueur.
+     */
 
     private void celebrerTransceandance() {
         Affichage.afficherTitre(this.getPseudo() + " Transceandance !!");
         Partie.getInstance().terminerPartie();
     }
-
+    /**
+     * Joue une carte pour des points.
+     * @param carte La carte à jouer.
+     */
     public void jouerCartePourPoints(Carte carte) {
         this.Oeuvres.add(carte);
         this.main.remove(carte);
     }
-
+    /**
+     * Obtient le pseudo du joueur.
+     * @return Le pseudo du joueur.
+     */
     public String getPseudo() {
         return this.id;
     }
-
+    /**
+     * Demande au joueur de choisir une carte à jouer pour son pouvoir.
+     * @param rival Le joueur rival.
+     * @param carte La carte à jouer.
+     */
     public void demanderPrendreCarte(Joueur rival, Carte carte) {
         if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
             Partie.getInstance().setJoueurActif(rival);
@@ -187,7 +214,11 @@ public class Joueur {
             Affichage.afficherMessage("Choix non valide. Veuillez réessayer avec un numéro valide.");
         }
     }
-
+    /**
+     * Demande au joueur de choisir une carte à jouer pour son pouvoir.
+     * @param rival Le joueur rival.
+     * @param carte La carte à jouer.
+     */
     public int obtenirChoixUtilisateur(Joueur joueur, String message, String titre) {
         if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
             return afficherDialogueGraphique(joueur, message, titre);
@@ -198,7 +229,13 @@ public class Joueur {
             return Partie.getInstance().getScanner().nextInt();
         }
     }
-
+    /**
+     * Affiche un dialogue graphique pour demander au joueur de choisir une carte à jouer pour son pouvoir.
+     * @param joueur Le joueur rival.
+     * @param message Le message à afficher.
+     * @param titre Le titre de la fenêtre.
+     * @return Le choix du joueur.
+     */
     private int afficherDialogueGraphique(Joueur joueur, String message, String titre) {
         if (joueur instanceof JoueurBot) {
             return (int) (Math.random() * 2) + 1;
@@ -218,24 +255,36 @@ public class Joueur {
         }
         return -1; 
     }
-
+    /**
+     * Joue une carte pour son pouvoir.
+     * @param carte La carte à jouer.
+     * @param rival Le joueur rival.
+     */
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
         this.main.remove(carte);        
         demanderPrendreCarte(rival, carte);
         carte.action(this, rival);
     }
-
+    /**
+     * Joue une carte pour la vie future.
+     * @param carte La carte à jouer.
+     */
     public void jouerCartePourFutur(Carte carte) {
         this.vieFuture.add(carte);
         this.main.remove(carte);
     }
-
+    /**
+     * Défausse une carte de la main du joueur.
+     */
     public void defausser() {
         this.defausse.add(this.main.get(0));
         this.main.remove(0);
 
     }
-
+    /**
+     * Défausse une carte de la main du joueur.
+     * @param carte La carte à défausser.
+     */
     public void defausserCarte(int nbCartes) {
         for (int i = 0; i < nbCartes; i++) {
             int index = (int) (Math.random() * this.main.size());
@@ -244,7 +293,9 @@ public class Joueur {
         }
 
     }
-
+    /**
+     * Affiche les cartes de la main du joueur.
+     */
     public void afficherMain() {
         String message = "";
         for (int i = 0; i < this.main.size(); i++) {
@@ -253,70 +304,114 @@ public class Joueur {
         Affichage.afficherMessage(message);
 
     }
+    /**
+     * Affiche les cartes de la main du joueur.
+     * @return La liste des cartes de la main du joueur.
+     */
 
     public List<Carte> getMain() {
         return this.main;
     }
-
+    /**
+     * Affiche les cartes des oeuvres du joueur.
+     * @return La liste des cartes des oeuvres du joueur.
+     */
     public List<Carte> getOeuvres() {
         return this.Oeuvres;
     }
-
+    /**
+     * Affiche les cartes de la vie future du joueur.
+     * @return La liste des cartes de la vie future du joueur.
+     */
     public List<Carte> getVieFuture() {
         return this.vieFuture;
     }
-
+    /**
+     * Affiche les cartes de la défausse du joueur.
+     * @return La liste des cartes de la défausse du joueur.
+     */
     public List<Carte> getDefausse() {
         return this.defausse;
     }
-
+    /**
+     * Affiche les cartes de la pile du joueur.
+     * @return La liste des cartes de la pile du joueur.
+     */
     public List<Carte> getPile() {
         return this.pile;
     }
-
+    /**
+     * renvoie vrai si la pile est vide.
+     * @return Vrai si la pile est vide.
+     */
     public boolean pileVide() {
         return this.pile.isEmpty();
     }
-
+    /**
+     * renvoie vrai si la main est vide.
+     * @return Vrai si la main est vide.
+     */
     public boolean mainVide() {
         return this.main.isEmpty();
     }
-
+    /**
+     * ajoute une carte à la main du joueur.
+     */
     public void ajouterCarte() {
         this.main.add(this.pile.remove(0));
 
     }
-
+    /**
+     * ajoute une carte à la main du joueur.
+     * @param carte La carte à ajouter.
+     */
     public void ajouterCarteDansMain(Carte carte) {
         this.main.add(carte);
 
     }
-
+    /**
+     * Supprime une carte de la main du joueur.
+     * @param carte La carte à supprimer.
+     */
     public void suppCarteMain(Carte carte) {
         this.main.remove(carte);
 
     }
-
+    /**
+     * ajoute une carte à la pile du joueur.
+     * @param carte La carte à ajouter.
+     */
     public void ajouterCarteDansPile(Carte carte) {
         this.pile.add(carte);
 
     }
-
+    /**
+     * ajoute une carte à la défausse du joueur.
+     * @param carte La carte à ajouter.
+     */
     public void ajouterCarteDansDefausse(Carte carte) {
         this.defausse.add(carte);
 
     }
-
+    /**
+     * Ajoute une carte à la liste des oeuvres du joueur.
+     * @param carte La carte à ajouter.
+     */
     public void ajouterCarteDansOeuvres(Carte carte) {
         this.Oeuvres.add(carte);
 
     }
-
+    /**
+     * Ajoute une carte à la liste de la vie future du joueur.
+     * @param carte La carte à ajouter.
+     */
     public void ajouterCarteDansVieFuture(Carte carte) {
         this.vieFuture.add(carte);
 
     }
-
+    /**
+     * Affiche les cartes de la vie future du joueur.
+     */
     public void afficherCartesVieFuture() {
         String message = "";
         for (int i = 0; i < this.vieFuture.size(); i++) {
@@ -325,7 +420,9 @@ public class Joueur {
         Affichage.afficherMessage(message);
 
     }
-
+    /**
+     * Affiche les cartes Oeuvres du joueur.
+     */
     public void afficherCartesOeuvres() {
         String message = "";
         for (int i = 0; i < this.Oeuvres.size(); i++) {
@@ -333,7 +430,9 @@ public class Joueur {
         }
         Affichage.afficherMessage(message);
     }
-
+    /**
+     * Defausser une oeuvre du joueur.
+     */
     public void defausserOeuvreChoix() {
         Affichage.afficherMessage("Voici vos oeuvres:");
         afficherCartesOeuvres();
@@ -348,7 +447,10 @@ public class Joueur {
         Affichage.afficherMessage(
                 this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de vos oeuvres");
     }
-
+    /**
+     * Defausser une carte de la pile du joueur.
+     * @param carte La carte à défausser.
+     */
     public void defausserCarteChoisit(Carte carte) {
         this.defausse.add(carte);
         this.main.remove(carte);
@@ -358,7 +460,9 @@ public class Joueur {
                 this.getPseudo() + ", vous avez défaussé la carte " + carte.getNom() + " de votre main");
                 }
     }
-
+    /**
+     * Passer le tour du joueur.
+     */
     public void passerTour() {
         Affichage.afficherMessage(this.getPseudo() + " passe son tour");
     }
@@ -369,7 +473,11 @@ public class Joueur {
     public String toString() {
         return this.id;
     }
-
+    /**
+     * Recupèr le chiffre d'une carte.  
+     * @param carte La carte dont on veut récupèrer le chiffre.
+     * @return Le chiffre de la carte.
+     */
     public ArrayList<Carte> getMainChiffre(int nbCartes) {
         ArrayList<Carte> temp = new ArrayList<>();
         for (int i = 0; i < nbCartes; i++) {
@@ -382,14 +490,20 @@ public class Joueur {
         }
         return temp;
     }
-
+    /**
+     * Defausser une carte de la vie future du joueur.
+     * @param carte La carte à défausser.
+     */
     public void defausserCarteVieFutureChiffre(int nbCartes) {
         for (int i = 0; i < nbCartes; i++) {
             this.defausse.add(this.vieFuture.get(i));
             this.vieFuture.remove(i);
         }
     }
-
+    /**
+     * Recupere les oeuvres exposées du joueur.
+     * @return La liste des oeuvres exposées du joueur.
+     */
     public Carte getOeuvreExposee() {
         if (this.Oeuvres.size() > 0) {
             return this.Oeuvres.get(0);
@@ -397,7 +511,9 @@ public class Joueur {
             return null;
         }
     }
-
+    /**
+     * Defausser une carte de la pile du joueur.
+     */
     public void defausserCartePile() {
                 if (!(this instanceof JoueurBot)) {
 
@@ -406,7 +522,10 @@ public class Joueur {
         this.defausse.add(this.pile.get(0));
         this.pile.remove(0);
     }
-
+    /**
+     * Defausser une carte de la main du joueur.
+     * @param carte La carte à défausser.
+     */
     public ArrayList<Carte> getCartesFosse(int nbCartes) {
         ArrayList<Carte> temp = new ArrayList<>();
         int actualNbCartes = Math.min(nbCartes, this.defausse.size());
@@ -415,20 +534,33 @@ public class Joueur {
         }
         return temp;
     }
-
+    /**
+     * Recupere les cartes de la fosse du joueur.
+     * @return La liste des cartes de la fosse du joueur.
+     */
     public List<Carte> getFosse() {
         return this.defausse;
     }
-
+    /**
+     * Recupere les cartes de la vie future du joueur.
+     * @return La liste des cartes de la vie future du joueur.
+     */
+     */
     public Carte getCarteVieFuture(int index) {
         return this.vieFuture.get(index);
     }
-
+    /**
+     * recupere une carte aléatoire de la vie future du joueur.
+     * @return La carte aléatoire de la vie future du joueur.
+     */
     public Carte getCarteVieFutureRandom() {
         int index = (int) (Math.random() * this.vieFuture.size());
         return this.vieFuture.get(index);
     }
-
+    /**
+     * Méthode qui permet de défausser une carte de la main du joueur.
+     * @param carte La carte à défausser.
+     */
     public void defausserOeuvreChoisit(Carte carte) {
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
