@@ -26,7 +26,7 @@ public class Destinee extends Carte {
                 Affichage.afficherMessage("Vous avez ajouté " + carteChoisie.getNom() + " à votre Vie Future.");
                 
             } else {
-                break; // Aucune carte choisie
+                break; 
             }
         }
     }

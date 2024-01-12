@@ -17,14 +17,13 @@ public class CoupdOeil extends Carte {
             
             return;
         } else {
-            // Si c'est un bot, on affiche pas sa main
+        
             if (!(adversaire instanceof Joueurs.JoueurBot)) {
         adversaire.afficherMain();
             }
         }
 
         if (demanderJouerAutreCarte()) {
-            // Si on est en mode graphique alors mettre le boolean rejouer à true pour qu'on puisse rejouer
             if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
                 Partie.getInstance().setRejouer(true);
             }

@@ -19,11 +19,7 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
     private Jeu vueJeu;
     private Core.Partie modelePartie;
 
-    /**
-     * 
-     * @param p vue du jeu
-     * @param m modèle du jeu
-     */
+   
     public ControleurLancerPartie(Jeu vueJeu, Core.Partie modelePartie,String joueur1Pseudo, String joueur2Pseudo) {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
@@ -33,12 +29,7 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
 
     }
 
-    /**
-     * L'action consiste à recommencer une partie. Il faut vérifier qu'il n'y a pas
-     * une partie en cours
-     * 
-     * @param actionEvent l'événement action
-     */
+   
 
     @Override
     public void handle(ActionEvent actionEvent) {
@@ -49,7 +40,6 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
         this.modelePartie.setJoueurActif(modelePartie.getJoueurPseudo(joueurCommence));
         
 
-        // Mettre à jour la vue avec les résultats
         vueJeu.afficherResultatDes(lanceJoueur1, lanceJoueur2, joueurCommence);
     }
 

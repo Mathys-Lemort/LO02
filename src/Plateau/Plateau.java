@@ -35,8 +35,6 @@ public class Plateau {
     private List<Carte> fosse;
 
     public Plateau(List<Carte> source, List<Carte> fosse) {
-        // la source contient toutes les cartes du jeu initialise toutes les cartes dans la source
-
         this.source = source;
         this.fosse = fosse;
     }
@@ -98,13 +96,11 @@ public class Plateau {
             try {
                 this.source.add(carteClass.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
-                // Gérez l'exception comme il convient (log, throw, etc.)
                 e.printStackTrace();
             }
         }
     }
 
-    // Mélangez la liste des cartes
     Collections.shuffle(this.source);
     }
 
@@ -116,8 +112,6 @@ public class Plateau {
      public static void main(String[] args) {
             Plateau plateau = new Plateau();
             plateau.initialiserSource();
-            // Afficher le nombre de carte dans la source
-            // Afficher le nombre de chaque couleur des cartes de la source ("rouge: 5", "bleu: 3", etc.)
             Map<String, Integer> couleurCartes = new HashMap<>();
             for (Carte carte : plateau.source) {
                 String couleur = carte.getCouleur();

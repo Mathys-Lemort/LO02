@@ -11,7 +11,6 @@ public class DernierSouffle extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // Vérifier si l'adversaire a des cartes en main
         if (adversaire.getMain().isEmpty()) {
             
             Affichage.afficherMessage("Votre adversaire n'a pas de carte en main.");

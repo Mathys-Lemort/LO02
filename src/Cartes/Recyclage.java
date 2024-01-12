@@ -14,7 +14,6 @@ public class Recyclage extends Carte {
     public void action(Joueur joueur, Joueur adversaire) {
         ArrayList<Carte> cartesFosse = joueur.getCartesFosse(3);
         if (cartesFosse.isEmpty()) {
-            // Si le joueur actuel n'est pas une instance de bot (donc un joueur humain), on affiche un message
                             Affichage.afficherMessage("Il n'y a pas de cartes dans votre fosse pour ajouter à votre Vie Future.");
             
             return;

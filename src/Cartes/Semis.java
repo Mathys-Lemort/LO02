@@ -11,14 +11,12 @@ public class Semis extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // Piocher 2 cartes à la Source
         for (int i = 0; i < 2; i++) {
             Partie.getInstance().piocherSourceMain(joueur);
         }
                     Affichage.afficherMessage("Vous avez pioché 2 cartes à la Source.");
         
 
-        // Placer jusqu'à 2 cartes de la main dans la Vie Future
         for (int i = 0; i < 2; i++) {
             if (joueur.getMain().isEmpty()) {
                                 Affichage.afficherMessage("Vous n'avez plus de cartes en main pour placer dans votre Vie Future.");

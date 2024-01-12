@@ -2,11 +2,9 @@ package Core;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 
 public class Affichage {
 
-    // Utilisez ces constantes pour ajouter de la couleur à votre affichage
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_CYAN = "\u001B[36m";
@@ -22,7 +20,6 @@ public class Affichage {
     }
 
     public static void afficherMessage(String message) {
-        // Si le joueur est un bot, on n'affiche pas le message
         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
             return;
         }
@@ -57,7 +54,6 @@ public class Affichage {
 
 
     private static String centrerTexte(String texte, int largeur) {
-        // Tronquer le texte si nécessaire
         if (texte.length() > largeur) {
             texte = texte.substring(0, largeur);
         }
@@ -65,14 +61,12 @@ public class Affichage {
         int espacesDevant = (largeur - texte.length()) / 2;
         StringBuilder sb = new StringBuilder();
 
-        // Ajouter des espaces avant le texte
         for (int i = 0; i < espacesDevant; i++) {
             sb.append(" ");
         }
 
         sb.append(texte);
 
-        // Compléter avec des espaces pour aligner à droite
         while (sb.length() + 2 < largeur) {
             sb.append(" ");
         }
@@ -80,5 +74,4 @@ public class Affichage {
         return sb.toString();
     }
 
-    // Autres méthodes d'affichage personnalisées
 }

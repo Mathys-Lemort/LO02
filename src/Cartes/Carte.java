@@ -38,7 +38,6 @@ public abstract class Carte {
     }
 
     private boolean demanderJouerAutreCarteGraphique() {
-        // Si c'est le tour du bot, il ne jouera pas d'autre carte
         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
             return false;
         }
@@ -52,7 +51,6 @@ public abstract class Carte {
     }
 
     private boolean demanderJouerAutreCarteConsole() {
-        // Si c'est le tour du bot, il ne jouera pas d'autre carte
         if (Partie.getInstance().getJoueurActif() instanceof Joueurs.JoueurBot) {
             return false;
         }
@@ -66,7 +64,7 @@ public abstract class Carte {
             Affichage.afficherOption(2, "Non");
 
             choix = scanner.nextInt();
-            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+            scanner.nextLine();
         } while (choix != 1 && choix != 2);
 
         return choix == 1;
@@ -100,7 +98,7 @@ public abstract class Carte {
             String selectedOption = result.get();
             return choixCartes.indexOf(selectedOption);
         } else {
-            return -1; // Aucune carte sélectionnée
+            return -1;
         }
     }
     
@@ -118,7 +116,7 @@ public abstract class Carte {
         int choix;
         do {
             choix = scanner.nextInt() - 1;
-            scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+            scanner.nextLine();
             if (choix < 0 || choix >= cartes.size()) {
                 Affichage.afficherMessage("Choix non valide. Veuillez choisir un numéro valide.");
             }

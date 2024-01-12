@@ -19,7 +19,6 @@ public class JoueurBot extends Joueur {
         }
 
         if (!this.getMain().isEmpty()) {
-            // Stratégie dynamique basée sur la situation
             Carte carteChoisie = choisirStrategiquement();
             if (carteChoisie != null) {
                 jouerCarteStrategiquement(carteChoisie);
@@ -32,7 +31,6 @@ public class JoueurBot extends Joueur {
     }
 
     private Carte choisirStrategiquement() {
-        // Exemple de stratégie: choisir aléatoirement entre jouer pour les points, les pouvoirs ou la vie future
         int choix = random.nextInt(3);
         switch (choix) {
             case 0: return choisirCarteAvecMaxPoints();
@@ -65,7 +63,6 @@ public class JoueurBot extends Joueur {
     }
 
     private Carte choisirCarteAvecPouvoir() {
-        // Choisir une carte au hasard qui n'a pas beaucoup de point 
         Carte carteAvecPouvoir = null;
         for (Carte carte : this.getMain()) {
             if (carte.getPoints() < 3) {
@@ -78,7 +75,6 @@ public class JoueurBot extends Joueur {
     
 
     private Carte choisirCartePourVieFuture() {
-        // Choisir une carte au hasard qui n'a pas beaucoup de point 
         Carte cartePourVieFuture = null;
         for (Carte carte : this.getMain()) {
             if (carte.getPoints() < 3) {

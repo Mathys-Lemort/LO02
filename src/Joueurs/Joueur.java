@@ -13,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 
-//Faire une enum des positions de l'échelle karmique
 
 public class Joueur {
     private String id;
@@ -27,7 +26,7 @@ public class Joueur {
 
     public enum EchelleKarmique {
         BOUSIER(0),
-        SERPENT(4), // 4 est le nombre de points nécessaires pour passer à l'étape suivante
+        SERPENT(4),
         LOUP(5),
         SINGE(6),
         TRANSCEANDANCE(7);
@@ -43,7 +42,6 @@ public class Joueur {
         }
     }
 
-    // Constructeur
     public Joueur(String id) {
         this.id = id;
         this.main = new ArrayList<>();
@@ -95,27 +93,23 @@ public class Joueur {
     public void reincarnation() {
         String message;
 
-        // Vérifier si le joueur a assez de points pour passer à l'étape suivante
         if (this.getPoints() >= this.positionEchelleKarmique.getPointsPourAvancer()) {
-            // Passer à l'étape suivante
             this.positionEchelleKarmique = EchelleKarmique.values()[this.positionEchelleKarmique.ordinal() + 1];
             message = this.getPseudo() + ", vous passez maintenant à l'étape " + this.positionEchelleKarmique.name()
                     + " de l'échelle karmique";
         } else {
-            // Rajouter un anneau karmique
             this.anneauxKarmiques++;
             message = this.getPseudo()
                     + ", vous avez gagné un anneau karmique mais vous restez à la même position de l'échelle karmique";
         }
 
-        // Afficher le message selon le mode de jeu
         if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Réincarnation");
             alert.setHeaderText("Réincarnation");
 
             Label label = new Label(message);
-            label.setWrapText(true); // Autorise le texte à revenir à la ligne
+            label.setWrapText(true); 
             alert.getDialogPane().setContent(label);
 
             alert.showAndWait();
@@ -123,7 +117,6 @@ public class Joueur {
             Affichage.afficherMessage(message);
         }
 
-        // Gérer la réincarnation et la transceandance
         if (this.positionEchelleKarmique != EchelleKarmique.TRANSCEANDANCE) {
             preparerPourReincarnation();
         } else {
@@ -157,9 +150,6 @@ public class Joueur {
     }
 
     public void demanderPrendreCarte(Joueur rival, Carte carte) {
-        // Si rival est un bot, il choisit aléatoirement entre les deux options
-        // CHanger le joueur actif en rival
-        // Si on est en mode console 
         if (Partie.getInstance().getMode().equals(Partie.Mode.CONSOLE)) {
             Partie.getInstance().setJoueurActif(rival);
         } 
@@ -197,7 +187,6 @@ public class Joueur {
     }
 
     private int afficherDialogueGraphique(Joueur joueur, String message, String titre) {
-        // Si le joueur est un bot, il choisit aléatoirement entre les deux options
         if (joueur instanceof JoueurBot) {
             return (int) (Math.random() * 2) + 1;
         }
@@ -205,10 +194,8 @@ public class Joueur {
         dialog.setTitle(titre);
         dialog.setHeaderText(joueur.getPseudo() + ", Attention !");
         dialog.setContentText(message);
-        // masquer et desactiver le bouton "non" 
         dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setVisible(false);
         dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setManaged(false);
-        // Desactiver la croix pour fermer la fenetre
         dialog.getDialogPane().getScene().getWindow().setOnCloseRequest(event -> event.consume());
 
 
@@ -216,7 +203,7 @@ public class Joueur {
         if (result.isPresent()) {
             return result.get().equals("- Oui") ? 1 : 2;
         }
-        return -1; // Gérer le cas où l'utilisateur n'a pas fait de choix
+        return -1; 
     }
 
     public void jouerCartePourPouvoir(Carte carte, Joueur rival) {
@@ -340,7 +327,7 @@ public class Joueur {
         Affichage.afficherMessage("Choisissez une carte à défausser:");
         Scanner scanner = Partie.getInstance().getScanner();
         int choix = scanner.nextInt();
-        scanner.nextLine(); // Consomme la nouvelle ligne après nextInt()
+        scanner.nextLine(); 
         Carte carte = this.Oeuvres.get(choix - 1);
         this.defausse.add(carte);
         this.Oeuvres.remove(carte);
@@ -391,7 +378,6 @@ public class Joueur {
     }
 
     public Carte getOeuvreExposee() {
-        // Vérifier si il y a une oeuvre exposée si oui la return sinon return null
         if (this.Oeuvres.size() > 0) {
             return this.Oeuvres.get(0);
         } else {
@@ -410,7 +396,6 @@ public class Joueur {
 
     public ArrayList<Carte> getCartesFosse(int nbCartes) {
         ArrayList<Carte> temp = new ArrayList<>();
-        // Limitez le nombre de cartes à récupérer à la taille de la liste 'defausse'
         int actualNbCartes = Math.min(nbCartes, this.defausse.size());
         for (int i = 0; i < actualNbCartes; i++) {
             temp.add(this.defausse.get(i));

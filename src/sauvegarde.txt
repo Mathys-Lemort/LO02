@@ -1,20 +1,20 @@
-Joueur1: Hitler
+Joueur1: sdfbqouf
 Joueur2: Bot
-JoueurActif: Hitler
+JoueurActif: sdfbqouf
 ResultatLanceJoueur1: 2
 ResultatLanceJoueur2: 4
 EtatPartie: INITIALISATION
 Mode: GRAPHIQUE
 Rejouer: false
-Source: Sauvetage | Recyclage | Semis | Lendemain | Recyclage | Roulette | Incarnation | Duperie | Incarnation | Fournaise | Sauvetage | Reves Brises | Jubile | Panique | Transmigration | Dernier Souffle | Deni | Panique | Voyage | Roulette | Destinee | Longevite | Dernier Souffle | Bassesse | Bassesse | Semis | Crise | Reves Brises | Deni | Coup d'Œil | Crise | Incarnation | Mimetisme | Vengeance | Reves Brises | Fournaise | Coup d'Œil | Roulette | Dernier Souffle | Fournaise | Jubile | Coup d'Œil | Lendemain | Transmigration | Panique | Destinee | Lendemain | Vol | Transmigration | Sauvetage | Deni | Crise
-Joueur1Main: Incarnation | Incarnation | Vol | Recyclage | Voyage
+Source: Jubile | Recyclage | Transmigration | Voyage | Vol | Incarnation | Mimetisme | Crise | Deni | Vengeance | Coup d'Œil | Sauvetage | Dernier Souffle | Coup d'Œil | Reves Brises | Destinee | Semis | Panique | Crise | Mimetisme | Lendemain | Recyclage | Vol | Fournaise | Vengeance | Panique | Reves Brises | Longevite | Destinee | Fournaise | Voyage | Incarnation | Deni | Roulette | Lendemain | Sauvetage | Jubile | Transmigration | Longevite | Bassesse | Sauvetage | Recyclage | Dernier Souffle | Crise | Incarnation | Fournaise | Roulette | Incarnation | Duperie | Roulette | Semis | Panique
+Joueur1Main: Coup d'Œil | Duperie | Semis | Incarnation | Lendemain
 Joueur1Pile: 
 Joueur1VieFuture: 
 Joueur1Oeuvre: Longevite
-Joueur1Fosse: Destinee
-Joueur2Main: Duperie | Vengeance | Semis | Longevite
-Joueur2Pile: Mimetisme
-Joueur2VieFuture: Semis | Sauvetage
+Joueur1Fosse: Reves Brises
+Joueur2Main: Bassesse | Destinee | Deni | Dernier Souffle
+Joueur2Pile: Transmigration
+Joueur2VieFuture: 
 Joueur2Oeuvre: 
 Joueur2Fosse: 
 Joueur1Position: BOUSIER

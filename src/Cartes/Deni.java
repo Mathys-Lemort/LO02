@@ -11,7 +11,6 @@ public class Deni extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // Vérifier si le joueur a des cartes en main
         if (joueur.getMain().isEmpty()) {
             
             Affichage.afficherMessage("Vous n'avez pas de cartes en main.");

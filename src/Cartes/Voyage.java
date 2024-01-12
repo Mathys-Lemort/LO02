@@ -11,14 +11,11 @@ public class Voyage extends Carte {
 
     @Override
     public void action(Joueur joueur, Joueur adversaire) {
-        // Piocher 3 cartes
         for (int i = 0; i < 3; i++) {
             Partie.getInstance().piocherSourceMain(joueur);
         }
 
-        // Demander si le joueur veut jouer une autre carte
         if (demanderJouerAutreCarte()) {
-            // Si on est en mode graphique alors mettre le boolean rejouer à true pour qu'on puisse rejouer
             if (Partie.getInstance().getMode().equals(Partie.Mode.GRAPHIQUE)) {
                 Partie.getInstance().setRejouer(true);
             }

@@ -22,7 +22,7 @@ public class Sauvetage extends Carte {
 
         int choix = obtenirChoixCarte(cartesFosse);
         if (choix == -1) {
-            return; // Aucune carte sélectionnée
+            return;
         }
 
         Carte carteChoisie = cartesFosse.get(choix);

@@ -16,7 +16,7 @@ public class Roulette extends Carte {
         
         for (int i = 0; i < 2; i++) {
             if (joueur.getMain().isEmpty()) {
-                break; // Pas de cartes à défausser
+                break; 
             }
 
             int choix = obtenirChoixCarte(joueur.getMain());
