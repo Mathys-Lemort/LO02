@@ -7,17 +7,33 @@ import Joueurs.JoueurBot;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+/**
+ * Cette classe est un contrôleur qui gère l'action de jouer une carte "Vie Future" dans le jeu.
+ * Elle implémente l'interface EventHandler<ActionEvent> pour gérer l'événement de l'action.
+ */
 public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
     private Jeu vueJeu;
     private Core.Partie modelePartie;
     private Carte carte;
 
+    /**
+     * Constructeur de la classe ControleurJouerVieFuture.
+     *
+     * @param vueJeu       La vue du jeu.
+     * @param modelePartie Le modèle de la partie.
+     * @param carte        La carte "Vie Future" à jouer.
+     */
     public ControleurJouerVieFuture(Jeu vueJeu, Core.Partie modelePartie, Carte carte) {
         this.vueJeu = vueJeu;
         this.modelePartie = modelePartie;
         this.carte = carte;
     }
 
+    /**
+     * Gère l'événement de jouer une carte "Vie Future".
+     *
+     * @param actionEvent L'événement d'action.
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         modelePartie.jouerCarteVieFuture(carte);
@@ -26,6 +42,11 @@ public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
         traiterJoueurSuivant(joueurSuivant);
     }
 
+    /**
+     * Traite le joueur suivant après avoir joué une carte "Vie Future".
+     *
+     * @param joueur Le joueur suivant.
+     */
     private void traiterJoueurSuivant(Joueur joueur) {
         verifierEtReincarnerSiNecessaire(joueur);
         modelePartie.piocherCarte(joueur);
@@ -37,12 +58,22 @@ public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
         }
     }
 
+    /**
+     * Vérifie si le joueur a besoin d'être réincarné et le réincarne si nécessaire.
+     *
+     * @param joueur Le joueur à vérifier.
+     */
     private void verifierEtReincarnerSiNecessaire(Joueur joueur) {
         if (joueur.getMain().isEmpty() && joueur.getPile().isEmpty()) {
             joueur.reincarnation();
         }
     }
 
+    /**
+     * Gère les actions du joueur bot.
+     *
+     * @param bot Le joueur bot.
+     */
     private void gererBot(JoueurBot bot) {
         Joueur joueurActuel = modelePartie.getJoueurActif();
         miseAJourInterfaceJoueur(joueurActuel);
@@ -50,7 +81,13 @@ public class ControleurJouerVieFuture implements EventHandler<ActionEvent> {
         bot.jouerCoup();
         modelePartie.setJoueurActif(joueurActuel);
         miseAJourInterfaceJoueur(joueurActuel);
-     }
+    }
+
+    /**
+     * Met à jour l'interface du joueur.
+     *
+     * @param joueur Le joueur dont l'interface doit être mise à jour.
+     */
     private void miseAJourInterfaceJoueur(Joueur joueur) {
         verifierEtReincarnerSiNecessaire(joueur);
         modelePartie.piocherCarte(joueur);
