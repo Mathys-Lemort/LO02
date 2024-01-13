@@ -98,6 +98,9 @@ public class Plateau {
                 }
             }
         }
+
+        Collections.shuffle(this.source);
+        
     }
 
 

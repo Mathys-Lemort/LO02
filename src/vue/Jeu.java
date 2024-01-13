@@ -42,11 +42,15 @@ public class Jeu extends Application {
      * Ensuite, elle configure le mode de jeu de la partie en mode graphique.
      * Elle crée un panneau central de type BorderPane.
      * Elle crée un bouton "Jouer à Karmaka" et le désactive.
-     * Elle crée les boutons "Passer le tour" et "Sauvegarder et quitter" avec leur texte et leur police.
-     * Elle associe les actions correspondantes aux boutons "Passer le tour" et "Sauvegarder et quitter".
+     * Elle crée les boutons "Passer le tour" et "Sauvegarder et quitter" avec leur
+     * texte et leur police.
+     * Elle associe les actions correspondantes aux boutons "Passer le tour" et
+     * "Sauvegarder et quitter".
      * Elle crée un bouton "Commencer la partie" avec son texte et sa police.
-     * Elle crée deux champs de texte pour les pseudos des joueurs 1 et 2 avec des invitations.
-     * Elle ajoute des écouteurs de changement de texte aux champs de texte pour vérifier les pseudos.
+     * Elle crée deux champs de texte pour les pseudos des joueurs 1 et 2 avec des
+     * invitations.
+     * Elle ajoute des écouteurs de changement de texte aux champs de texte pour
+     * vérifier les pseudos.
      */
     @Override
     public void init() {
@@ -80,17 +84,20 @@ public class Jeu extends Application {
     /**
      * Cette méthode est appelée lors du démarrage de l'application.
      * Elle configure la fenêtre principale et affiche le contenu graphique.
-     * La méthode crée une nouvelle instance de la classe Stage et lui donne un titre.
-     * Ensuite, elle crée une nouvelle instance de la classe Scene en utilisant le panneau central et les dimensions de la fenêtre.
+     * La méthode crée une nouvelle instance de la classe Stage et lui donne un
+     * titre.
+     * Ensuite, elle crée une nouvelle instance de la classe Scene en utilisant le
+     * panneau central et les dimensions de la fenêtre.
      * Elle ajoute également une feuille de style à la scène.
      * Ensuite, elle définit la scène sur la fenêtre principale et l'affiche.
-     * Enfin, la méthode appelle la méthode demanderChargementPartie() pour demander à l'utilisateur s'il souhaite charger une partie sauvegardée.
+     * Enfin, la méthode appelle la méthode demanderChargementPartie() pour demander
+     * à l'utilisateur s'il souhaite charger une partie sauvegardée.
      *
      * @param primaryStage la fenêtre principale de l'application
      */
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage; 
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("Karmaka");
         Scene scene = new Scene(panelCentral, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -100,21 +107,24 @@ public class Jeu extends Application {
 
         panelCentral.setStyle("-fx-background-image: url('file:img/background.png');" +
                 "-fx-background-size: cover;");
-                
 
-        demanderChargementPartie(); 
+        demanderChargementPartie();
     }
 
-    // Cette méthode affiche une boîte de dialogue demandant à l'utilisateur s'il souhaite charger une partie sauvegardée.
-    // Elle utilise une boîte de dialogue de type CONFIRMATION avec les options "Oui" et "Non".
-    // Si l'utilisateur sélectionne "Oui", la méthode crée un objet ControleurChargementPartie et appelle sa méthode handle().
-    // Le résultat de la boîte de dialogue est passé en tant que paramètre à la méthode handle().
+    // Cette méthode affiche une boîte de dialogue demandant à l'utilisateur s'il
+    // souhaite charger une partie sauvegardée.
+    // Elle utilise une boîte de dialogue de type CONFIRMATION avec les options
+    // "Oui" et "Non".
+    // Si l'utilisateur sélectionne "Oui", la méthode crée un objet
+    // ControleurChargementPartie et appelle sa méthode handle().
+    // Le résultat de la boîte de dialogue est passé en tant que paramètre à la
+    // méthode handle().
     private void demanderChargementPartie() {
         if (!new File("src/sauvegarde.txt").exists()) {
             demanderModeJeu();
             return;
         }
-        
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Charger une partie");
         alert.setHeaderText("Voulez-vous charger une partie sauvegardée ?");
@@ -134,10 +144,14 @@ public class Jeu extends Application {
     }
 
     /**
-     * Cette méthode affiche une boîte de dialogue demandant à l'utilisateur de choisir le mode de jeu.
+     * Cette méthode affiche une boîte de dialogue demandant à l'utilisateur de
+     * choisir le mode de jeu.
      * La boîte de dialogue propose les options "Oui" et "Non".
-     * Si l'utilisateur sélectionne "Oui", la méthode appelle la méthode afficherEcranAccueil() avec le paramètre true pour indiquer que le mode de jeu est contre un bot.
-     * Sinon, la méthode appelle la méthode afficherEcranAccueil() avec le paramètre false pour indiquer que le mode de jeu n'est pas contre un bot.
+     * Si l'utilisateur sélectionne "Oui", la méthode appelle la méthode
+     * afficherEcranAccueil() avec le paramètre true pour indiquer que le mode de
+     * jeu est contre un bot.
+     * Sinon, la méthode appelle la méthode afficherEcranAccueil() avec le paramètre
+     * false pour indiquer que le mode de jeu n'est pas contre un bot.
      */
     public void demanderModeJeu() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -152,18 +166,20 @@ public class Jeu extends Application {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == buttonTypeYes) {
-            afficherEcranAccueil(true); 
+            afficherEcranAccueil(true);
         } else {
-            afficherEcranAccueil(false); 
+            afficherEcranAccueil(false);
         }
     }
 
-    
     /**
      * Cette méthode affiche l'écran d'accueil du jeu.
-     * Si le mode de jeu est contre un bot, le champ de texte du joueur 2 est automatiquement rempli avec "Bot" et désactivé.
+     * Si le mode de jeu est contre un bot, le champ de texte du joueur 2 est
+     * automatiquement rempli avec "Bot" et désactivé.
      * Sinon, le champ de texte du joueur 2 est activé.
-     * L'écran d'accueil est créé à l'aide de la méthode creerEcranAccueil() et est affiché dans le panneau central.
+     * L'écran d'accueil est créé à l'aide de la méthode creerEcranAccueil() et est
+     * affiché dans le panneau central.
+     * 
      * @param contreBot indique si le mode de jeu est contre un bot ou non
      */
     public void afficherEcranAccueil(boolean contreBot) {
@@ -180,14 +196,16 @@ public class Jeu extends Application {
 
     }
 
-  
     /**
      * Cette méthode crée et retourne l'écran d'accueil du jeu.
      * L'écran d'accueil contient un fond d'écran avec une image de fond.
      * Il affiche également un message demandant aux joueurs d'entrer leurs pseudos.
-     * Les champs de texte pour les pseudos des joueurs sont ajoutés à une boîte verticale (VBox).
+     * Les champs de texte pour les pseudos des joueurs sont ajoutés à une boîte
+     * verticale (VBox).
      * Le bouton "Jouer" est également ajouté à la boîte verticale.
-     * La boîte verticale est centrée dans le panneau principal (BorderPane) de l'écran d'accueil.
+     * La boîte verticale est centrée dans le panneau principal (BorderPane) de
+     * l'écran d'accueil.
+     * 
      * @return le panneau principal (BorderPane) de l'écran d'accueil
      */
     private BorderPane creerEcranAccueil() {
@@ -195,7 +213,7 @@ public class Jeu extends Application {
         fenetre.setStyle("-fx-background-image: url('file:img/karmaka.jpg');" +
                 "-fx-background-size: cover;");
 
-        VBox vbox = new VBox(10); 
+        VBox vbox = new VBox(10);
         vbox.getChildren().add(new Label("Entrez les pseudos des joueurs pour commencer"));
         vbox.getChildren().add(joueur1TextField);
         vbox.getChildren().add(joueur2TextField);
@@ -207,14 +225,17 @@ public class Jeu extends Application {
         return fenetre;
     }
 
-
-  
     /**
      * Vérifie les pseudos des joueurs avant de permettre de jouer.
      * 
-     * Les pseudos des joueurs sont extraits des champs de texte joueur1TextField et joueur2TextField.
-     * Si les deux pseudos ne sont pas vides et ne sont pas identiques, le boutonJouer est activé et un gestionnaire d'événements est défini pour le bouton.
-     * Lorsque le bouton est cliqué, les pseudos des joueurs sont assignés aux variables joueur1Pseudo et joueur2Pseudo, et une nouvelle instance de ControleurLancerPartie est créée pour lancer la partie.
+     * Les pseudos des joueurs sont extraits des champs de texte joueur1TextField et
+     * joueur2TextField.
+     * Si les deux pseudos ne sont pas vides et ne sont pas identiques, le
+     * boutonJouer est activé et un gestionnaire d'événements est défini pour le
+     * bouton.
+     * Lorsque le bouton est cliqué, les pseudos des joueurs sont assignés aux
+     * variables joueur1Pseudo et joueur2Pseudo, et une nouvelle instance de
+     * ControleurLancerPartie est créée pour lancer la partie.
      * Si les pseudos ne satisfont pas les conditions, le boutonJouer est désactivé.
      */
     private void verifierPseudos() {
@@ -235,6 +256,7 @@ public class Jeu extends Application {
 
     /**
      * Cette méthode retourne le pseudo du joueur 1.
+     * 
      * @return le pseudo du joueur 1
      */
     public String getJoueur1Pseudo() {
@@ -243,6 +265,7 @@ public class Jeu extends Application {
 
     /**
      * Cette méthode retourne le pseudo du joueur 2.
+     * 
      * @return le pseudo du joueur 2
      */
     public String getJoueur2Pseudo() {
@@ -250,28 +273,34 @@ public class Jeu extends Application {
     }
 
     /**
-     * Cette méthode affiche le résultat des lancers de dés des joueurs et le joueur qui commence.
-     * Elle crée un label contenant les informations sur les lancers de dés et le joueur qui commence.
+     * Cette méthode affiche le résultat des lancers de dés des joueurs et le joueur
+     * qui commence.
+     * Elle crée un label contenant les informations sur les lancers de dés et le
+     * joueur qui commence.
      * Le label est ensuite ajouté à un conteneur VBox centré.
      * Le style du label est modifié pour avoir une couleur de texte blanche.
-     * Un bouton "Débuter le jeu" est créé et un gestionnaire d'événements est défini pour le bouton.
-     * Lorsque le bouton est cliqué, le jeu est démarré en appelant le contrôleur approprié.
-     * Le bouton est ajouté à un conteneur HBox centré, qui est ensuite ajouté au conteneur VBox.
+     * Un bouton "Débuter le jeu" est créé et un gestionnaire d'événements est
+     * défini pour le bouton.
+     * Lorsque le bouton est cliqué, le jeu est démarré en appelant le contrôleur
+     * approprié.
+     * Le bouton est ajouté à un conteneur HBox centré, qui est ensuite ajouté au
+     * conteneur VBox.
      * Des marges sont définies pour le conteneur HBox pour l'espacement.
      * Le conteneur VBox est ensuite ajouté au panneau central de l'écran.
      * Le style du panneau central est modifié pour afficher une image de fond.
-     * @param lanceJoueur1 le résultat du lancer de dés du joueur 1
-     * @param lanceJoueur2 le résultat du lancer de dés du joueur 2
+     * 
+     * @param lanceJoueur1   le résultat du lancer de dés du joueur 1
+     * @param lanceJoueur2   le résultat du lancer de dés du joueur 2
      * @param joueurCommence le joueur qui commence la partie
      */
     public void afficherResultatDes(int lanceJoueur1, int lanceJoueur2, String joueurCommence) {
         Label resultatLabel = new Label(
-            this.joueur1Pseudo + " a lancé un " + lanceJoueur1 +
-                ", " + this.joueur2Pseudo + " a lancé un " + lanceJoueur2 +
-                ".\n" + joueurCommence + " commence !");
+                this.joueur1Pseudo + " a lancé un " + lanceJoueur1 +
+                        ", " + this.joueur2Pseudo + " a lancé un " + lanceJoueur2 +
+                        ".\n" + joueurCommence + " commence !");
         VBox resultatContainer = new VBox(resultatLabel);
         resultatContainer.setAlignment(Pos.CENTER);
-        resultatLabel.getStyleClass().add("white-label"); 
+        resultatLabel.getStyleClass().add("white-label");
 
         this.debutJeu.setOnAction(new ControleurDebutJeu(this, partie));
         HBox hboxDebutJeu = new HBox(debutJeu);
@@ -282,20 +311,24 @@ public class Jeu extends Application {
         panelCentral.setCenter(resultatContainer);
 
         panelCentral.setStyle("-fx-background-image: url('file:img/de.png');" +
-            "-fx-background-size: cover;");
+                "-fx-background-size: cover;");
     }
 
     /**
      * Met à jour l'indicateur de tour avec le pseudo du joueur actif.
      * 
-     * Cette méthode crée un label contenant le pseudo du joueur actif et sa position sur l'échelle karmique.
+     * Cette méthode crée un label contenant le pseudo du joueur actif et sa
+     * position sur l'échelle karmique.
      * Le label est ensuite ajouté à un conteneur HBox centré.
      * Des marges et un espacement sont définis pour le conteneur HBox.
-     * Le conteneur HBox est ensuite ajouté à la partie supérieure du panneau central de l'écran.
+     * Le conteneur HBox est ensuite ajouté à la partie supérieure du panneau
+     * central de l'écran.
+     * 
      * @param joueurActifPseudo le pseudo du joueur actif
      */
     private void mettreAJourIndicateurTour(String joueurActifPseudo) {
-        Label labelTour = new Label("Tour de : " + joueurActifPseudo + " - " + partie.getJoueurActif().getPositionEchelleKarmique());
+        Label labelTour = new Label(
+                "Tour de : " + joueurActifPseudo + " - " + partie.getJoueurActif().getPositionEchelleKarmique());
         labelTour.setId("label-tour");
 
         HBox hboxTour = new HBox(labelTour);
@@ -309,11 +342,13 @@ public class Jeu extends Application {
      * Cette méthode crée une carte pour la fosse du joueur.
      * 
      * Elle crée une boîte verticale (VBox) pour contenir la carte.
-     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un ImageView.
+     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un
+     * ImageView.
      * Les dimensions de l'image sont ajustées pour s'adapter à la taille souhaitée.
      * L'ImageView est ajouté à la boîte verticale (VBox).
      * La classe de style "card-box" est ajoutée à la boîte verticale (VBox).
-     * Un label contenant le nom de la carte est créé et ajouté à la boîte verticale (VBox).
+     * Un label contenant le nom de la carte est créé et ajouté à la boîte verticale
+     * (VBox).
      * La classe de style "white-label" est ajoutée au label.
      * La boîte verticale (VBox) est renvoyée en tant que résultat.
      * 
@@ -332,7 +367,7 @@ public class Jeu extends Application {
         cardBox.getStyleClass().add("card-box");
 
         Label cardNameLabel = new Label(carte.getNom());
-        cardNameLabel.getStyleClass().add("white-label"); 
+        cardNameLabel.getStyleClass().add("white-label");
         cardBox.getChildren().add(cardNameLabel);
 
         return cardBox;
@@ -342,11 +377,13 @@ public class Jeu extends Application {
      * Cette méthode crée une carte pour une oeuvre.
      * 
      * Elle crée une boîte verticale (VBox) pour contenir la carte.
-     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un ImageView.
+     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un
+     * ImageView.
      * Les dimensions de l'image sont ajustées pour s'adapter à la taille souhaitée.
      * L'ImageView est ajouté à la boîte verticale (VBox).
      * La classe de style "card-box" est ajoutée à la boîte verticale (VBox).
-     * Un label contenant le nom de la carte est créé et ajouté à la boîte verticale (VBox).
+     * Un label contenant le nom de la carte est créé et ajouté à la boîte verticale
+     * (VBox).
      * La classe de style "white-label" est ajoutée au label.
      * La boîte verticale (VBox) est renvoyée en tant que résultat.
      * 
@@ -365,7 +402,7 @@ public class Jeu extends Application {
         cardBox.getStyleClass().add("card-box");
 
         Label cardNameLabel = new Label(carte.getNom());
-        cardNameLabel.getStyleClass().add("white-label"); 
+        cardNameLabel.getStyleClass().add("white-label");
         cardBox.getChildren().add(cardNameLabel);
 
         return cardBox;
@@ -375,13 +412,17 @@ public class Jeu extends Application {
      * Cette méthode crée une carte pour la main du joueur.
      * 
      * Elle crée une boîte verticale (VBox) pour contenir la carte.
-     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un ImageView.
+     * Une image de la carte est créée à partir du nom de la carte et ajoutée à un
+     * ImageView.
      * Les dimensions de l'image sont ajustées pour s'adapter à la taille souhaitée.
      * Un menu contextuel est créé pour la carte, permettant différentes actions.
-     * Le menu contextuel contient des options pour utiliser la carte pour des points, des pouvoirs ou la mettre dans la vie future.
-     * Lorsque la carte est cliquée avec le bouton gauche de la souris, le menu contextuel est affiché.
+     * Le menu contextuel contient des options pour utiliser la carte pour des
+     * points, des pouvoirs ou la mettre dans la vie future.
+     * Lorsque la carte est cliquée avec le bouton gauche de la souris, le menu
+     * contextuel est affiché.
      * La classe de style "card-box" est ajoutée à la boîte verticale (VBox).
-     * L'opacité de l'image de la carte est réduite lorsque la souris survole la carte.
+     * L'opacité de l'image de la carte est réduite lorsque la souris survole la
+     * carte.
      * La boîte verticale (VBox) est renvoyée en tant que résultat.
      * 
      * @param carte la carte à afficher dans la main du joueur
@@ -426,23 +467,29 @@ public class Jeu extends Application {
     /**
      * Cette méthode crée l'écran de jeu principal.
      * 
-     * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa main, la liste des cartes de sa pile,
-     * la liste des cartes de sa fosse, la liste des cartes de sa vie future et la liste des cartes de ses oeuvres.
+     * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa
+     * main, la liste des cartes de sa pile,
+     * la liste des cartes de sa fosse, la liste des cartes de sa vie future et la
+     * liste des cartes de ses oeuvres.
      * 
      * L'écran de jeu est créé en utilisant un BorderPane comme conteneur principal.
      * L'indicateur de tour est mis à jour avec le pseudo du joueur actif.
-     * Un SplitPane est utilisé pour diviser l'écran en deux parties : la main du joueur à gauche et la fosse et les oeuvres à droite.
+     * Un SplitPane est utilisé pour diviser l'écran en deux parties : la main du
+     * joueur à gauche et la fosse et les oeuvres à droite.
      * Un ScrollPane est utilisé pour afficher la main du joueur.
-     * Un autre SplitPane est utilisé pour diviser la partie droite en deux : la fosse du joueur en haut et les oeuvres en bas.
-     * Des ScrollPanes sont utilisés pour afficher la fosse et les oeuvres du joueur.
-     * Les différents éléments sont ajoutés au BorderPane et renvoyés en tant que résultat.
+     * Un autre SplitPane est utilisé pour diviser la partie droite en deux : la
+     * fosse du joueur en haut et les oeuvres en bas.
+     * Des ScrollPanes sont utilisés pour afficher la fosse et les oeuvres du
+     * joueur.
+     * Les différents éléments sont ajoutés au BorderPane et renvoyés en tant que
+     * résultat.
      * 
      * @param joueurActifPseudo le pseudo du joueur actif
-     * @param mainJoueur la liste des cartes de la main du joueur
-     * @param pileJoueur la liste des cartes de la pile du joueur
-     * @param fosseJoueur la liste des cartes de la fosse du joueur
-     * @param vieFuture la liste des cartes de la vie future du joueur
-     * @param oeuvres la liste des cartes des oeuvres du joueur
+     * @param mainJoueur        la liste des cartes de la main du joueur
+     * @param pileJoueur        la liste des cartes de la pile du joueur
+     * @param fosseJoueur       la liste des cartes de la fosse du joueur
+     * @param vieFuture         la liste des cartes de la vie future du joueur
+     * @param oeuvres           la liste des cartes des oeuvres du joueur
      * @return l'écran de jeu principal
      */
     private BorderPane creerEcranJeu(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
@@ -486,7 +533,8 @@ public class Jeu extends Application {
      * Le texte du Label est ajusté pour s'adapter à la taille.
      * La classe de style "titre_cartes" est ajoutée au Label.
      * Le Label est ajouté à la VBox.
-     * Pour chaque carte dans la liste des cartes de la main du joueur, une VBox est créée en utilisant la méthode createMainCard().
+     * Pour chaque carte dans la liste des cartes de la main du joueur, une VBox est
+     * créée en utilisant la méthode createMainCard().
      * La VBox de la carte est ajoutée à la VBox principale.
      * Un Label est créé pour afficher le pouvoir de la carte.
      * Le texte du Label est ajusté pour s'adapter à la taille.
@@ -537,7 +585,8 @@ public class Jeu extends Application {
      * Le texte du Label est ajusté pour s'adapter à la taille.
      * La classe de style "titre_cartes" est ajoutée au Label.
      * Le Label est ajouté à la VBox.
-     * Pour chaque carte dans la liste des cartes de la fosse du joueur, une VBox est créée en utilisant la méthode createFosseCard().
+     * Pour chaque carte dans la liste des cartes de la fosse du joueur, une VBox
+     * est créée en utilisant la méthode createFosseCard().
      * La VBox de la carte est ajoutée à la VBox principale.
      * Le contenu de la VBox principale est ajouté au ScrollPane.
      * Le ScrollPane est renvoyé en tant que résultat.
@@ -572,7 +621,8 @@ public class Jeu extends Application {
      * Le texte du Label est ajusté pour s'adapter à la taille.
      * La classe de style "titre_cartes" est ajoutée au Label.
      * Le Label est ajouté à la VBox.
-     * Pour chaque carte dans la liste des cartes des oeuvres du joueur, une VBox est créée en utilisant la méthode createOeuvreCard().
+     * Pour chaque carte dans la liste des cartes des oeuvres du joueur, une VBox
+     * est créée en utilisant la méthode createOeuvreCard().
      * La VBox de la carte est ajoutée à la VBox principale.
      * Le contenu de la VBox principale est ajouté au ScrollPane.
      * Le ScrollPane est renvoyé en tant que résultat.
@@ -597,50 +647,54 @@ public class Jeu extends Application {
         return scrollPane;
     }
 
-        /**
-         * Cette méthode affiche l'écran du joueur avec les informations fournies.
-         * 
-         * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa main, de sa pile, de sa fosse, de sa vie future et de ses oeuvres.
-         * 
-         * Le panneau central est configuré pour ne pas afficher de contenu en bas.
-         * Le panneau central est mis à jour avec l'écran de jeu créé à partir des informations fournies.
-         * Le style du panneau central est configuré avec une image de fond et une taille de couverture.
-         * L'indicateur de tour est mis à jour avec le pseudo du joueur actif.
-         * 
-         * @param joueurActifPseudo le pseudo du joueur actif
-         * @param mainJoueur la liste des cartes de la main du joueur
-         * @param pileJoueur la liste des cartes de la pile du joueur
-         * @param fosseJoueur la liste des cartes de la fosse du joueur
-         * @param vieFuture la liste des cartes de la vie future du joueur
-         * @param oeuvres la liste des cartes des oeuvres du joueur
-         */
-        public void afficherEcranJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
+    /**
+     * Cette méthode affiche l'écran du joueur avec les informations fournies.
+     * 
+     * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa
+     * main, de sa pile, de sa fosse, de sa vie future et de ses oeuvres.
+     * 
+     * Le panneau central est configuré pour ne pas afficher de contenu en bas.
+     * Le panneau central est mis à jour avec l'écran de jeu créé à partir des
+     * informations fournies.
+     * Le style du panneau central est configuré avec une image de fond et une
+     * taille de couverture.
+     * L'indicateur de tour est mis à jour avec le pseudo du joueur actif.
+     * 
+     * @param joueurActifPseudo le pseudo du joueur actif
+     * @param mainJoueur        la liste des cartes de la main du joueur
+     * @param pileJoueur        la liste des cartes de la pile du joueur
+     * @param fosseJoueur       la liste des cartes de la fosse du joueur
+     * @param vieFuture         la liste des cartes de la vie future du joueur
+     * @param oeuvres           la liste des cartes des oeuvres du joueur
+     */
+    public void afficherEcranJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
             List<Carte> fosseJoueur, List<Carte> vieFuture, List<Carte> oeuvres) {
-        panelCentral.setBottom(null); 
+        panelCentral.setBottom(null);
         panelCentral
-            .setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture, oeuvres));
-
+                .setCenter(creerEcranJeu(joueurActifPseudo, mainJoueur, pileJoueur, fosseJoueur, vieFuture, oeuvres));
 
         panelCentral.setStyle("-fx-background-image: url('file:img/background.png');" +
-            "-fx-background-size: cover;");
+                "-fx-background-size: cover;");
         mettreAJourIndicateurTour(joueurActifPseudo);
 
-        }
+    }
 
     /**
      * Cette méthode rafraîchit la vue du joueur avec les informations fournies.
      * 
-     * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa main, de sa pile, de sa fosse, de sa vie future et de ses oeuvres.
+     * Elle prend en paramètre le pseudo du joueur actif, la liste des cartes de sa
+     * main, de sa pile, de sa fosse, de sa vie future et de ses oeuvres.
      * 
-     * Le panneau central est mis à jour avec l'écran de jeu créé à partir des informations fournies.
+     * Le panneau central est mis à jour avec l'écran de jeu créé à partir des
+     * informations fournies.
      * L'indicateur de tour est mis à jour avec le pseudo du joueur actif.
      * 
      * @param joueurActifPseudo le pseudo du joueur actif
-     * @param mainJoueur la liste des cartes de la main du joueur
-     * @param pileJoueur la liste des cartes de la pile du joueur
-     * @param fosseJoueur la liste des cartes de la fosse du joueur
-     * @param vieFuture la liste des cartes de la vie future du joueur
-     * @param oeuvres la liste des cartes des oeuvres du joueur
+     * @param mainJoueur        la liste des cartes de la main du joueur
+     * @param pileJoueur        la liste des cartes de la pile du joueur
+     * @param fosseJoueur       la liste des cartes de la fosse du joueur
+     * @param vieFuture         la liste des cartes de la vie future du joueur
+     * @param oeuvres           la liste des cartes des oeuvres du joueur
      */
     public void rafraichirVueJoueur(String joueurActifPseudo, List<Carte> mainJoueur, List<Carte> pileJoueur,
             List<Carte> fosseJoueur, List<Carte> vieFuture, List<Carte> oeuvres) {
@@ -658,7 +712,5 @@ public class Jeu extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    
 
 }
